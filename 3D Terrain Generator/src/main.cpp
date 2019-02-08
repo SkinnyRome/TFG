@@ -5,17 +5,24 @@
 #include <math.h>
 #include <algorithm>
 #include <limits>
+#include <fstream> 
 
 using namespace std;
 
 //http://stevelosh.com/blog/2016/02/midpoint-displacement/
 
 
+/*
+
+			COMO LA MATRIZ DEL HEIGHTMAP NO ESTÁ EN MEMORIA CONTINUA, HAY QUE BUSCAR UNA FORMA DE ESCRIBIRLO BIEN EN EL ARCHIVO, DE FORMA
+			QUE SOLO SE ESCRIBAN LOS BYTES NECESARIOS Y NO MÁS DE LA CUENTA.
+
+*/
 
 
-#define EXPONENT 5
+#define EXPONENT 7
 
-const int SIZE = 33;
+const int SIZE = 129;
 
 /*This bi-dimensional array is the data structure which stores the values of the heightmap. Those values are
 in the interval of [0.0 - 1.0]*/
@@ -30,27 +37,32 @@ void NormalizeHeightmap() {
 
 
 	//Get the max and the min values of the heightmap
-	for (int i = 0; i < SIZE - 1; i++) {
-		for (int j = 0; j < SIZE - 1; j++) {
+	for (int i = 0; i < SIZE; i++) {
+		for (int j = 0; j < SIZE; j++) {
 
 			float value = _heightMap[i][j];
 
-			if (value > max)
+			if (value > max) {
 				max = value;
-			else if (value < min) {
+			}
+			if (value < min) {
 				min = value;
 			}
 		}
+
 	}
+		std::cout << "Max " << max << " Min " << min << std::endl;
 
 	//Normalize
-	for (int i = 0; i < SIZE - 1; i++) {
-		for (int j = 0; j < SIZE - 1; j++) {
+	for (int i = 0; i < SIZE; i++) {
+		for (int j = 0; j < SIZE; j++) {
 
 			float value = _heightMap[i][j];
 
 			_heightMap[i][j] = (value - min) / (max - min);
 
+			if (_heightMap[i][j] > 1 || _heightMap[i][j] < 0)
+				std::cout << "Aqui hay un valor incorrecto " << _heightMap[i][j] << std::endl;
 		}
 	}
 
@@ -125,7 +137,7 @@ void MidPointDisplacementAlgorithm() {
 	int iterations = EXPONENT;
 
 	//Values used to randomize the variation added to a point
-	float spread = 0.3f;
+	float spread = 0.5f;
 	float roughness = 0.5f;
 
 	for (int i = 0; i < iterations; i++) {
@@ -158,6 +170,8 @@ void MidPointDisplacementAlgorithm() {
 	//Normalize values of the heightmap so they are between [0.0, 1.0]
 	NormalizeHeightmap();
 
+	
+
 }
 
 
@@ -175,11 +189,32 @@ void PrintHeightMap() {
 
 	for (int i = 0; i < SIZE; i++) {
 		for (int j = 0; j < SIZE; j++) {
-			std::cout << _heightMap[i][j] << " ";
+			std::cout << _heightMap[i][j] << " - ";
 		}
 		std::cout << std::endl;
 	}
 
+}
+
+void CreateRawFile(char* fileName) {
+
+	FILE* rawFile;
+	errno_t error;
+	if ((error = fopen_s(&rawFile, fileName, "w")) != 0) {
+		std::cout << "Error while opening/creating the file" << std::endl;
+	}
+
+
+	size_t writenElements = fwrite(_heightMap, sizeof(float), SIZE * SIZE, rawFile);
+		
+	
+	if (writenElements < SIZE * SIZE) {
+		std::cout << "Error while writing the file" << std::endl;
+	}
+
+	std::cout << "Se han escrito " << writenElements << " elementos" << std::endl;
+
+	fclose(rawFile);
 }
 
 int main() {
@@ -187,6 +222,7 @@ int main() {
 	srand(time(NULL));
 
 	MidPointDisplacementAlgorithm();
+	CreateRawFile((char*)"Heightmap_2.raw");
 	PrintHeightMap();
 
 	_getch();
