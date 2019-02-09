@@ -11,6 +11,9 @@ using namespace std;
 
 //http://stevelosh.com/blog/2016/02/midpoint-displacement/
 
+//Esta función pasa los valores en punto flotante de 32 bits a enteros de 16 bits
+#define FloatToShortInt(f) ((f) >= 1.0 ? 65535 : (unsigned short int)((f)*65536.0))
+
 
 /*
 
@@ -20,9 +23,9 @@ using namespace std;
 */
 
 
-#define EXPONENT 7
+const int EXPONENT = 5;
 
-const int SIZE = 129;
+const int SIZE = 33;
 
 /*This bi-dimensional array is the data structure which stores the values of the heightmap. Those values are
 in the interval of [0.0 - 1.0]*/
@@ -137,7 +140,7 @@ void MidPointDisplacementAlgorithm() {
 	int iterations = EXPONENT;
 
 	//Values used to randomize the variation added to a point
-	float spread = 0.5f;
+	float spread = 0.3f;
 	float roughness = 0.5f;
 
 	for (int i = 0; i < iterations; i++) {
@@ -189,7 +192,7 @@ void PrintHeightMap() {
 
 	for (int i = 0; i < SIZE; i++) {
 		for (int j = 0; j < SIZE; j++) {
-			std::cout << _heightMap[i][j] << " - ";
+			std::cout << FloatToShortInt(_heightMap[i][j]) << " - ";
 		}
 		std::cout << std::endl;
 	}
@@ -198,32 +201,60 @@ void PrintHeightMap() {
 
 void CreateRawFile(char* fileName) {
 
-	FILE* rawFile;
-	errno_t error;
-	if ((error = fopen_s(&rawFile, fileName, "w")) != 0) {
-		std::cout << "Error while opening/creating the file" << std::endl;
-	}
 
+	/*		USING FILE
+		FILE* rawFile;
+		errno_t error;
+		if ((error = fopen_s(&rawFile, fileName, "w")) != 0) {
+			std::cout << "Error while opening/creating the file" << std::endl;
+		}
 
-	size_t writenElements = fwrite(_heightMap, sizeof(float), SIZE * SIZE, rawFile);
+		size_t writenElements = fwrite(_heightMap, sizeof(float), SIZE * SIZE, rawFile);
 		
 	
-	if (writenElements < SIZE * SIZE) {
-		std::cout << "Error while writing the file" << std::endl;
+		if (writenElements < SIZE * SIZE) {
+			std::cout << "Error while writing the file" << std::endl;
+		}
+
+		std::cout << "Se han escrito " << writenElements << " elementos" << std::endl;
+
+		fclose(rawFile);
+	
+	*/
+	
+
+	/* USING OFSTREAM */
+
+
+
+	std::ofstream rawFile;
+	rawFile.open(fileName, std::fstream::binary | std::fstream::out);
+
+	if (!rawFile.is_open())
+		std::cout << "No se ha podido crear el archivo" << std::endl;
+
+	for (int i = 0; i < SIZE; i++) {
+		for (int j = 0; j < SIZE; j++) {
+			unsigned short int* value = new unsigned short int(FloatToShortInt(_heightMap[i][j]));
+			rawFile.write(reinterpret_cast<const char*>(value), sizeof(unsigned short int));
+		}
 	}
 
-	std::cout << "Se han escrito " << writenElements << " elementos" << std::endl;
 
-	fclose(rawFile);
+	rawFile.close();
+
 }
 
 int main() {
 
 	srand(time(NULL));
 
+
+
 	MidPointDisplacementAlgorithm();
-	CreateRawFile((char*)"Heightmap_2.raw");
-	PrintHeightMap();
+	CreateRawFile((char*)"../HeightMaps/MidPointDisplacement/Heightmap.raw");
+
+	//PrintHeightMap();
 
 	_getch();
 
