@@ -9,6 +9,9 @@
 
 using namespace std;
 
+
+
+#pragma region MID POINT ALGORITHM	
 //http://stevelosh.com/blog/2016/02/midpoint-displacement/
 
 //Esta función pasa los valores en punto flotante de 32 bits a enteros de 16 bits
@@ -244,6 +247,26 @@ void CreateRawFile(char* fileName) {
 	rawFile.close();
 
 }
+
+
+#pragma endregion 
+
+
+#pragma region PERLIN NOISE ALGORITHM
+
+//https://mzucker.github.io/html/perlin-noise-math-faq.html
+
+//http://www.huttar.net/lars-kathy/graphics/perlin-noise/perlin-noise.html
+
+//https://solarianprogrammer.com/2012/07/18/perlin-noise-cpp-11/
+
+
+#pragma endregion
+
+
+
+
+
 
 int main() {
 
