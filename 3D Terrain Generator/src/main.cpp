@@ -23,9 +23,9 @@ using namespace std;
 */
 
 
-const int EXPONENT = 5;
+const int EXPONENT = 2;
 
-const int SIZE = 33;
+const int SIZE = 5;
 
 /*This bi-dimensional array is the data structure which stores the values of the heightmap. Those values are
 in the interval of [0.0 - 1.0]*/
