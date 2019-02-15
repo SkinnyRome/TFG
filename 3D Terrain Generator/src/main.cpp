@@ -6,8 +6,146 @@
 #include <algorithm>
 #include <limits>
 #include <fstream> 
+#include <vector>
+#include <random>
+#include <numeric>
+
 
 using namespace std;
+
+
+const int EXPONENT = 9;
+
+const int SIZE = 513;
+
+/*This bi-dimensional array is the data structure which stores the values of the heightmap. Those values are
+in the interval of [0.0 - 1.0]*/
+float _heightMap[SIZE][SIZE] = {0.0f}; 
+
+
+
+#pragma region PERLIN NOISE ALGORITHM
+
+//https://mzucker.github.io/html/perlin-noise-math-faq.html
+
+//http://www.huttar.net/lars-kathy/graphics/perlin-noise/perlin-noise.html
+
+//https://solarianprogrammer.com/2012/07/18/perlin-noise-cpp-11/
+
+//https://www.scratchapixel.com/lessons/procedural-generation-virtual-worlds/perlin-noise-part-2
+
+
+const int GRID_SIZE = 17;
+
+std::vector<int> p;
+
+
+
+
+float fade(float t) {
+
+	return t * t * t * (t *(t * 6 - 15) + 10);
+
+
+}
+
+float lerp(float a, float b, float t) {
+	return a + t * (b - a);
+}
+
+
+//Calculates a dot product between the vector x, y and a pseudo random gradient vector.
+float grad(int hash, float x, float y) {
+
+	return ((hash & 1) ? x : -x) + ((hash & 2) ? y : -y);
+
+}
+
+float noise(float x, float y) {
+
+	//Find the pixel cell
+	int cellX = (int)floor(x) & /*(GRID_SIZE - 1)*/ 255;
+	int cellY = (int)floor(y) & /*(GRID_SIZE - 1)*/ 255;
+
+	int cellX1 = (cellX + 1) & 255;
+	int cellY1 = (cellY + 1) & 255;
+
+
+	//Find the relative x, y of point in cube
+	x -= floor(x);
+	y -= floor(y);
+
+	float u = fade(x);
+	float v = fade(y);
+
+	//Hash coordinates for the four corners of our grid cell (p[p[x] + y])
+	int left_top_corner = p[p[cellX] + cellY];
+	int right_top_corner = p[p[cellX1] + cellY];
+	int left_bot_corner = p[p[cellX] + cellY1];
+	int right_bot_corner = p[p[cellX1] + cellY1];
+
+	//Obtain the dot products between the random gradients and the vectors pointing to P (x,y)
+	float left_top_grad = grad(left_top_corner, x, y);
+	float right_top_grad = grad(right_top_corner, x - 1, y);
+	float left_bot_grad = grad(left_bot_corner, x, y - 1);
+	float right_bot_grad = grad(right_bot_corner, x - 1, y - 1);
+
+	//Interpolate
+	float x1 = lerp(left_top_grad, right_top_grad, u);
+	float x2 = lerp(left_bot_grad, right_bot_grad,  u);
+	float r = lerp(x1, x2, v);
+
+	return (r + 1.0f) / 2.0f;
+}
+
+
+
+
+void PerlinNoise() {
+
+	//Create and initialize random vector values
+	p.resize(256);
+	iota(p.begin(), p.end(), 0);
+
+	random_device rd;
+	mt19937 g(rd());
+
+	shuffle(p.begin(), p.end(), g);
+
+	// Duplicate the permutation vector
+	p.insert(p.end(), p.begin(), p.end());
+
+
+	for (int i = 0; i < SIZE; i++) {
+		for (int j = 0; j < SIZE; j++) {
+			float x = (float)i / ((float) SIZE);
+			float y = (float)j / ((float)SIZE);
+
+			//Typical
+			
+			//float n = noise(10 *x, 10 *y);
+
+			//Wood
+			float n = 20 * noise(x,y);
+			n = n - floor(n);
+
+			_heightMap[i][j] = n;
+
+
+		}
+	}
+
+
+
+}
+
+
+
+
+
+
+#pragma endregion
+
 
 
 
@@ -26,13 +164,6 @@ using namespace std;
 */
 
 
-const int EXPONENT = 2;
-
-const int SIZE = 5;
-
-/*This bi-dimensional array is the data structure which stores the values of the heightmap. Those values are
-in the interval of [0.0 - 1.0]*/
-float _heightMap[SIZE][SIZE] = {0.0f}; 
 
 
 
@@ -191,6 +322,9 @@ void SetRandomValues() {
 
 }
 
+
+#pragma endregion 
+
 void PrintHeightMap() {
 
 	for (int i = 0; i < SIZE; i++) {
@@ -249,21 +383,6 @@ void CreateRawFile(char* fileName) {
 }
 
 
-#pragma endregion 
-
-
-#pragma region PERLIN NOISE ALGORITHM
-
-//https://mzucker.github.io/html/perlin-noise-math-faq.html
-
-//http://www.huttar.net/lars-kathy/graphics/perlin-noise/perlin-noise.html
-
-//https://solarianprogrammer.com/2012/07/18/perlin-noise-cpp-11/
-
-
-#pragma endregion
-
-
 
 
 
@@ -274,8 +393,9 @@ int main() {
 
 
 
-	MidPointDisplacementAlgorithm();
-	CreateRawFile((char*)"../HeightMaps/MidPointDisplacement/Heightmap.raw");
+	//MidPointDisplacementAlgorithm();
+	PerlinNoise();
+	CreateRawFile((char*)"../HeightMaps/PerlinNoise/Heightmap.raw");
 
 	//PrintHeightMap();
 
