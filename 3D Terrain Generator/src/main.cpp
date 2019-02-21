@@ -321,6 +321,7 @@ void SetRandomValues() {
 
 #pragma endregion 
 
+
 #pragma region CORTE
 
 struct Point {
@@ -486,6 +487,90 @@ void AlgoritmoCorte() {
 
 #pragma endregion
 
+
+
+
+#pragma region VORONOI DIAGRAM
+
+
+Point CreateRandomSite() {
+
+	float x = GetRandomValueBetween(0, SIZE - 1);
+	float y = GetRandomValueBetween(0, SIZE - 1);
+
+
+	return Point(x, y);
+
+}
+
+
+void VoronoiDiagram() {
+
+
+	const int nSites = 15;
+	const float fallOff = 0.5f;
+	const float dropOff = 0.3f;
+
+	std::vector<std::pair<Point, float>> sites;
+
+	for (int i = 0; i < nSites; i++) {
+		float value = GetRandomValueBetween(0.8f, 1.0f);
+		Point p = CreateRandomSite();
+		sites.push_back(std::pair<Point,float>(p, value));
+
+		_heightMap[(int)p.x][(int)p.y] = value;
+	}
+
+
+	float minDistance;
+	float maxDistance = sqrt(pow((SIZE), 2) + pow((SIZE), 2));
+	bool isSite;
+
+	for (int i = 0; i < SIZE; i++) {
+		for (int j = 0; j < SIZE; j++) {
+
+
+			minDistance = SIZE * SIZE;
+			isSite = false;
+			std::pair<Point,float> nearestSite;
+			float distance;
+			int s = 0;
+			while  (s < nSites && !isSite) {
+
+				distance = sqrt(pow((sites[s].first.x - i),2)+ pow((sites[s].first.y - j),2)) / maxDistance;
+				
+				if (distance == 0.0f)
+					isSite = true;
+
+				if (!isSite && distance < minDistance) {
+					minDistance = distance;
+					nearestSite = sites[s];
+				}
+				
+				s++;
+			}
+
+
+			if (!isSite) {
+				//lineal
+				float h = nearestSite.second - (minDistance * fallOff);
+				//combined
+				//h -= pow(minDistance, dropOff);
+
+				_heightMap[i][j] = h;
+ 			}
+
+		}
+	}
+
+	NormalizeHeightmap();
+
+
+
+}
+
+#pragma endregion
+
 void PrintHeightMap() {
 
 	if (SIZE > 9)
@@ -496,7 +581,9 @@ void PrintHeightMap() {
 
 		for (int i = 0; i < SIZE; i++) {
 			for (int j = 0; j < SIZE; j++) {
-				std::cout << FloatToShortInt(_heightMap[i][j]) << " - ";
+				//std::cout << FloatToShortInt(_heightMap[i][j]) << " - ";
+				std::cout << _heightMap[i][j] << " - ";
+
 			}
 			std::cout << std::endl;
 		}
@@ -563,8 +650,12 @@ int main() {
 
 	//MidPointDisplacementAlgorithm();
 	//PerlinNoise();
-	AlgoritmoCorte();
-	CreateRawFile((char*)"../HeightMaps/CutAlgorithm/Heightmap.raw");
+	//AlgoritmoCorte();
+	VoronoiDiagram();
+	CreateRawFile((char*)"../HeightMaps/VoronoiDiagram/Heightmap.raw");
+	
+	
+	
 
 	PrintHeightMap();
 
