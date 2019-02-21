@@ -13,15 +13,13 @@
 
 using namespace std;
 
+const int EXPONENT = 3;
 
-const int EXPONENT = 9;
-
-const int SIZE = 513;
+const int SIZE = 256;
 
 /*This bi-dimensional array is the data structure which stores the values of the heightmap. Those values are
 in the interval of [0.0 - 1.0]*/
 float _heightMap[SIZE][SIZE] = {0.0f}; 
-
 
 
 #pragma region PERLIN NOISE ALGORITHM
@@ -123,11 +121,11 @@ void PerlinNoise() {
 
 			//Typical
 			
-			//float n = noise(10 *x, 10 *y);
+			float n = noise(10 *x, 10 *y);
 
 			//Wood
-			float n = 20 * noise(x,y);
-			n = n - floor(n);
+			//float n = 20 * noise(x,y);
+			//n = n - floor(n);
 
 			_heightMap[i][j] = n;
 
@@ -145,8 +143,6 @@ void PerlinNoise() {
 
 
 #pragma endregion
-
-
 
 
 #pragma region MID POINT ALGORITHM	
@@ -325,13 +321,185 @@ void SetRandomValues() {
 
 #pragma endregion 
 
-void PrintHeightMap() {
+#pragma region CORTE
+
+struct Point {
+
+	Point():x(0), y(0) {};
+
+	Point(float x, float y): x(x), y(y){}
+
+	Point(const Point& p) {
+		x = p.x;
+		y = p.y;
+	}
+
+	float operator*(const Point& p) {
+
+		return (x * p.x) + (y * p.y);
+	}
+
+	Point operator*(const float t) {
+		return Point(x*t, y*t);
+	}
+
+	Point operator/(const Point& p) {
+		return Point(x / p.x, y / p.y);
+	}
+
+	Point operator-(const Point& p) {
+		return Point(x - p.x, y - p.y);
+	}
+
+	Point operator+(const Point& p) {
+		return Point(x + p.x, y + p.y);
+	}
+
+	float modulo() {
+
+		float xPow = (float)pow(x, 2);
+		float yPow = (float)pow(y, 2);
+		return xPow + yPow;
+	}
+
+	float x;
+	float y;
+
+};
+typedef std::pair<std::pair<Point, Point>, float> PuntosYValor;
+
+
+Point ClosestPointOnSegment( Point a, Point b, Point p) {
+	Point diff = p - a;
+	Point dir = b - a;
+
+	float t = (diff * dir) / (dir * dir);
+
+	return a + (dir * t);
+}
+
+bool CheckAboveOrBelow(Point a, Point b, Point p) {
+
+	float Vx = (float)(b.x - a.x);
+	float Vy = (float)(b.y - a.y);
+
+
+	float pending = (Vy / Vx);
+
+	if (Vy == 0 || Vx == 0)
+		pending = 0;
+
+
+	float vectorY = (p.x * pending) + a.y;
+
+	if (vectorY >= p.y)
+		return false;
+	else
+		return true;
+
+}
+
+void DoCortes(const vector<PuntosYValor>& v) {
+
+	float totalIterations = v.size() * SIZE * SIZE;
+	long int it = 0;
 
 	for (int i = 0; i < SIZE; i++) {
 		for (int j = 0; j < SIZE; j++) {
-			std::cout << FloatToShortInt(_heightMap[i][j]) << " - ";
+			Point p(i, j);
+
+			for (size_t pv = 0; pv < v.size(); pv++) {
+
+				//CheckAboveOrBelow(v[pv].first.first, v[pv].first.second, p) ? _heightMap[i][j] += v[pv].second : _heightMap[i][j] += (- v[pv].second);
+
+				(ClosestPointOnSegment(v[pv].first.first, v[pv].first.second, p).modulo() > p.modulo()) ? _heightMap[i][j] += v[pv].second : _heightMap[i][j] += (-v[pv].second);
+				it += 1;
+			}
+			std::cout << ((it / totalIterations) * 100) << "%" <<  std::endl;
 		}
-		std::cout << std::endl;
+	}
+
+
+
+
+}
+
+PuntosYValor RandomCut(int axis) {
+
+
+	int x1, x2, y1, y2;
+
+	
+	//X Axis
+	if (axis == 0) {
+
+		x1 = 0;
+		y1 = rand() % (SIZE - 1);
+
+
+		x2 = SIZE - 1;
+		y2 = rand() % (SIZE - 1);
+
+	}
+	//Y Axis
+	else {
+
+		x1 = rand() % (SIZE - 1);
+		y1 = 0;
+
+		x2 = rand() % (SIZE - 1);
+		y2 = SIZE - 1;
+
+
+	}
+
+	float valor = GetRandomValueBetween(-0.5f, 0.5f);
+
+	return PuntosYValor(std::pair<Point, Point>(Point(x1, y1), Point(x2, y2)), valor);
+
+}
+
+void AlgoritmoCorte() {
+
+	const int nIterations = 10000;
+
+	vector<PuntosYValor> puntosDeCorte;
+	puntosDeCorte.reserve(nIterations);
+	
+
+	for (int i = 0; i < nIterations; i++) {
+
+		puntosDeCorte.push_back(RandomCut(0));
+
+	}
+
+
+	DoCortes(puntosDeCorte);
+
+	NormalizeHeightmap();
+
+}
+
+
+
+
+
+#pragma endregion
+
+void PrintHeightMap() {
+
+	if (SIZE > 9)
+		std::cout << "El Heightmap es demasiado grande" << std::endl;
+	else {
+
+		std::cout << "Imprimiendo heightmap" << std::endl;
+
+		for (int i = 0; i < SIZE; i++) {
+			for (int j = 0; j < SIZE; j++) {
+				std::cout << FloatToShortInt(_heightMap[i][j]) << " - ";
+			}
+			std::cout << std::endl;
+		}
 	}
 
 }
@@ -370,8 +538,8 @@ void CreateRawFile(char* fileName) {
 	if (!rawFile.is_open())
 		std::cout << "No se ha podido crear el archivo" << std::endl;
 
-	for (int i = 0; i < SIZE; i++) {
-		for (int j = 0; j < SIZE; j++) {
+	for (int j = 0; j < SIZE; j++) {
+		for (int i = 0; i < SIZE; i++) {
 			unsigned short int* value = new unsigned short int(FloatToShortInt(_heightMap[i][j]));
 			rawFile.write(reinterpret_cast<const char*>(value), sizeof(unsigned short int));
 		}
@@ -394,10 +562,11 @@ int main() {
 
 
 	//MidPointDisplacementAlgorithm();
-	PerlinNoise();
-	CreateRawFile((char*)"../HeightMaps/PerlinNoise/Heightmap.raw");
+	//PerlinNoise();
+	AlgoritmoCorte();
+	CreateRawFile((char*)"../HeightMaps/CutAlgorithm/Heightmap.raw");
 
-	//PrintHeightMap();
+	PrintHeightMap();
 
 	_getch();
 
