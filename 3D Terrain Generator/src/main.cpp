@@ -9,143 +9,23 @@
 #include <vector>
 #include <random>
 #include <numeric>
-
+#include "Heightmap\Heightmap.h"
+#include "Algorithms\Perlin Noise\PerlinNoise.h"
 
 using namespace std;
 
 const int EXPONENT = 3;
 
-const int SIZE = 256;
+const int SIZE = 9;
 
 /*This bi-dimensional array is the data structure which stores the values of the heightmap. Those values are
 in the interval of [0.0 - 1.0]*/
-float _heightMap[SIZE][SIZE] = {0.0f}; 
-
-
-#pragma region PERLIN NOISE ALGORITHM
-
-//https://mzucker.github.io/html/perlin-noise-math-faq.html
-
-//http://www.huttar.net/lars-kathy/graphics/perlin-noise/perlin-noise.html
-
-//https://solarianprogrammer.com/2012/07/18/perlin-noise-cpp-11/
-
-//https://www.scratchapixel.com/lessons/procedural-generation-virtual-worlds/perlin-noise-part-2
-
-
-const int GRID_SIZE = 17;
-
-std::vector<int> p;
-
-
-
-
-float fade(float t) {
-
-	return t * t * t * (t *(t * 6 - 15) + 10);
-
-
-}
-
-float lerp(float a, float b, float t) {
-	return a + t * (b - a);
-}
-
-
-//Calculates a dot product between the vector x, y and a pseudo random gradient vector.
-float grad(int hash, float x, float y) {
-
-	return ((hash & 1) ? x : -x) + ((hash & 2) ? y : -y);
-
-}
-
-float noise(float x, float y) {
-
-	//Find the pixel cell
-	int cellX = (int)floor(x) & /*(GRID_SIZE - 1)*/ 255;
-	int cellY = (int)floor(y) & /*(GRID_SIZE - 1)*/ 255;
-
-	int cellX1 = (cellX + 1) & 255;
-	int cellY1 = (cellY + 1) & 255;
-
-
-	//Find the relative x, y of point in cube
-	x -= floor(x);
-	y -= floor(y);
-
-	float u = fade(x);
-	float v = fade(y);
-
-	//Hash coordinates for the four corners of our grid cell (p[p[x] + y])
-	int left_top_corner = p[p[cellX] + cellY];
-	int right_top_corner = p[p[cellX1] + cellY];
-	int left_bot_corner = p[p[cellX] + cellY1];
-	int right_bot_corner = p[p[cellX1] + cellY1];
-
-	//Obtain the dot products between the random gradients and the vectors pointing to P (x,y)
-	float left_top_grad = grad(left_top_corner, x, y);
-	float right_top_grad = grad(right_top_corner, x - 1, y);
-	float left_bot_grad = grad(left_bot_corner, x, y - 1);
-	float right_bot_grad = grad(right_bot_corner, x - 1, y - 1);
-
-	//Interpolate
-	float x1 = lerp(left_top_grad, right_top_grad, u);
-	float x2 = lerp(left_bot_grad, right_bot_grad,  u);
-	float r = lerp(x1, x2, v);
-
-	return (r + 1.0f) / 2.0f;
-}
-
-
-
-
-void PerlinNoise() {
-
-	//Create and initialize random vector values
-	p.resize(256);
-	iota(p.begin(), p.end(), 0);
-
-	random_device rd;
-	mt19937 g(rd());
-
-	shuffle(p.begin(), p.end(), g);
-
-	// Duplicate the permutation vector
-	p.insert(p.end(), p.begin(), p.end());
-
-
-	for (int i = 0; i < SIZE; i++) {
-		for (int j = 0; j < SIZE; j++) {
-			float x = (float)i / ((float) SIZE);
-			float y = (float)j / ((float)SIZE);
-
-			//Typical
-			
-			float n = noise(10 *x, 10 *y);
-
-			//Wood
-			//float n = 20 * noise(x,y);
-			//n = n - floor(n);
-
-			_heightMap[i][j] = n;
-
-
-		}
-	}
-
-
-
-}
-
-
-
-
-
-
-#pragma endregion
+Heightmap _heightMap(SIZE,SIZE);
+PerlinNoise p(256);
 
 
 #pragma region MID POINT ALGORITHM	
+
 //http://stevelosh.com/blog/2016/02/midpoint-displacement/
 
 //Esta función pasa los valores en punto flotante de 32 bits a enteros de 16 bits
@@ -159,47 +39,7 @@ void PerlinNoise() {
 
 */
 
-
-
-
-
-void NormalizeHeightmap() {
-
-	float min = _heightMap[0][0];
-	float max = _heightMap[0][0];
-
-
-	//Get the max and the min values of the heightmap
-	for (int i = 0; i < SIZE; i++) {
-		for (int j = 0; j < SIZE; j++) {
-
-			float value = _heightMap[i][j];
-
-			if (value > max) {
-				max = value;
-			}
-			if (value < min) {
-				min = value;
-			}
-		}
-
-	}
-		std::cout << "Max " << max << " Min " << min << std::endl;
-
-	//Normalize
-	for (int i = 0; i < SIZE; i++) {
-		for (int j = 0; j < SIZE; j++) {
-
-			float value = _heightMap[i][j];
-
-			_heightMap[i][j] = (value - min) / (max - min);
-
-			if (_heightMap[i][j] > 1 || _heightMap[i][j] < 0)
-				std::cout << "Aqui hay un valor incorrecto " << _heightMap[i][j] << std::endl;
-		}
-	}
-
-}
+/*
 
 //This funciont returns random value [0.0, 1.0]
 float GetNormalizedRandomValue() {
@@ -301,7 +141,6 @@ void MidPointDisplacementAlgorithm() {
 	}
 
 	//Normalize values of the heightmap so they are between [0.0, 1.0]
-	NormalizeHeightmap();
 
 	
 
@@ -318,12 +157,12 @@ void SetRandomValues() {
 
 }
 
-
+*/
 #pragma endregion 
 
 
 #pragma region CORTE
-
+/*
 struct Point {
 
 	Point():x(0), y(0) {};
@@ -477,14 +316,8 @@ void AlgoritmoCorte() {
 
 	DoCortes(puntosDeCorte);
 
-	NormalizeHeightmap();
 
-}
-
-
-
-
-
+}*/
 #pragma endregion
 
 
@@ -492,7 +325,7 @@ void AlgoritmoCorte() {
 
 #pragma region VORONOI DIAGRAM
 
-
+/*
 Point CreateRandomSite() {
 
 	float x = GetRandomValueBetween(0, SIZE - 1);
@@ -568,7 +401,7 @@ void VoronoiDiagram() {
 
 
 }
-
+*/
 #pragma endregion
 
 void PrintHeightMap() {
@@ -638,10 +471,6 @@ void CreateRawFile(char* fileName) {
 }
 
 
-
-
-
-
 int main() {
 
 	srand(time(NULL));
@@ -651,9 +480,9 @@ int main() {
 	//MidPointDisplacementAlgorithm();
 	//PerlinNoise();
 	//AlgoritmoCorte();
-	VoronoiDiagram();
-	CreateRawFile((char*)"../HeightMaps/VoronoiDiagram/Heightmap.raw");
-	
+	//VoronoiDiagram();
+	//CreateRawFile((char*)"../HeightMaps/VoronoiDiagram/Heightmap.raw");
+	p.GenerateHeightmap(_heightMap);
 	
 	
 

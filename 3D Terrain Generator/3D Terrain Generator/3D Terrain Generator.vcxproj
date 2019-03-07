@@ -146,8 +146,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\src\Algorithms\Perlin Noise\PerlinNoise.cpp" />
+    <ClCompile Include="..\src\Heightmap\Heightmap.cpp" />
     <ClCompile Include="..\src\main.cpp" />
     <ClCompile Include="..\src\MidPoint_Algorithm.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\src\Algorithms\Perlin Noise\PerlinNoise.h" />
+    <ClInclude Include="..\src\Heightmap\Heightmap.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
