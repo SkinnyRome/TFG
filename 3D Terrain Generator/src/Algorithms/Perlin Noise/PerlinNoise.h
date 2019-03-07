@@ -5,8 +5,21 @@
 #include <random>
 #include <numeric>
 
+
 class PerlinNoise
 {
+public:
+
+	class PNProperties {
+		public:
+
+			PNProperties();
+			PNProperties(int seed);
+
+			int _seed;
+			
+	};
+
 private:
 	//Mover esto a la clase base Algoritmo para que no se pueda copiar
 	PerlinNoise(const PerlinNoise&);
@@ -14,7 +27,7 @@ private:
 
 
 	std::vector<int> p; //permutation vector
-	int _seed;
+	PNProperties _properties;
 
 	float Gradient(int hash, float x, float y);
 	float Fade(float t);
@@ -22,8 +35,9 @@ private:
 	float Noise(float x, float y);
 
 public:
-	PerlinNoise();
-	PerlinNoise(int seed);
+
+	//PerlinNoise();
+	explicit PerlinNoise(PNProperties properties = PNProperties());
 	~PerlinNoise();
 
 	void GenerateHeightmap(Heightmap &h);

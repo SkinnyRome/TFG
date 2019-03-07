@@ -20,8 +20,7 @@ const int SIZE = 9;
 
 /*This bi-dimensional array is the data structure which stores the values of the heightmap. Those values are
 in the interval of [0.0 - 1.0]*/
-Heightmap _heightMap(SIZE,SIZE);
-PerlinNoise p(256);
+
 
 
 #pragma region MID POINT ALGORITHM	
@@ -404,7 +403,7 @@ void VoronoiDiagram() {
 */
 #pragma endregion
 
-void PrintHeightMap() {
+void PrintHeightMap(const Heightmap& h) {
 
 	if (SIZE > 9)
 		std::cout << "El Heightmap es demasiado grande" << std::endl;
@@ -415,7 +414,7 @@ void PrintHeightMap() {
 		for (int i = 0; i < SIZE; i++) {
 			for (int j = 0; j < SIZE; j++) {
 				//std::cout << FloatToShortInt(_heightMap[i][j]) << " - ";
-				std::cout << _heightMap[i][j] << " - ";
+				std::cout << h[i][j] << " - ";
 
 			}
 			std::cout << std::endl;
@@ -424,57 +423,13 @@ void PrintHeightMap() {
 
 }
 
-void CreateRawFile(char* fileName) {
-
-
-	/*		USING FILE
-		FILE* rawFile;
-		errno_t error;
-		if ((error = fopen_s(&rawFile, fileName, "w")) != 0) {
-			std::cout << "Error while opening/creating the file" << std::endl;
-		}
-
-		size_t writenElements = fwrite(_heightMap, sizeof(float), SIZE * SIZE, rawFile);
-		
-	
-		if (writenElements < SIZE * SIZE) {
-			std::cout << "Error while writing the file" << std::endl;
-		}
-
-		std::cout << "Se han escrito " << writenElements << " elementos" << std::endl;
-
-		fclose(rawFile);
-	
-	*/
-	
-
-	/* USING OFSTREAM */
-
-
-
-	std::ofstream rawFile;
-	rawFile.open(fileName, std::fstream::binary | std::fstream::out);
-
-	if (!rawFile.is_open())
-		std::cout << "No se ha podido crear el archivo" << std::endl;
-
-	for (int j = 0; j < SIZE; j++) {
-		for (int i = 0; i < SIZE; i++) {
-			unsigned short int* value = new unsigned short int(FloatToShortInt(_heightMap[i][j]));
-			rawFile.write(reinterpret_cast<const char*>(value), sizeof(unsigned short int));
-		}
-	}
-
-
-	rawFile.close();
-
-}
-
 
 int main() {
 
 	srand(time(NULL));
 
+	Heightmap _heightMap(SIZE, SIZE);
+	PerlinNoise p;
 
 
 	//MidPointDisplacementAlgorithm();
@@ -483,10 +438,10 @@ int main() {
 	//VoronoiDiagram();
 	//CreateRawFile((char*)"../HeightMaps/VoronoiDiagram/Heightmap.raw");
 	p.GenerateHeightmap(_heightMap);
-	
+	_heightMap.DumpToFile("Prueba.raw");
 	
 
-	PrintHeightMap();
+	PrintHeightMap(_heightMap);
 
 	_getch();
 

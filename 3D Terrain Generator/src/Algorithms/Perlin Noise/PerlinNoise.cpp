@@ -2,11 +2,7 @@
 
 
 
-PerlinNoise::PerlinNoise():_seed(0)
-{
-}
-
-PerlinNoise::PerlinNoise(int seed):_seed(seed)
+PerlinNoise::PerlinNoise(PNProperties p):_properties(p)
 {
 
 }
@@ -21,7 +17,7 @@ void PerlinNoise::GenerateHeightmap(Heightmap & h)
 	//Create and initialize random vector values
 	p.resize(256);
 	iota(p.begin(), p.end(), 0);
-	mt19937 g(_seed);
+	mt19937 g(_properties._seed);
 	shuffle(p.begin(), p.end(), g);
 
 	// Duplicate the permutation vector
@@ -34,7 +30,6 @@ void PerlinNoise::GenerateHeightmap(Heightmap & h)
 			float y = (float)j / ((float)h.GetHeight());
 
 			//Typical
-
 			float n = Noise(10 * x, 10 * y);
 
 			//Wood
@@ -106,3 +101,10 @@ float PerlinNoise::Noise(float x, float y) {
 	return (r + 1.0f) / 2.0f;
 }
 
+PerlinNoise::PNProperties::PNProperties():_seed(0)
+{
+}
+
+PerlinNoise::PNProperties::PNProperties(int seed):_seed(seed)
+{
+}
