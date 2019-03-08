@@ -1,0 +1,47 @@
+
+//Ejemplo de uso de la libreria utilizando la API de bajo nivel
+#include <Heightmap>
+#include <PerlinNoise>
+#include <Voronoi>
+
+
+int main(){
+	
+	
+	/*------------------- EJEMPLO 1 -------------------*/
+	
+	//Declarar dos objetos que almacena la información de un Heightmap
+	Heightmap h;
+	Heightmap h2;
+	
+	//Para rellenar esos heightmap, podemo crear un objeto de la clase del algoritmo que queremos utilizar.
+	//Declaramos la propiedades del del algoritmo PerlinNoise
+	PerlinNoiseProperties perlinNoiseProperties;
+	perlinNoiseProperties.variable1 = ..;
+	perlinNoiseProperties.variable2 = ..;
+	
+	//Creamos el objeto del algoritmo con los parámetros que hemos definido antes
+	PerlinNoise perlinObject(perlinNoiseProperties);
+	
+	//Llamando a la función "generateHeightmap(...)" rellenamos el heightmap con los valores producidos por el algoritmo
+	perlinObject.generateHeightmap(h);
+	
+	//Para guardar el heightmap en un archivo
+	h.dumpToFile("Heightmap1");
+	
+	
+	
+	
+	/*------------------- EJEMPLO 2 ------------------*/
+	//Declarar otro algoritmo
+	VoronoiProperties voronoiProperties(...);
+	Voronoi voronoiObject(voronoiProperties);
+	
+	voronoiObject.generateHeightmap(h2);
+	
+	//Mezclar ambos heightmap
+	Heightmap hFinal = MergeHeightmap(h1,h2,...);
+	
+	hFinal.dumpToFile("Heightmap2");
+	
+}

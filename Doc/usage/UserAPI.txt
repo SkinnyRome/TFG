@@ -1,0 +1,30 @@
+
+//Ejemplo de uso de la libreria utilizando la API de alto nivel.
+#include <Heightmap>
+#include <user_api>
+
+using namespace user_api
+
+
+int main(){
+	
+	
+	/*------------------- EJEMPLO 1 -------------------*/
+	
+	//Declarar un objeto Heightmap
+	Heightmap h(.....);
+	
+	//Señalar como queremos, a grandes rasgos, que sea el terreno
+	TerrainProperties tp; //Propiedades por defecto
+	
+	tp.mountains = MOUNTAIN_ENUM.LOW;
+	.
+	.
+	.
+	
+	GenerateHeightmap(h, tp);
+	
+	h.dumpToFile("");
+	
+	
+}
