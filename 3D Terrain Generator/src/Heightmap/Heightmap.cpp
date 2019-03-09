@@ -4,16 +4,21 @@
 #define FloatToShortInt(f) ((f) >= 1.0 ? 65535 : (unsigned short int)((f)*65536.0)) //TODO MOVE THIS
 
 
-Heightmap::Heightmap():_width(), _height(), _heightmap()
+Heightmap::Heightmap():_exponent(0), _width(0), _height(0), _heightmap()
 {
 
 
 }
 
-Heightmap::Heightmap(int width, int height): _width(width), _height(height), _heightmap(_width, vector<float>(_height))
+Heightmap::Heightmap(int width, int height):_exponent(0), _width(width), _height(height), _heightmap(_width, vector<float>(_height))
 {
 
 
+}
+
+Heightmap::Heightmap(int exponent):_exponent(exponent), _width(pow(2,_exponent)), _height(_width), _heightmap(_width, vector<float>(_height))
+{
+	
 }
 
 

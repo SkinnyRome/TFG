@@ -13,6 +13,7 @@ class Heightmap
 {
 private:
 
+	int _exponent;
 	int _width;
 	int _height;
 	vector<vector<float>> _heightmap;
@@ -21,6 +22,7 @@ public:
 
 	Heightmap();
 	Heightmap(int width, int height);
+	Heightmap(int exponent);
 	//Heightmap(const Heightmap& h);
 
 	const vector<float>& operator[](int i) const { return _heightmap[i]; }
@@ -32,6 +34,7 @@ public:
 
 	int GetWidth() const { return _width; }
 	int GetHeight() const { return _height; }
+	int GetExponent() const { return _exponent; }
 
 	void Normalize();
 	void DumpToFile(string filename, RawMode mode = B_16) const;
