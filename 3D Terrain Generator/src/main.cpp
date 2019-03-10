@@ -12,17 +12,9 @@
 #include "Heightmap\Heightmap.h"
 #include "Algorithms\Perlin Noise\PerlinNoise.h"
 #include "Algorithms\MidPointDisplacement\MidPointDisplacement.h"
+#include <Tools\TerrainGenerationTools.h>
 
 using namespace std;
-
-const int EXPONENT = 3;
-
-const int SIZE = 9;
-
-/*This bi-dimensional array is the data structure which stores the values of the heightmap. Those values are
-in the interval of [0.0 - 1.0]*/
-
-
 
 #pragma region MID POINT ALGORITHM	
 
@@ -309,12 +301,12 @@ int main() {
 
 	mpd.GenerateHeightmap(h_mpd);
 
-	h_mpd.DumpToFile("PruebaMidPoint.raw");
+	h_mpd.DumpToFile("PruebaMidPoint");
 
 	PrintHeightMap(h_mpd);
 
 
-	_getch();
+	//_getch();
 
 
 
@@ -323,18 +315,25 @@ int main() {
 
 
 
-	Heightmap h_pn(256,256);
+	Heightmap h_pn(9 , 9);
 	PerlinNoise::PNProperties perlin_pn(2500);
 	PerlinNoise pn(perlin_pn);
 
 	pn.GenerateHeightmap(h_pn);
 
-	h_pn.DumpToFile("PruebaPerlin.raw");
+	h_pn.DumpToFile("PruebaPerlin");
 
 	PrintHeightMap(h_pn);
 
-	_getch();
+	//_getch();
 
+	/*-----------------------------------------------------------------------------------------*/
+
+	tools::MixHeightmaps(h_mpd, h_pn, 0.5f);
+
+	PrintHeightMap(h_mpd);
+
+	_getch();
 
 	return 0;
 }

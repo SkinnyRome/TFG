@@ -17,7 +17,7 @@ MidPointDisplacement::~MidPointDisplacement()
 }
 
 
-void MidPointDisplacement::GenerateHeightmap(Heightmap & h) const
+void MidPointDisplacement::GenerateHeightmap(Heightmap & h)
 {
 	//1. Initialize the corners of the heightmap with random values (between 0.0 and 1.0)
 	h[0][0] = tools::GetRandomValueBetween(0.0f, 1.0f);					//Top-left corner
@@ -26,7 +26,7 @@ void MidPointDisplacement::GenerateHeightmap(Heightmap & h) const
 	h[h.GetWidth() -1][h.GetHeight() - 1] =tools::GetRandomValueBetween(0.0f, 1.0f); ;	//Top-left corner
 
 																	//Calculate the iterations needed to compute all the points (equal to exponent value)
-	int iterations = h.GetExponent();
+	int iterations = h.GetExponent(); //TODO comprobar que el heightmap es cuadrado
 
 	if (iterations <= 0)//TODO EXCEPCIÓN
 		return;
@@ -124,3 +124,5 @@ MidPointDisplacement::MidPointProperties::MidPointProperties():spread(0.3f), rou
 MidPointDisplacement::MidPointProperties::MidPointProperties(float s, float r): spread(s), roughness(r)
 {
 }
+
+

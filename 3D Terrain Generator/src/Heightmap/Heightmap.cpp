@@ -26,6 +26,33 @@ Heightmap::~Heightmap()
 {
 }
 
+bool Heightmap::IsSquare() const
+{
+	return _exponent > 0;
+}
+
+void Heightmap::Resize(int width, int height)
+{
+
+	_width = width;
+	_height = height;
+
+	_heightmap.resize(width);
+	for (std::vector<float> & h : _heightmap) {
+		h.resize(height);
+	}
+
+
+}
+
+void Heightmap::Resize(int exponent)
+{
+	_exponent = exponent;
+	_width = pow(2, exponent);
+	_height = _width;
+	Resize(_height, _width);
+}
+
 void Heightmap::Normalize()
 {
 	float min = _heightmap[0][0];
@@ -64,10 +91,10 @@ void Heightmap::Normalize()
 	}
 }
 
-void Heightmap::DumpToFile(string filename, RawMode mode) const
+void Heightmap::DumpToFile(string filename, RawMode mode)
 {
 
-	string filepath("../HeightMaps/" + filename);
+	string filepath("../HeightMaps/" + filename + ".raw");
 
 
 	std::ofstream rawFile;
@@ -90,3 +117,5 @@ void Heightmap::DumpToFile(string filename, RawMode mode) const
 
 
 }
+
+

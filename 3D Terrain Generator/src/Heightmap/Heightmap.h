@@ -21,23 +21,26 @@ private:
 public:
 
 	Heightmap();
-	Heightmap(int width, int height);
 	Heightmap(int exponent);
+	Heightmap(int width, int height);
 	//Heightmap(const Heightmap& h);
+
+	~Heightmap();
 
 	const vector<float>& operator[](int i) const { return _heightmap[i]; }
 	vector<float>& operator[](int i)  { return _heightmap[i]; }
+	bool IsSquare() const;
 
-	
-
-	~Heightmap();
+	void Resize(int width, int height);
+	void Resize(int exponent);
 
 	int GetWidth() const { return _width; }
 	int GetHeight() const { return _height; }
 	int GetExponent() const { return _exponent; }
 
 	void Normalize();
-	void DumpToFile(string filename, RawMode mode = B_16) const;
+	void DumpToFile(string filename, RawMode mode = B_16);
+	
 	
 };
 

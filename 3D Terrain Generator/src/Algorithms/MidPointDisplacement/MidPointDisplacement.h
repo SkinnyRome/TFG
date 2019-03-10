@@ -3,6 +3,7 @@
 
 #include <algorithm>
 
+
 class Heightmap;
 
 class MidPointDisplacement
@@ -23,7 +24,7 @@ public:
 	MidPointDisplacement(const MidPointProperties p);
 	~MidPointDisplacement();
 
-	void GenerateHeightmap(Heightmap& h) const;
+	void GenerateHeightmap(Heightmap& h);
 
 private:
 	

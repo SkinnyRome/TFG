@@ -3,7 +3,7 @@
 
 #include <algorithm>
 
-
+class Heightmap;
 
 namespace tools {
 
@@ -37,7 +37,7 @@ namespace tools {
 	float Average2(float a, float b);
 	float Average4(float a, float b, float c, float d);
 
-	
+	void MixHeightmaps(Heightmap &h1, const Heightmap &h2, float influence);
 
 
 }
