@@ -1,14 +1,8 @@
 #include <time.h>
-#include <array>
 #include <iostream>
-#include <conio.h>
-#include <math.h>
-#include <algorithm>
-#include <limits>
 #include <fstream> 
-#include <vector>
 #include <random>
-#include <numeric>
+#include <conio.h>
 #include "Heightmap\Heightmap.h"
 #include "Algorithms\Perlin Noise\PerlinNoise.h"
 #include "Algorithms\MidPointDisplacement\MidPointDisplacement.h"

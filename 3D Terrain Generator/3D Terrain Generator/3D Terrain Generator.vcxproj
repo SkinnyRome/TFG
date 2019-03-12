@@ -146,19 +146,23 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\src\Algorithms\CutAlgorithm\CutAlgorithm.cpp" />
     <ClCompile Include="..\src\Algorithms\MidPointDisplacement\MidPointDisplacement.cpp" />
     <ClCompile Include="..\src\Algorithms\Perlin Noise\PerlinNoise.cpp" />
     <ClCompile Include="..\src\Algorithms\Voronoi\VoronoiDiagram.cpp" />
     <ClCompile Include="..\src\Heightmap\Heightmap.cpp" />
     <ClCompile Include="..\src\main.cpp" />
     <ClCompile Include="..\src\Tools\TerrainGenerationTools.cpp" />
+    <ClCompile Include="..\src\UserAPI\UserAPI.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\src\Algorithms\CutAlgorithm\CutAlgorithm.h" />
     <ClInclude Include="..\src\Algorithms\MidPointDisplacement\MidPointDisplacement.h" />
     <ClInclude Include="..\src\Algorithms\Perlin Noise\PerlinNoise.h" />
     <ClInclude Include="..\src\Algorithms\Voronoi\VoronoiDiagram.h" />
     <ClInclude Include="..\src\Heightmap\Heightmap.h" />
     <ClInclude Include="..\src\Tools\TerrainGenerationTools.h" />
+    <ClInclude Include="..\src\UserAPI\UserAPI.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

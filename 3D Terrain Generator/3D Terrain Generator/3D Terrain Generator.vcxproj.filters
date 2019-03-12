@@ -13,6 +13,12 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Archivos de encabezado\Algorithms">
+      <UniqueIdentifier>{49f786f9-733b-49a8-9fb3-9f113b42780e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de origen\Algorithm">
+      <UniqueIdentifier>{1054bc7b-f1eb-4259-8845-f40b8dffa288}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\main.cpp">
@@ -21,34 +27,46 @@
     <ClCompile Include="..\src\Heightmap\Heightmap.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\Algorithms\Perlin Noise\PerlinNoise.cpp">
-      <Filter>Archivos de origen</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\Algorithms\MidPointDisplacement\MidPointDisplacement.cpp">
-      <Filter>Archivos de origen</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\Algorithms\Voronoi\VoronoiDiagram.cpp">
-      <Filter>Archivos de origen</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\Tools\TerrainGenerationTools.cpp">
       <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\UserAPI\UserAPI.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Algorithms\CutAlgorithm\CutAlgorithm.cpp">
+      <Filter>Archivos de origen\Algorithm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Algorithms\MidPointDisplacement\MidPointDisplacement.cpp">
+      <Filter>Archivos de origen\Algorithm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Algorithms\Perlin Noise\PerlinNoise.cpp">
+      <Filter>Archivos de origen\Algorithm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Algorithms\Voronoi\VoronoiDiagram.cpp">
+      <Filter>Archivos de origen\Algorithm</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\Heightmap\Heightmap.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\Algorithms\Perlin Noise\PerlinNoise.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\Algorithms\MidPointDisplacement\MidPointDisplacement.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\Algorithms\Voronoi\VoronoiDiagram.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
     <ClInclude Include="..\src\Tools\TerrainGenerationTools.h">
       <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\UserAPI\UserAPI.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Algorithms\CutAlgorithm\CutAlgorithm.h">
+      <Filter>Archivos de encabezado\Algorithms</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Algorithms\MidPointDisplacement\MidPointDisplacement.h">
+      <Filter>Archivos de encabezado\Algorithms</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Algorithms\Perlin Noise\PerlinNoise.h">
+      <Filter>Archivos de encabezado\Algorithms</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Algorithms\Voronoi\VoronoiDiagram.h">
+      <Filter>Archivos de encabezado\Algorithms</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

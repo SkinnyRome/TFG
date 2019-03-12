@@ -31,6 +31,12 @@ Point Point::operator-(const Point& p) {
 	return Point(x - p.x, y - p.y);
 }
 
+Point tools::Point::operator-(const Point & p) const
+{
+	return Point();
+}
+
+
 Point Point::operator+(const Point& p) {
 	return Point(x + p.x, y + p.y);
 }
