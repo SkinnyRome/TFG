@@ -1,6 +1,13 @@
 #ifndef CUTALGORITHM_H
 #define CUTALGORITHM_H
 
+
+#ifdef TERRAINGENERATOR_EXPORTS
+#define TERRAINGENERATOR_API __declspec(dllexport)
+#else
+#define TERRAINGENERATOR_API __declspec(dllimport)
+#endif
+
 #include <Tools\TerrainGenerationTools.h>
 #include <vector>
 
@@ -10,7 +17,7 @@ using namespace tools;
 
 using PuntosYValor = std::pair<std::pair<Point, Point>, float>;
 
-class CutAlgorithm
+class TERRAINGENERATOR_API CutAlgorithm
 {
 public:
 	CutAlgorithm();

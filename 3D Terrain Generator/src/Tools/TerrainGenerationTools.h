@@ -1,11 +1,18 @@
 #ifndef TERRAINGENERATIONTOOLS_H
 #define TERRAINGENERATIONTOOLS_H
 
+
+#ifdef TERRAINGENERATOR_EXPORTS
+#define TERRAINGENERATOR_API __declspec(dllexport)
+#else
+#define TERRAINGENERATOR_API __declspec(dllimport)
+#endif
+
 #include <algorithm>
 
 class Heightmap;
 
-namespace tools {
+namespace  tools {
 
 	struct Point {
 
@@ -35,11 +42,11 @@ namespace tools {
 	};
 
 
-	float GetRandomValueBetween(float a, float b);
-	float Average2(float a, float b);
-	float Average4(float a, float b, float c, float d);
+	TERRAINGENERATOR_API float GetRandomValueBetween(float a, float b);
+	TERRAINGENERATOR_API float Average2(float a, float b);
+	TERRAINGENERATOR_API float Average4(float a, float b, float c, float d);
 
-	void MixHeightmaps(Heightmap &h1, const Heightmap &h2, float influence);
+	TERRAINGENERATOR_API void MixHeightmaps(Heightmap &h1, const Heightmap &h2, float influence);
 
 
 }

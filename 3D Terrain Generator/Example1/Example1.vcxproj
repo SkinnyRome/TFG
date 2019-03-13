@@ -18,34 +18,37 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\main.cpp" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
-    <ProjectGuid>{7EC84D0F-67A7-4C6E-92E8-1EB7B31FD318}</ProjectGuid>
-    <RootNamespace>My3DTerrainGenerator</RootNamespace>
+    <ProjectGuid>{691FC3BD-FE4E-4909-BD31-79CE48333405}</ProjectGuid>
+    <RootNamespace>Example1</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
@@ -70,30 +73,24 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <OutDir>$(SolutionDir)Library\$(Configuration)\$(Platform)\</OutDir>
-    <IntDir>$(SolutionDir)Inter\$(Configuration)\</IntDir>
-    <IncludePath>$(SolutionDir)src;$(IncludePath)</IncludePath>
-    <SourcePath>$(SolutionDir)src;$(SourcePath)</SourcePath>
-    <TargetName>$(ProjectName)_d</TargetName>
+    <OutDir>$(ProjectDir)Exes\$(Configuration)\$(Platform)\</OutDir>
+    <IntDir>$(ProjectDir)\Inter\</IntDir>
+    <IncludePath>$(ProjectDir)src\;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <OutDir>$(SolutionDir)Library\$(Configuration)\$(Platform)\</OutDir>
-    <IntDir>$(SolutionDir)Inter\$(Configuration)\</IntDir>
-    <IncludePath>$(SolutionDir)src;$(IncludePath)</IncludePath>
-    <SourcePath>$(SolutionDir)src;$(SourcePath)</SourcePath>
+    <OutDir>$(ProjectDir)Exes\$(Configuration)\$(Platform)\</OutDir>
+    <IntDir>$(ProjectDir)\Inter\</IntDir>
+    <IncludePath>$(ProjectDir)src\;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <OutDir>$(SolutionDir)Library\$(Configuration)\$(Platform)\</OutDir>
-    <IntDir>$(SolutionDir)Inter\$(Configuration)\</IntDir>
-    <IncludePath>$(SolutionDir)src;$(IncludePath)</IncludePath>
-    <SourcePath>$(SolutionDir)src;$(SourcePath)</SourcePath>
-    <TargetName>$(ProjectName)_d</TargetName>
+    <OutDir>$(ProjectDir)Exes\$(Configuration)\$(Platform)\</OutDir>
+    <IntDir>$(ProjectDir)\Inter\</IntDir>
+    <IncludePath>$(ProjectDir)src\;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <OutDir>$(SolutionDir)Library\$(Configuration)\$(Platform)\</OutDir>
-    <IntDir>$(SolutionDir)Inter\$(Configuration)\</IntDir>
-    <IncludePath>$(SolutionDir)src;$(IncludePath)</IncludePath>
-    <SourcePath>$(SolutionDir)src;$(SourcePath)</SourcePath>
+    <OutDir>$(ProjectDir)Exes\$(Configuration)\$(Platform)\</OutDir>
+    <IntDir>$(ProjectDir)\Inter\</IntDir>
+    <IncludePath>$(ProjectDir)src\;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -101,10 +98,11 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <PreprocessorDefinitions>TERRAINGENERATOR_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\UNI\4\TFG\TFG\3D Terrain Generator\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <AdditionalLibraryDirectories>$(SolutionDir)Exes\$(Configuration)\$(Platform)\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>3D Terrain Generator_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -113,10 +111,11 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <PreprocessorDefinitions>TERRAINGENERATOR_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\UNI\4\TFG\TFG\3D Terrain Generator\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <AdditionalLibraryDirectories>$(SolutionDir)Exes\$(Configuration)\$(Platform)\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>3D Terrain Generator_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -127,12 +126,13 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <PreprocessorDefinitions>TERRAINGENERATOR_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\UNI\4\TFG\TFG\3D Terrain Generator\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <SubSystem>Windows</SubSystem>
+      <AdditionalLibraryDirectories>$(SolutionDir)Exes\$(Configuration)\$(Platform)\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>3D Terrain Generator_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -143,32 +143,15 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <PreprocessorDefinitions>TERRAINGENERATOR_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\UNI\4\TFG\TFG\3D Terrain Generator\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <SubSystem>Windows</SubSystem>
+      <AdditionalLibraryDirectories>$(SolutionDir)Exes\$(Configuration)\$(Platform)\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>3D Terrain Generator_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="..\src\Algorithms\CutAlgorithm\CutAlgorithm.cpp" />
-    <ClCompile Include="..\src\Algorithms\MidPointDisplacement\MidPointDisplacement.cpp" />
-    <ClCompile Include="..\src\Algorithms\Perlin Noise\PerlinNoise.cpp" />
-    <ClCompile Include="..\src\Algorithms\Voronoi\VoronoiDiagram.cpp" />
-    <ClCompile Include="..\src\Heightmap\Heightmap.cpp" />
-    <ClCompile Include="..\src\Tools\TerrainGenerationTools.cpp" />
-    <ClCompile Include="..\src\UserAPI\UserAPI.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\src\Algorithms\CutAlgorithm\CutAlgorithm.h" />
-    <ClInclude Include="..\src\Algorithms\MidPointDisplacement\MidPointDisplacement.h" />
-    <ClInclude Include="..\src\Algorithms\Perlin Noise\PerlinNoise.h" />
-    <ClInclude Include="..\src\Algorithms\Voronoi\VoronoiDiagram.h" />
-    <ClInclude Include="..\src\Heightmap\Heightmap.h" />
-    <ClInclude Include="..\src\Tools\TerrainGenerationTools.h" />
-    <ClInclude Include="..\src\UserAPI\UserAPI.h" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

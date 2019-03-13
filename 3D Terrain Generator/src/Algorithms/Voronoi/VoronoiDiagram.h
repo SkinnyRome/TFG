@@ -1,16 +1,23 @@
 #ifndef VORONOIDIAGRAM_H
 #define VORONOIDIAGRAM_H
 
+
+#ifdef TERRAINGENERATOR_EXPORTS
+#define TERRAINGENERATOR_API __declspec(dllexport)
+#else
+#define TERRAINGENERATOR_API __declspec(dllimport)
+#endif
+
 #include <Tools\TerrainGenerationTools.h>
 
 class Heightmap;
 
-class VoronoiDiagram
+class TERRAINGENERATOR_API VoronoiDiagram
 {
 
 public:
 
-	class VoronoiProperties {
+	class  TERRAINGENERATOR_API VoronoiProperties {
 	public:
 		VoronoiProperties();
 		VoronoiProperties(int nOS, float fO, float dO);

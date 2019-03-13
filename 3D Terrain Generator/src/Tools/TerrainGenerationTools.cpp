@@ -1,5 +1,5 @@
-#include "TerrainGenerationTools.h"
 #include <Heightmap\Heightmap.h>
+#include "TerrainGenerationTools.h"
 
 using namespace tools;
 

@@ -1,16 +1,23 @@
 #ifndef PERLIN_NOISE_H
 #define PERLIN_NOISE_H
 
+
+#ifdef TERRAINGENERATOR_EXPORTS
+#define TERRAINGENERATOR_API __declspec(dllexport)
+#else
+#define TERRAINGENERATOR_API __declspec(dllimport)
+#endif
+
 #include <Heightmap\Heightmap.h>
 #include <random>
 #include <numeric>
 
 
-class PerlinNoise
+class TERRAINGENERATOR_API PerlinNoise
 {
 public:
 
-	class PNProperties {
+	class TERRAINGENERATOR_API PNProperties {
 		public:
 
 			PNProperties();
@@ -23,7 +30,7 @@ public:
 private:
 	//Mover esto a la clase base Algoritmo para que no se pueda copiar
 	PerlinNoise(const PerlinNoise&);
-	PerlinNoise& operator=(const PerlinNoise&) {};
+	PerlinNoise& operator=(const PerlinNoise&) = default;
 
 
 	std::vector<int> p; //permutation vector

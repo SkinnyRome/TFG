@@ -1,6 +1,13 @@
 #ifndef HEIGHTMAP_H
 #define HEIGHTMAP_H
 
+
+#ifdef TERRAINGENERATOR_EXPORTS
+#define TERRAINGENERATOR_API __declspec(dllexport)
+#else
+#define TERRAINGENERATOR_API __declspec(dllimport)
+#endif
+
 #include <vector>
 #include <iostream>
 
@@ -9,7 +16,7 @@ using namespace std;
 enum RawMode {B_16, B_32};
 
 
-class Heightmap
+class TERRAINGENERATOR_API Heightmap
 {
 private:
 

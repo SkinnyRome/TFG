@@ -1,17 +1,24 @@
 #ifndef MIDPOINTDIPLACEMENT_H
 #define MIDPOINTDISPLACEMENT_H
 
+
+#ifdef TERRAINGENERATOR_EXPORTS
+#define TERRAINGENERATOR_API __declspec(dllexport)
+#else
+#define TERRAINGENERATOR_API __declspec(dllimport)
+#endif
+
 #include <algorithm>
 
 
 class Heightmap;
 
-class MidPointDisplacement
+class TERRAINGENERATOR_API MidPointDisplacement
 {
 
 public:
 
-	class MidPointProperties {
+	class TERRAINGENERATOR_API MidPointProperties {
 	public:
 		MidPointProperties();
 		MidPointProperties(float s, float r);
@@ -20,6 +27,7 @@ public:
 		float roughness;
 
 	};
+
 	MidPointDisplacement();
 	MidPointDisplacement(const MidPointProperties p);
 	~MidPointDisplacement();

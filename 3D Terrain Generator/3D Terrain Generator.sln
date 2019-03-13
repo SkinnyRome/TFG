@@ -5,6 +5,11 @@ VisualStudioVersion = 15.0.27428.2037
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "3D Terrain Generator", "3D Terrain Generator\3D Terrain Generator.vcxproj", "{7EC84D0F-67A7-4C6E-92E8-1EB7B31FD318}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Example1", "Example1\Example1.vcxproj", "{691FC3BD-FE4E-4909-BD31-79CE48333405}"
+	ProjectSection(ProjectDependencies) = postProject
+		{7EC84D0F-67A7-4C6E-92E8-1EB7B31FD318} = {7EC84D0F-67A7-4C6E-92E8-1EB7B31FD318}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -21,6 +26,14 @@ Global
 		{7EC84D0F-67A7-4C6E-92E8-1EB7B31FD318}.Release|x64.Build.0 = Release|x64
 		{7EC84D0F-67A7-4C6E-92E8-1EB7B31FD318}.Release|x86.ActiveCfg = Release|Win32
 		{7EC84D0F-67A7-4C6E-92E8-1EB7B31FD318}.Release|x86.Build.0 = Release|Win32
+		{691FC3BD-FE4E-4909-BD31-79CE48333405}.Debug|x64.ActiveCfg = Debug|x64
+		{691FC3BD-FE4E-4909-BD31-79CE48333405}.Debug|x64.Build.0 = Debug|x64
+		{691FC3BD-FE4E-4909-BD31-79CE48333405}.Debug|x86.ActiveCfg = Debug|Win32
+		{691FC3BD-FE4E-4909-BD31-79CE48333405}.Debug|x86.Build.0 = Debug|Win32
+		{691FC3BD-FE4E-4909-BD31-79CE48333405}.Release|x64.ActiveCfg = Release|x64
+		{691FC3BD-FE4E-4909-BD31-79CE48333405}.Release|x64.Build.0 = Release|x64
+		{691FC3BD-FE4E-4909-BD31-79CE48333405}.Release|x86.ActiveCfg = Release|Win32
+		{691FC3BD-FE4E-4909-BD31-79CE48333405}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
