@@ -1,48 +1,39 @@
 #include <Heightmap\Heightmap.h>
 #include "TerrainGenerationTools.h"
-
+#include <algorithm>
 using namespace tools;
 
 
 #pragma region Point
+
 Point::Point() :x(0), y(0) {};
 
 Point::Point(float x, float y) : x(x), y(y) {}
 
-Point::Point(const Point& p) {
-	x = p.x;
-	y = p.y;
-}
+tools::Point::Point(float p): x(p), y (p){}
 
-float Point::operator*(const Point& p) {
+Point::Point(const Point& p):x(p.x), y(p.y) {}
 
-	return (x * p.x) + (y * p.y);
-}
+const float tools::operator*(const Point& rhp, const Point& lhp) {
 
-Point Point::operator*(const float t) {
-	return Point(x*t, y*t);
-}
-
-Point Point::operator/(const Point& p) {
-	return Point(x / p.x, y / p.y);
-}
-
-Point Point::operator-(const Point& p) {
-	return Point(x - p.x, y - p.y);
-}
-
-Point tools::Point::operator-(const Point & p) const
-{
-	return Point();
+	return (rhp.x * lhp.x) + (rhp.y * lhp.y);
 }
 
 
-Point Point::operator+(const Point& p) {
-	return Point(x + p.x, y + p.y);
+const tools::Point tools::operator/(const Point& lhp, const Point& rhp) {
+	return Point(lhp.x / rhp.x, lhp.y / rhp.y);
+}
+
+const Point tools::operator-(const Point& lhp, const Point& rhp) {
+	return Point(lhp.x - rhp.x, lhp.y - rhp.y);
+}
+
+
+const Point tools::operator+(const Point& lhp, const Point& rhp) {
+	return Point(lhp.x + rhp.x, lhp.y + rhp.y);
 }
 
 float Point::modulo() {
-
 	float xPow = (float)pow(x, 2);
 	float yPow = (float)pow(y, 2);
 	return xPow + yPow;

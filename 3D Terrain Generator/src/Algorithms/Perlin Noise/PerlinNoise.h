@@ -12,6 +12,8 @@
 #include <random>
 #include <numeric>
 
+//using NoiseFunction = float(*)(float x, float y);
+
 
 class TERRAINGENERATOR_API PerlinNoise
 {

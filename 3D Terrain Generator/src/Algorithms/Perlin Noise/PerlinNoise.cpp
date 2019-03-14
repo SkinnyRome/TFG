@@ -1,9 +1,11 @@
 #include "PerlinNoise.h"
+#include <time.h>
 
 
 
 PerlinNoise::PerlinNoise(PNProperties p):_properties(p)
 {
+	srand(time(NULL));
 
 }
 

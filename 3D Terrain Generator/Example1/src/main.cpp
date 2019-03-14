@@ -1,7 +1,5 @@
-#include <time.h>
 #include <iostream>
 #include <fstream> 
-#include <random>
 #include <conio.h>
 #include "Heightmap\Heightmap.h"
 #include "Algorithms\Perlin Noise\PerlinNoise.h"
@@ -34,7 +32,6 @@ void PrintHeightMap(const Heightmap& h) {
 int main() {
 
 
-	srand(time(NULL));
 
 	Heightmap h_mpd(3);
 	MidPointDisplacement::MidPointProperties mdp_p(0.5f, 0.5f);
