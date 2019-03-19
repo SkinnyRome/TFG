@@ -38,10 +38,10 @@ private:
 	
 	MidPointProperties _properties;
 
-	float Jitter(float value, float spread)const ;
-	int MidPoint(int a, int b)const ;
-	void MidPointDisplace(Heightmap &h, int lx, int rx, int ty, int by, float spread) const;
-	void SetRandomValues(Heightmap& h) const;
+	float Jitter(float value, float spread) ;
+	int MidPoint(int a, int b) ;
+	void MidPointDisplace(Heightmap &h, int lx, int rx, int ty, int by, float spread);
+	void SetRandomValues(Heightmap& h);
 
 };
 

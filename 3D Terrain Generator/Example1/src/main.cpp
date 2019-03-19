@@ -4,13 +4,14 @@
 #include "Heightmap\Heightmap.h"
 #include "Algorithms\Perlin Noise\PerlinNoise.h"
 #include "Algorithms\MidPointDisplacement\MidPointDisplacement.h"
+#include "Algorithms\Voronoi\VoronoiDiagram.h"
 #include <Tools\TerrainGenerationTools.h>
 
 using namespace std;
 
 void PrintHeightMap(const Heightmap& h) {
 
-	if (h.GetWidth() > 9 || h.GetHeight() > 9)
+	if (h.GetWidth() > 16 || h.GetHeight() > 16)
 		std::cout << "El Heightmap es demasiado grande" << std::endl;
 	else {
 
@@ -32,46 +33,42 @@ void PrintHeightMap(const Heightmap& h) {
 int main() {
 
 
+	Heightmap h_mpd(8);
 
-	Heightmap h_mpd(3);
-	MidPointDisplacement::MidPointProperties mdp_p(0.5f, 0.5f);
+	MidPointDisplacement::MidPointProperties mdp_p(0.3f, 0.5f);
+	
 	MidPointDisplacement mpd(mdp_p);
 
 	mpd.GenerateHeightmap(h_mpd);
 
-	//h_mpd.DumpToFile("PruebaMidPoint");
+	h_mpd.DumpToFile("MidPoint");
 
-	PrintHeightMap(h_mpd);
-
-
+	std::cout << "Mid point genereado" << std::endl;
 	//_getch();
 
 
 
 	/*------------------------------------------------------------------------------------------*/
+	
+	Heightmap h_voronoi(257,257);
+	VoronoiDiagram::VoronoiProperties voronoi_p(10, 0.8f, 0.2f);
+	VoronoiDiagram voronoi(voronoi_p);
 
+	voronoi.GenerateHeightmap(h_voronoi);
+	std::cout << "Voronoi genereado" << std::endl;
+	
 
-
-
-	Heightmap h_pn(9, 9);
-	//PerlinNoise::PNProperties perlin_pn(2500);
-	//PerlinNoise pn(perlin_pn);
-
-	//pn.GenerateHeightmap(h_pn);
-
-	//h_pn.DumpToFile("PruebaPerlin");
-
-	//PrintHeightMap(h_pn);
-
-	//_getch();
+	h_voronoi.DumpToFile("Voronoi2");
 
 	/*-----------------------------------------------------------------------------------------*/
 
-	//tools::MixHeightmaps(h_mpd, h_pn, 0.5f);
+	tools::MixHeightmaps(h_mpd, h_voronoi, 0.67f);
 
 	//PrintHeightMap(h_mpd);
 
-	_getch();
+	h_mpd.DumpToFile("MixedHeightmap");
+
+	//_getch();
 
 	return 0;
 }

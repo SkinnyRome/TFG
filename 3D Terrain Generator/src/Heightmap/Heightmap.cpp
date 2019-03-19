@@ -16,7 +16,7 @@ Heightmap::Heightmap(int width, int height):_exponent(0), _width(width), _height
 
 }
 
-Heightmap::Heightmap(int exponent):_exponent(exponent), _width(static_cast<int>(pow(2,_exponent))), _height(_width), _heightmap(_width, vector<float>(_height))
+Heightmap::Heightmap(int exponent):_exponent(exponent), _width(static_cast<int>(pow(2,_exponent)) + 1), _height(_width), _heightmap(_width, vector<float>(_height))
 {
 	
 }

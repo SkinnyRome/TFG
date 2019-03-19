@@ -8,6 +8,7 @@
 #define TERRAINGENERATOR_API __declspec(dllimport)
 #endif
 
+#include <vector>
 #include <Tools\TerrainGenerationTools.h>
 
 class Heightmap;
@@ -20,7 +21,7 @@ public:
 	class  TERRAINGENERATOR_API VoronoiProperties {
 	public:
 		VoronoiProperties();
-		VoronoiProperties(int nOS, float fO, float dO);
+		VoronoiProperties(int nSites, float fallOff, float dropOff);
 
 		int numOfSites;
 		float fallOff;
@@ -36,6 +37,7 @@ private:
 
 
 	VoronoiProperties _properties;
+	std::vector<float> _sitesCoefficients;
 	tools::Point CreateRandomSite(const Heightmap &h);
 
 };

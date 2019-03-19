@@ -23,7 +23,7 @@ void MidPointDisplacement::GenerateHeightmap(Heightmap & h)
 	h[0][0] = tools::GetRandomValueBetween(0.0f, 1.0f);					//Top-left corner
 	h[h.GetWidth() - 1][0] = tools::GetRandomValueBetween(0.0f, 1.0f); ;			//Top-right corner
 	h[0][h.GetHeight() - 1] = tools::GetRandomValueBetween(0.0f, 1.0f); ;	//Bot-left corner
-	h[h.GetWidth() -1][h.GetHeight() - 1] =tools::GetRandomValueBetween(0.0f, 1.0f); ;	//Top-left corner
+	h[h.GetWidth() -1][h.GetHeight() - 1] =tools::GetRandomValueBetween(0.0f, 1.0f); ;	//Bot-right corner
 
 																	//Calculate the iterations needed to compute all the points (equal to exponent value)
 	int iterations = h.GetExponent(); //TODO comprobar que el heightmap es cuadrado
@@ -49,8 +49,8 @@ void MidPointDisplacement::GenerateHeightmap(Heightmap & h)
 
 				int left_x = (blockSize * x);
 				int right_x = (left_x + blockSize);
-				int bottom_y = (blockSize * y);
-				int top_y = (bottom_y + blockSize);
+				int top_y = (blockSize * y);
+				int bottom_y = (top_y + blockSize);
 
 				MidPointDisplace(h, left_x, right_x, top_y, bottom_y, auxSpread);
 
@@ -71,26 +71,26 @@ void MidPointDisplacement::GenerateHeightmap(Heightmap & h)
 
 
 
-float MidPointDisplacement::Jitter(float value, float spread) const
+float MidPointDisplacement::Jitter(float value, float spread)
 {
 	return value += tools::GetRandomValueBetween(-spread, spread);
 }
 
-int MidPointDisplacement::MidPoint(int a, int b) const
+int MidPointDisplacement::MidPoint(int a, int b)
 {
 	return (a + b) / 2;
 }
 
 
-void MidPointDisplacement::MidPointDisplace(Heightmap & h, int lx, int rx, int ty, int by, float spread) const
+void MidPointDisplacement::MidPointDisplace(Heightmap & h, int lx, int rx, int ty, int by, float spread) 
 {
 	//Obtain the axis center points of the block
 	int cx = MidPoint(lx, rx);
 	int cy = MidPoint(ty, by);
 
 	//Get the values of the corner of the block in the heightmap
-	float top_left = h[ty][lx];
-	float top_right = h[ty][rx];
+	float top_left = h[lx][ty];
+	float top_right = h[rx][ty];
 	float bottom_left = h[lx][by];
 	float bottom_right = h[rx][by];
 
@@ -108,7 +108,7 @@ void MidPointDisplacement::MidPointDisplace(Heightmap & h, int lx, int rx, int t
 	h[cx][cy] = Jitter(center, spread);
 }
 
-void MidPointDisplacement::SetRandomValues(Heightmap &h) const
+void MidPointDisplacement::SetRandomValues(Heightmap &h) 
 {
 	for (int i = 0; i < h.GetWidth(); i++) {
 		for (int j = 0; j < h.GetHeight(); j++) {
