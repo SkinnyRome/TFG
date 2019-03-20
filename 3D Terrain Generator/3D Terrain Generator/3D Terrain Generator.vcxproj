@@ -106,6 +106,9 @@
     <Link>
       <SubSystem>Console</SubSystem>
     </Link>
+    <PostBuildEvent>
+      <Command>copy "$(SolutionDir)Library\$(Configuration)\$(Platform)\$(TargetFileName) " "$(SolutionDir)Example1\Exes\$(Configuration)\$(Platform)\"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -118,6 +121,9 @@
     <Link>
       <SubSystem>Console</SubSystem>
     </Link>
+    <PostBuildEvent>
+      <Command>copy "$(SolutionDir)Library\$(Configuration)\$(Platform)\$(TargetFileName) " "$(SolutionDir)Example1\Exes\$(Configuration)\$(Platform)\"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -134,6 +140,9 @@
       <OptimizeReferences>true</OptimizeReferences>
       <SubSystem>Windows</SubSystem>
     </Link>
+    <PostBuildEvent>
+      <Command>copy "$(SolutionDir)Library\$(Configuration)\$(Platform)\$(TargetFileName) " "$(SolutionDir)Example1\Exes\$(Configuration)\$(Platform)\"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -150,6 +159,9 @@
       <OptimizeReferences>true</OptimizeReferences>
       <SubSystem>Windows</SubSystem>
     </Link>
+    <PostBuildEvent>
+      <Command>copy "$(SolutionDir)Library\$(Configuration)\$(Platform)\$(TargetFileName) " "$(SolutionDir)Example1\Exes\$(Configuration)\$(Platform)\"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\src\Algorithms\CutAlgorithm\CutAlgorithm.cpp" />

@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream> 
 #include <conio.h>
+#include <time.h>
 #include "Heightmap\Heightmap.h"
 #include "Algorithms\Perlin Noise\PerlinNoise.h"
 #include "Algorithms\MidPointDisplacement\MidPointDisplacement.h"
@@ -33,7 +34,9 @@ void PrintHeightMap(const Heightmap& h) {
 int main() {
 
 
-	Heightmap h_mpd(8);
+	srand(time(NULL)); //TODO: meter inicialización a la libreria para esto
+
+	Heightmap h_mpd(9);
 
 	MidPointDisplacement::MidPointProperties mdp_p(0.3f, 0.5f);
 	
@@ -41,7 +44,7 @@ int main() {
 
 	mpd.GenerateHeightmap(h_mpd);
 
-	h_mpd.DumpToFile("MidPoint");
+	h_mpd.DumpToFile("MixedHeightmaps/MidPoint");
 
 	std::cout << "Mid point genereado" << std::endl;
 	//_getch();
@@ -50,23 +53,28 @@ int main() {
 
 	/*------------------------------------------------------------------------------------------*/
 	
-	Heightmap h_voronoi(257,257);
+	Heightmap h_voronoi(9);
 	VoronoiDiagram::VoronoiProperties voronoi_p(10, 0.8f, 0.2f);
 	VoronoiDiagram voronoi(voronoi_p);
 
 	voronoi.GenerateHeightmap(h_voronoi);
+	h_voronoi.DumpToFile("MixedHeightmaps/Voronoi");
 	std::cout << "Voronoi genereado" << std::endl;
 	
 
-	h_voronoi.DumpToFile("Voronoi2");
 
 	/*-----------------------------------------------------------------------------------------*/
 
-	tools::MixHeightmaps(h_mpd, h_voronoi, 0.67f);
+	Heightmap h_copy(h_mpd);
+
+	tools::MixHeightmaps(h_mpd, h_voronoi, 0.5f, 0.0f);
+	tools::MixHeightmaps(h_copy, h_voronoi, 0.5f, 200.0f);
 
 	//PrintHeightMap(h_mpd);
+	h_mpd.DumpToFile("MixedHeightmaps/MixedHeightmapNoPerturbation");
+	h_copy.DumpToFile("MixedHeightmaps/MixedHeightmapPerturbated");
 
-	h_mpd.DumpToFile("MixedHeightmap");
+	std::cout << "Heigthmaps mezclados" << std::endl;
 
 	//_getch();
 

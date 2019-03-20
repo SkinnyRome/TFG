@@ -1,6 +1,7 @@
 #include <Heightmap\Heightmap.h>
 #include "TerrainGenerationTools.h"
 #include <algorithm>
+#include <Algorithms\MidPointDisplacement\MidPointDisplacement.h>
 using namespace tools;
 
 
@@ -59,7 +60,7 @@ float tools::Average4(float a, float b, float c, float d) {
 
 }
 
-void tools::MixHeightmaps(Heightmap & h1, const Heightmap & h2, float influence)
+void tools::MixHeightmaps(Heightmap & h1, const Heightmap & h2, float influence, float perturbation)
 {
 
 	//TODO: forzar a que el valor de influence esté entre [0.0f, 1.0f]
@@ -84,12 +85,64 @@ void tools::MixHeightmaps(Heightmap & h1, const Heightmap & h2, float influence)
 	for (int i = 0; i < hWidth; i++) {
 		for (int j = 0; j < hHeight; j++) {
 			h1[i][j] = (h1[i][j] * h1Influence) + (h2[i][j] *  h2Influence);
+			
 		}
 
 	}
 
+	
+	ApplyFilter(h1, perturbation);
+	
+
+	//TODO return un Heightmap para optimizar las cosas
+
+
+
 
 	h1.Normalize();
+
+}
+
+void tools::ApplyFilter(Heightmap & h, int magnitude)
+{
+
+	Heightmap copy(h);
+
+	Heightmap hMpd1(h.GetExponent());
+	Heightmap hMpd2(h.GetExponent());
+
+	MidPointDisplacement::MidPointProperties mdp_p(0.3f, 0.5f);
+
+	MidPointDisplacement mpd(mdp_p);
+
+	mpd.GenerateHeightmap(hMpd1);
+	mpd.GenerateHeightmap(hMpd2);
+
+	int xIndex, yIndex, xRandDisplacement, yRandDisplacement;
+
+	for (int i = 0; i < h.GetWidth(); i++) {
+		for (int j = 0; j < h.GetHeight(); j++) {
+
+			xRandDisplacement = (round((magnitude * (hMpd1[i][j] - 0.5f))));
+			yRandDisplacement = (round((magnitude * (hMpd2[i][j] - 0.5f))));
+
+			xIndex = static_cast<int>(abs(i + xRandDisplacement));
+			if (xIndex >= h.GetWidth()) {
+				xIndex = (xIndex >= h.GetWidth()) ? xIndex - (xIndex - h.GetWidth()) -1 : xIndex;
+			}
+
+			yIndex = static_cast<int>(abs(j + yRandDisplacement));
+			yIndex = (yIndex >= h.GetHeight()) ? yIndex - (yIndex - h.GetHeight()) - 1 : yIndex;
+
+			//TODO: hacer que cuando un índice se salga de la matriz, ponerlo al máximo para que no de la vuelta, que queda mal.
+			h[i][j] = copy[xIndex][yIndex];			
+
+
+		}
+
+
+	}
+
 
 }
 

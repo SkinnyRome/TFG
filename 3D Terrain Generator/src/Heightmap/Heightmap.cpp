@@ -76,7 +76,7 @@ void Heightmap::Normalize()
 	}
 
 #ifdef _DEBUG
-	cout << "Max " << max << " Min " << min << endl;
+	//cout << "Max " << max << " Min " << min << endl;
 #endif
 
 	//Normalize
