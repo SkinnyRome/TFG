@@ -6,6 +6,7 @@
 #include "Algorithms\Perlin Noise\PerlinNoise.h"
 #include "Algorithms\MidPointDisplacement\MidPointDisplacement.h"
 #include "Algorithms\Voronoi\VoronoiDiagram.h"
+#include "Algorithms\Eroders\Thermal\ThermalEroder.h"
 #include <Tools\TerrainGenerationTools.h>
 
 using namespace std;
@@ -33,10 +34,11 @@ void PrintHeightMap(const Heightmap& h) {
 
 int main() {
 
+	constexpr int exponent = 9;
 
 	srand(time(NULL)); //TODO: meter inicialización a la libreria para esto
 
-	Heightmap h_mpd(9);
+	Heightmap h_mpd(exponent);
 
 	MidPointDisplacement::MidPointProperties mdp_p(0.3f, 0.5f);
 	
@@ -53,7 +55,7 @@ int main() {
 
 	/*------------------------------------------------------------------------------------------*/
 	
-	Heightmap h_voronoi(9);
+	Heightmap h_voronoi(exponent);
 	VoronoiDiagram::VoronoiProperties voronoi_p(10, 0.8f, 0.2f);
 	VoronoiDiagram voronoi(voronoi_p);
 
@@ -68,7 +70,7 @@ int main() {
 	Heightmap h_copy(h_mpd);
 
 	tools::MixHeightmaps(h_mpd, h_voronoi, 0.5f, 0.0f);
-	tools::MixHeightmaps(h_copy, h_voronoi, 0.5f, 200.0f);
+	tools::MixHeightmaps(h_copy, h_voronoi, 0.5f, 0.5f);
 
 	//PrintHeightMap(h_mpd);
 	h_mpd.DumpToFile("MixedHeightmaps/MixedHeightmapNoPerturbation");
@@ -77,6 +79,14 @@ int main() {
 	std::cout << "Heigthmaps mezclados" << std::endl;
 
 	//_getch();
+
+	/*------------------------------------------------------------------------------------------*/
+
+	ThermalEroder t;
+
+	t.Erode(h_copy);
+
+	h_copy.DumpToFile("Eroded");
 
 	return 0;
 }

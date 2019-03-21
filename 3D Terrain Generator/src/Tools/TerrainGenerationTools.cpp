@@ -63,6 +63,8 @@ float tools::Average4(float a, float b, float c, float d) {
 void tools::MixHeightmaps(Heightmap & h1, const Heightmap & h2, float influence, float perturbation)
 {
 
+	
+
 	//TODO: forzar a que el valor de influence esté entre [0.0f, 1.0f]
 
 	int hWidth = h2.GetWidth();
@@ -90,16 +92,13 @@ void tools::MixHeightmaps(Heightmap & h1, const Heightmap & h2, float influence,
 
 	}
 
+	int magnitude = static_cast<int>((0.5f * h1.GetWidth()) * perturbation);
 	
-	ApplyFilter(h1, perturbation);
+	ApplyFilter(h1, magnitude);
 	
 
 	//TODO return un Heightmap para optimizar las cosas
 
-
-
-
-	h1.Normalize();
 
 }
 
@@ -127,9 +126,8 @@ void tools::ApplyFilter(Heightmap & h, int magnitude)
 			yRandDisplacement = (round((magnitude * (hMpd2[i][j] - 0.5f))));
 
 			xIndex = static_cast<int>(abs(i + xRandDisplacement));
-			if (xIndex >= h.GetWidth()) {
-				xIndex = (xIndex >= h.GetWidth()) ? xIndex - (xIndex - h.GetWidth()) -1 : xIndex;
-			}
+			xIndex = (xIndex >= h.GetWidth()) ? xIndex - (xIndex - h.GetWidth()) -1 : xIndex;
+		
 
 			yIndex = static_cast<int>(abs(j + yRandDisplacement));
 			yIndex = (yIndex >= h.GetHeight()) ? yIndex - (yIndex - h.GetHeight()) - 1 : yIndex;
@@ -143,7 +141,7 @@ void tools::ApplyFilter(Heightmap & h, int magnitude)
 
 	}
 
-
+	h.Normalize();
 }
 
 

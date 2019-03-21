@@ -19,6 +19,18 @@
     <Filter Include="Archivos de origen\Algorithm">
       <UniqueIdentifier>{1054bc7b-f1eb-4259-8845-f40b8dffa288}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Archivos de encabezado\Algorithms\Generators">
+      <UniqueIdentifier>{432f632c-ccee-4500-bc54-73179de4f7fb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de encabezado\Algorithms\Eroders">
+      <UniqueIdentifier>{c4a7c9bc-fee0-4b58-8c09-47a445ad272c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de origen\Algorithm\Generators">
+      <UniqueIdentifier>{a69bfe47-3b27-4576-b96a-3b227525c41d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de origen\Algorithm\Eroders">
+      <UniqueIdentifier>{8cff0ff4-21bc-45f4-bc7e-d7637c98e56c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\Heightmap\Heightmap.cpp">
@@ -31,16 +43,19 @@
       <Filter>Archivos de origen</Filter>
     </ClCompile>
     <ClCompile Include="..\src\Algorithms\CutAlgorithm\CutAlgorithm.cpp">
-      <Filter>Archivos de origen\Algorithm</Filter>
+      <Filter>Archivos de origen\Algorithm\Generators</Filter>
     </ClCompile>
     <ClCompile Include="..\src\Algorithms\MidPointDisplacement\MidPointDisplacement.cpp">
-      <Filter>Archivos de origen\Algorithm</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\Algorithms\Perlin Noise\PerlinNoise.cpp">
-      <Filter>Archivos de origen\Algorithm</Filter>
+      <Filter>Archivos de origen\Algorithm\Generators</Filter>
     </ClCompile>
     <ClCompile Include="..\src\Algorithms\Voronoi\VoronoiDiagram.cpp">
-      <Filter>Archivos de origen\Algorithm</Filter>
+      <Filter>Archivos de origen\Algorithm\Generators</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Algorithms\Perlin Noise\PerlinNoise.cpp">
+      <Filter>Archivos de origen\Algorithm\Generators</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Algorithms\Eroders\Thermal\ThermalEroder.cpp">
+      <Filter>Archivos de origen\Algorithm\Eroders</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -53,17 +68,20 @@
     <ClInclude Include="..\src\UserAPI\UserAPI.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\Algorithms\CutAlgorithm\CutAlgorithm.h">
-      <Filter>Archivos de encabezado\Algorithms</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\Algorithms\MidPointDisplacement\MidPointDisplacement.h">
-      <Filter>Archivos de encabezado\Algorithms</Filter>
+    <ClInclude Include="..\src\Algorithms\Voronoi\VoronoiDiagram.h">
+      <Filter>Archivos de encabezado\Algorithms\Generators</Filter>
     </ClInclude>
     <ClInclude Include="..\src\Algorithms\Perlin Noise\PerlinNoise.h">
-      <Filter>Archivos de encabezado\Algorithms</Filter>
+      <Filter>Archivos de encabezado\Algorithms\Generators</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\Algorithms\Voronoi\VoronoiDiagram.h">
-      <Filter>Archivos de encabezado\Algorithms</Filter>
+    <ClInclude Include="..\src\Algorithms\MidPointDisplacement\MidPointDisplacement.h">
+      <Filter>Archivos de encabezado\Algorithms\Generators</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Algorithms\CutAlgorithm\CutAlgorithm.h">
+      <Filter>Archivos de encabezado\Algorithms\Generators</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Algorithms\Eroders\Thermal\ThermalEroder.h">
+      <Filter>Archivos de encabezado\Algorithms\Eroders</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
