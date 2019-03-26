@@ -82,9 +82,12 @@ int main() {
 
 	/*------------------------------------------------------------------------------------------*/
 
-	ThermalEroder t;
+	
+	ErosionProperties erosion(ErosionType::THERMAL);
+	
+	
 
-	t.Erode(h_copy);
+	ErodeHeightmap(h_copy, erosion);
 
 	h_copy.DumpToFile("Eroded");
 

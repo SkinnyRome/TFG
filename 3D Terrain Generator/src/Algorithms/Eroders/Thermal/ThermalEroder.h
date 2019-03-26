@@ -9,21 +9,50 @@
 #endif
 
 
+enum class ErosionType {THERMAL, AQUA};
+
+struct TERRAINGENERATOR_API ThermalErosionProp {
+
+	ThermalErosionProp() :nIterations(50), tAngle(4.0f), cFactor(0.5f) {}
+
+	int nIterations;
+	float tAngle;
+	float cFactor;
+};
+
+struct TERRAINGENERATOR_API AquaErosionProp {
+
+};
+
+struct TERRAINGENERATOR_API ErosionProperties {
+
+	ErosionProperties() = delete;
+
+	ErosionProperties(ErosionType t);
+	
+	ErosionType type;
+
+	union {
+		struct {
+			int nIterations;
+			float tAngle;
+			float cFactor;
+		} pThermal;
+		struct { int a; } pAqua;
+	};
+
+};
+
+
 class Heightmap;
 
-class TERRAINGENERATOR_API ThermalEroder
-{
-private:
 
-	bool IsAccessible(const int& i, const int& j, const int &w, const int &h);
-
-public:
+bool IsInRange(const int& i, const int& j, const int &w, const int &h);
 
 
-	ThermalEroder();
-	~ThermalEroder();
+void TERRAINGENERATOR_API ErodeHeightmap(Heightmap& h, ErosionProperties pErosion);
 
-	void Erode(Heightmap& h);
-};
+void ThermalErosion(Heightmap& h, int nIterations, float tAngle, float cFactor);
+
 
 #endif //THERMALERODER_H

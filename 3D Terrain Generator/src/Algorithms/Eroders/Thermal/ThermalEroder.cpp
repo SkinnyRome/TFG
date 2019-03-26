@@ -3,29 +3,43 @@
 
 using Cell = std::pair<int, int>;
 
-bool ThermalEroder::IsAccessible(const int & i, const int & j, const int & w, const int & h)
+
+bool IsInRange(const int & i, const int & j, const int & w, const int & h)
 {
 	return ((i >= 0 && i < w) && (j >= 0 && j < h));
 }
 
-ThermalEroder::ThermalEroder()
-{
+void ErodeHeightmap(Heightmap& h, ErosionProperties p) {
+
+	switch (p.type)
+	{
+	case ErosionType::THERMAL:
+		ThermalErosion(h, p.pThermal.nIterations, p.pThermal.tAngle, p.pThermal.cFactor);
+		break;
+	case ErosionType::AQUA:
+		break;
+	default:
+#ifdef _DEBUG
+		std::cout << "The erosion type is neither valid or setted";
+#endif
+		break;
+	}
+
+
 }
 
 
-ThermalEroder::~ThermalEroder()
-{
-}
 
-void ThermalEroder::Erode(Heightmap & h)
+
+void ThermalErosion(Heightmap & h, int nIterations, float tAngle, float cFactor)
 {
 	const int hWidth = h.GetWidth();
 	const int hHeight = h.GetHeight();
 
-	const float talusAngle = 4.0f / (float)h.GetWidth();
-	const float c = 0.5f;
+	const float talusAngle = tAngle / (float)h.GetWidth();
+	const float c = cFactor;
 
-	const int iterations = 50;
+	const int iterations = nIterations;
 
 	const std::vector<Cell> vNeighboursIndex = { {1,0},{0,1},{-1,0},{0,-1} };	//Von Neuman neigbours index.
 
@@ -45,7 +59,7 @@ void ThermalEroder::Erode(Heightmap & h)
 
 					Cell mNeighbourCell(i + c.first, j + c.second);
 
-					if (IsAccessible(mNeighbourCell.first, mNeighbourCell.second, hWidth, hHeight)) {
+					if (IsInRange(mNeighbourCell.first, mNeighbourCell.second, hWidth, hHeight)) {
 						d = h[i][j] - h[mNeighbourCell.first][mNeighbourCell.second];
 
 						if (d > talusAngle) {
@@ -74,4 +88,20 @@ void ThermalEroder::Erode(Heightmap & h)
 	}
 
 	h.Normalize();
+}
+
+ErosionProperties::ErosionProperties(ErosionType t):type(t)
+{
+	switch (type)
+	{
+	case ErosionType::THERMAL:
+		pThermal.nIterations = 5;
+		pThermal.tAngle = 0.4f;
+		pThermal.cFactor = 0.5f;
+		break;
+	case ErosionType::AQUA:
+		break;
+	default:
+		break;
+	}
 }
