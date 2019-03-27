@@ -14,6 +14,9 @@ public class TerrainGenerator3DPlugin : MonoBehaviour{
         float f = GetRandomValueBetween(1, 12);
         Debug.Log("heeey" + f);
 
+        float j = Average2(1, 2);
+        Debug.Log("MEDIA" + j);
+
 
     }
 
@@ -29,6 +32,9 @@ public class TerrainGenerator3DPlugin : MonoBehaviour{
     //Metodos privados para llamar al plugin
     [DllImport ("3D Terrain Generator_d")]
     private static extern float GetRandomValueBetween(float a, float b);
+
+    [DllImport("3D Terrain Generator_d")]
+    private static extern float Average2(float a, float b);
 
     /*Necesitamos crear un wrapper para poder usar los objetos.
      * En la lib c++ en las funciones que queramos usar en unity hay que poner
