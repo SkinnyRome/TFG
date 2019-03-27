@@ -34,7 +34,7 @@ void PrintHeightMap(const Heightmap& h) {
 
 int main() {
 
-	constexpr int exponent = 9;
+	constexpr int exponent = 7;
 
 	srand(time(NULL)); //TODO: meter inicialización a la libreria para esto
 
@@ -67,14 +67,14 @@ int main() {
 
 	/*-----------------------------------------------------------------------------------------*/
 
-	Heightmap h_copy(h_mpd);
+	Heightmap h_mixed(h_mpd);
 
 	tools::MixHeightmaps(h_mpd, h_voronoi, 0.5f, 0.0f);
-	tools::MixHeightmaps(h_copy, h_voronoi, 0.5f, 0.5f);
+	tools::MixHeightmaps(h_mixed, h_voronoi, 0.5f, 0.5f);
 
 	//PrintHeightMap(h_mpd);
 	h_mpd.DumpToFile("MixedHeightmaps/MixedHeightmapNoPerturbation");
-	h_copy.DumpToFile("MixedHeightmaps/MixedHeightmapPerturbated");
+	h_mixed.DumpToFile("MixedHeightmaps/MixedHeightmapPerturbated");
 
 	std::cout << "Heigthmaps mezclados" << std::endl;
 
@@ -83,13 +83,18 @@ int main() {
 	/*------------------------------------------------------------------------------------------*/
 
 	
-	ErosionProperties erosion(ErosionType::THERMAL);
+	ErosionProperties erosion_hydraulic(ErosionType::HYDRAULIC);
+	ErosionProperties erosion_thermal(ErosionType::THERMAL);
 	
-	
+	Heightmap h_thermal(h_mixed);
+	Heightmap h_hydraulic(h_mixed);
 
-	ErodeHeightmap(h_copy, erosion);
 
-	h_copy.DumpToFile("Eroded");
+	ErodeHeightmap(h_thermal, erosion_thermal);
+	ErodeHeightmap(h_hydraulic, erosion_hydraulic);
+
+	h_thermal.DumpToFile("ErodedThermal");
+	h_hydraulic.DumpToFile("ErodedHydraylic");
 
 	return 0;
 }

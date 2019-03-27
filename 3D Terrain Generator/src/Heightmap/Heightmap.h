@@ -10,6 +10,7 @@
 
 #include <vector>
 #include <iostream>
+#include <stdexcept>
 
 
 using namespace std;
@@ -36,6 +37,10 @@ public:
 
 	const vector<float>& operator[](int i) const { return _heightmap[i]; }
 	vector<float>& operator[](int i)  { return _heightmap[i]; }
+	inline Heightmap operator+(const float a);
+	inline Heightmap operator*(const float a);
+	
+
 	bool IsSquare() const;
 
 	void Resize(int width, int height);
@@ -45,10 +50,15 @@ public:
 	int GetHeight() const { return _height; }
 	int GetExponent() const { return _exponent; }
 
+	void SetExponent(int exponent) { _exponent = exponent; }
+
 	void Normalize();
 	void DumpToFile(string filename, RawMode mode = B_16);
 	
 	
 };
+
+inline TERRAINGENERATOR_API Heightmap operator+(const Heightmap& lhh, const Heightmap& rhh);
+inline TERRAINGENERATOR_API Heightmap operator-(const Heightmap& lhh, const Heightmap& rhh);
 
 #endif

@@ -1,6 +1,8 @@
 #ifndef THERMALERODER_H
 #define THERMALERODER_H
 
+#include <vector>
+#include <utility>
 
 #ifdef TERRAINGENERATOR_EXPORTS
 #define TERRAINGENERATOR_API __declspec(dllexport)
@@ -8,8 +10,12 @@
 #define TERRAINGENERATOR_API __declspec(dllimport)
 #endif
 
+class Heightmap;
 
-enum class ErosionType {THERMAL, AQUA};
+using Cell = std::pair<int, int>;
+
+
+enum class ErosionType {THERMAL, HYDRAULIC};
 
 struct TERRAINGENERATOR_API ThermalErosionProp {
 
@@ -38,13 +44,13 @@ struct TERRAINGENERATOR_API ErosionProperties {
 			float tAngle;
 			float cFactor;
 		} pThermal;
-		struct { int a; } pAqua;
+		struct { int a; } pHydraulic;
 	};
 
 };
 
 
-class Heightmap;
+const std::vector<Cell> vNeighboursIndex{ { 1,0 },{ 0,1 },{ -1,0 },{ 0,-1 } };	//Von Neuman neigbours index.
 
 
 bool IsInRange(const int& i, const int& j, const int &w, const int &h);
@@ -53,6 +59,8 @@ bool IsInRange(const int& i, const int& j, const int &w, const int &h);
 void TERRAINGENERATOR_API ErodeHeightmap(Heightmap& h, ErosionProperties pErosion);
 
 void ThermalErosion(Heightmap& h, int nIterations, float tAngle, float cFactor);
+
+void HydraulicErosion(Heightmap& h, int nIterations);
 
 
 #endif //THERMALERODER_H

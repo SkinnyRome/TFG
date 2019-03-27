@@ -26,6 +26,26 @@ Heightmap::~Heightmap()
 {
 }
 
+Heightmap Heightmap::operator+(const float a)
+{
+	for (int i = 0; i < _width; i++) {
+		for (int j = 0; j < _height; j++) {
+			_heightmap[i][j] += a;
+		}
+	}
+	return *this;
+}
+
+inline Heightmap Heightmap::operator*(const float a)
+{
+	for (int i = 0; i < _width; i++) {
+		for (int j = 0; j < _height; j++) {
+			_heightmap[i][j] *= a;
+		}
+	}
+	return *this;
+}
+
 bool Heightmap::IsSquare() const
 {
 	return _exponent > 0;
@@ -118,4 +138,37 @@ void Heightmap::DumpToFile(string filename, RawMode mode)
 
 }
 
+inline TERRAINGENERATOR_API Heightmap operator+(const Heightmap & lhh, const Heightmap & rhh)
+{
 
+	if (lhh.GetWidth() != rhh.GetWidth() || lhh.GetHeight() != rhh.GetHeight()) {
+		throw length_error{ "The heightmaps size are diferent" };
+	}
+
+
+
+	Heightmap heightmap_add(lhh.GetWidth(), lhh.GetHeight());
+	for (int i = 0; i < lhh.GetWidth(); i++) {
+		for (int j = 0; j < lhh.GetHeight(); j++) {
+			heightmap_add[i][j] = lhh[i][j] + rhh[i][j];
+		}
+	}
+
+	return heightmap_add;
+}
+
+inline TERRAINGENERATOR_API Heightmap operator-(const Heightmap & lhh, const Heightmap & rhh)
+{
+	if (lhh.GetWidth() != rhh.GetWidth() || lhh.GetHeight() != rhh.GetHeight()) {
+		throw length_error{ "The heightmaps size are diferent" };
+	}
+
+	Heightmap heightmap_add(lhh.GetWidth(), lhh.GetHeight());
+	for (int i = 0; i < lhh.GetWidth(); i++) {
+		for (int j = 0; j < lhh.GetHeight(); j++) {
+			heightmap_add[i][j] = lhh[i][j] - rhh[i][j];
+		}
+	}
+
+	return heightmap_add;
+}
