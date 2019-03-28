@@ -14,10 +14,12 @@ void ErodeHeightmap(Heightmap& h, ErosionProperties p) {
 	switch (p.type)
 	{
 	case ErosionType::THERMAL:
-		ThermalErosion(h, p.pThermal.nIterations, p.pThermal.tAngle, p.pThermal.cFactor);
+		ThermalErosion(h, p.number_of_iterations, p.pThermal.talus_angle, p.pThermal.cFactor);
 		break;
 	case ErosionType::HYDRAULIC:
-		HydraulicErosion(h, 5);
+		HydraulicErosion(h, p.number_of_iterations,p.pHydraulic.capacity_constant,
+			p.pHydraulic.evaporation_constant, p.pHydraulic.rain_constant,
+			p.pHydraulic.sediment_constant);
 		break;
 	default:
 #ifdef _DEBUG
@@ -91,7 +93,7 @@ void ThermalErosion(Heightmap & h, int nIterations, float tAngle, float cFactor)
 	h.Normalize();
 }
 
-void HydraulicErosion(Heightmap & h, int nIterations)
+void HydraulicErosion(Heightmap & h, int nIterations, float c_c, float e_c, float r_c, float s_c )
 {
 	//Water heightmap
 	Heightmap water(h.GetWidth(), h.GetHeight());
@@ -101,10 +103,7 @@ void HydraulicErosion(Heightmap & h, int nIterations)
 
 
 
-	float Kr = 0.01f;
-	float Ks = 0.01f;
-	float Ke = 0.5f;
-	float Kc = 0.01f;
+	float rain_value{};
 
 	const int hWidth = h.GetWidth();
 	const int hHeight = h.GetHeight();
@@ -115,17 +114,17 @@ void HydraulicErosion(Heightmap & h, int nIterations)
 	for (int it = 0; it < iterations; it++) {
 
 		//Set Kr value
-		Kr = tools::GetRandomValueBetween(0.01f, 0.1f);
+		rain_value = tools::GetRandomValueBetween(0.01f, r_c);
 
 		//Add water
-		water = water + Kr;
+		water = water + rain_value;
 
 
 		//Convert to sediment
-		h = h - (water * Ks);
+		h = h - (water * s_c);
 
 		//Add sediment
-		sediment = sediment + (water * Ks);
+		sediment = sediment + (water * s_c);
 
 		//Normalize
 		//h.Normalize();
@@ -136,14 +135,9 @@ void HydraulicErosion(Heightmap & h, int nIterations)
 			for (int j = 0; j < hHeight; j++) {
 
 				float a = h[i][j] + water[i][j];
-				float a_min = 1.0f;
-				Cell low_neigbour {};
-				float dMax = 0.0f;
 				float aTotal = 0.0f;
 				float dTotal = 0.0f;
-				float d;
 				int cells = 0;
-				int n = 0;
 				for (const Cell& c : vNeighboursIndex) {
 
 					Cell neigh_cell(i + c.first, j + c.second);
@@ -153,7 +147,7 @@ void HydraulicErosion(Heightmap & h, int nIterations)
 						float d = a - a_neighbour;
 						if (d > 0.0f) {
 							dTotal += d;
-							aTotal += a;
+							aTotal += a_neighbour;
 							cells += 1;
 							vNeighbours.push_back({ std::move(neigh_cell), d });
 						}
@@ -165,23 +159,27 @@ void HydraulicErosion(Heightmap & h, int nIterations)
 				float a_average = aTotal / static_cast<float>(cells);
 				
 				for (auto& n : vNeighbours) {
+					float a_neighbour = h[n.first.first][n.first.second] + water[n.first.first][n.first.second];
 					float a_diference = a - a_average;
-					float d_i = a - n.second;
+
+					float d_i = a - a_neighbour;
 					//Move water
 					float water_moved = std::fminf(water[i][j], a_diference) * (d_i / dTotal);
-					water[i][j] -= water_moved;
-					water[n.first.first][n.first.second] += water_moved;
 
 					//Move sediment
 					float seditmen_moved = sediment[i][j] * (water_moved / water[i][j]);
+
+					water[i][j] -= water_moved;
+					water[n.first.first][n.first.second] += water_moved;
+
 					sediment[i][j] -= seditmen_moved;
 					sediment[n.first.first][n.first.second] += seditmen_moved;
 				}
 					
 				//Water evaporation
-				water[i][j] = water[i][j] * (1 - Ke);
+				water[i][j] = water[i][j] * (1 - e_c);
 
-				float max_sediment = Kc * water[i][j];
+				float max_sediment = c_c * water[i][j];
 				
 				float sediment_amount = fmaxf(0.0f, sediment[i][j] - max_sediment);
 
@@ -206,14 +204,20 @@ void HydraulicErosion(Heightmap & h, int nIterations)
 
 ErosionProperties::ErosionProperties(ErosionType t):type(t)
 {
+		
+	number_of_iterations = 5;
+	
 	switch (type)
 	{
 	case ErosionType::THERMAL:
-		pThermal.nIterations = 5;
-		pThermal.tAngle = 0.4f;
+		pThermal.talus_angle = 0.4f;
 		pThermal.cFactor = 0.5f;
 		break;
 	case ErosionType::HYDRAULIC:
+		pHydraulic.capacity_constant = 0.1f;
+		pHydraulic.evaporation_constant = 0.5f;
+		pHydraulic.rain_constant = 0.4f;
+		pHydraulic.sediment_constant = 0.1f;
 		break;
 	default:
 		break;

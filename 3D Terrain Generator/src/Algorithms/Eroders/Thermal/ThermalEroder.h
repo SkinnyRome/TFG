@@ -17,19 +17,6 @@ using Cell = std::pair<int, int>;
 
 enum class ErosionType {THERMAL, HYDRAULIC};
 
-struct TERRAINGENERATOR_API ThermalErosionProp {
-
-	ThermalErosionProp() :nIterations(50), tAngle(4.0f), cFactor(0.5f) {}
-
-	int nIterations;
-	float tAngle;
-	float cFactor;
-};
-
-struct TERRAINGENERATOR_API AquaErosionProp {
-
-};
-
 struct TERRAINGENERATOR_API ErosionProperties {
 
 	ErosionProperties() = delete;
@@ -38,14 +25,23 @@ struct TERRAINGENERATOR_API ErosionProperties {
 	
 	ErosionType type;
 
-	union {
-		struct {
-			int nIterations;
-			float tAngle;
-			float cFactor;
-		} pThermal;
-		struct { int a; } pHydraulic;
-	};
+	int number_of_iterations;
+	
+	struct {
+		float talus_angle;
+		float cFactor;
+	} pThermal;
+
+	struct { 
+		
+		int rain_constant;
+		int evaporation_constant;
+		int capacity_constant;
+		int sediment_constant;
+	
+	
+	} pHydraulic;
+	
 
 };
 
@@ -60,7 +56,7 @@ void TERRAINGENERATOR_API ErodeHeightmap(Heightmap& h, ErosionProperties pErosio
 
 void ThermalErosion(Heightmap& h, int nIterations, float tAngle, float cFactor);
 
-void HydraulicErosion(Heightmap& h, int nIterations);
+void HydraulicErosion(Heightmap& h, int nIterations, float k1, float k2, float k3, float k4);
 
 
 #endif //THERMALERODER_H

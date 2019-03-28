@@ -70,7 +70,7 @@ int main() {
 	Heightmap h_mixed(h_mpd);
 
 	tools::MixHeightmaps(h_mpd, h_voronoi, 0.5f, 0.0f);
-	tools::MixHeightmaps(h_mixed, h_voronoi, 0.5f, 0.5f);
+	tools::MixHeightmaps(h_mixed, h_voronoi, 0.5f, 1.0f);
 
 	//PrintHeightMap(h_mpd);
 	h_mpd.DumpToFile("MixedHeightmaps/MixedHeightmapNoPerturbation");
