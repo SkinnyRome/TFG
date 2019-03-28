@@ -40,10 +40,10 @@ namespace  tools {
 	const Point operator+(const Point& lhp, const Point& rhp);
 
 	//Definition
-	TERRAINGENERATOR_API float GetRandomValueBetween(float a, float b);
+	extern "C" TERRAINGENERATOR_API float GetRandomValueBetween(float a, float b);
 
 	//Definition
-	TERRAINGENERATOR_API float Average2(float a, float b);
+	extern "C" TERRAINGENERATOR_API float Average2(float a, float b);
 
 	//Definition
 	TERRAINGENERATOR_API float Average4(float a, float b, float c, float d);
