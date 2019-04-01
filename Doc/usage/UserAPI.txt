@@ -1,4 +1,47 @@
 
+
+
+/*---------------------------------------------------- USER API ------------------------------------------------*/
+CLASES:
+	- Terrain:
+		- size
+		- terrain_properties
+		- n_biomes (?)
+		- sea_level
+		- heightmap
+		
+
+		
+	- TerrainProperties:
+		- hilly_factor
+		- n_mountains
+		- n_rivers
+		- is_island
+		
+FUNCIONES
+
+	- Initialize(..)	
+		
+	- GenerateTerrain(..)
+	
+	- AddRiver(Terrain &t, ...)
+	
+	- AddMountain(Terrain &t, ...)
+	
+	- ResizeTerrain(Terrain &t, ...)
+	
+	- CreateHeighmapFile(Terrain &t, FileFormat ...)
+		
+
+
+
+
+
+
+
+
+
+
 //Ejemplo de uso de la libreria utilizando la API de alto nivel.
 #include <Heightmap>
 #include <user_api>
@@ -12,7 +55,7 @@ int main(){
 	/*------------------- EJEMPLO 1 -------------------*/
 	
 	//Declarar un objeto Heightmap
-	Heightmap h(.....);
+	Terrain t(.....);
 	
 	//Señalar como queremos, a grandes rasgos, que sea el terreno
 	TerrainProperties tp; //Propiedades por defecto
@@ -22,7 +65,7 @@ int main(){
 	.
 	.
 	
-	GenerateHeightmap(h, tp);
+	GenerateTerrain(t, tp);
 	
 	h.dumpToFile("");
 	
