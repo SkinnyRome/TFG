@@ -13,9 +13,10 @@
 #include <stdexcept>
 
 
-using namespace std;
-enum RawMode {B_16, B_32};
+using std::vector;
+using std::string;
 
+enum RawMode {B_16, B_32};
 
 class TERRAINGENERATOR_API Heightmap
 {

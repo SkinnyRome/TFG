@@ -4,7 +4,7 @@
 
 
 
-bool IsInRange(const int & i, const int & j, const int & w, const int & h)
+bool IsInRange(const int i, const int j, const int w, const int h)
 {
 	return ((i >= 0 && i < w) && (j >= 0 && j < h));
 }
@@ -101,8 +101,6 @@ void HydraulicErosion(Heightmap & h, int nIterations, float c_c, float e_c, floa
 	//Sediment heightmap
 	Heightmap sediment(h.GetWidth(), h.GetHeight());
 
-
-
 	float rain_value{};
 
 	const int hWidth = h.GetWidth();
@@ -193,9 +191,6 @@ void HydraulicErosion(Heightmap & h, int nIterations, float c_c, float e_c, floa
 		}
 
 	}
-
-
-
 
 
 	h.Normalize();

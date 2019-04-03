@@ -1,5 +1,5 @@
-#ifndef THERMALERODER_H
-#define THERMALERODER_H
+#ifndef ERODERS_H
+#define ERODERS_H
 
 #include <vector>
 #include <utility>
@@ -45,18 +45,17 @@ struct TERRAINGENERATOR_API ErosionProperties {
 
 };
 
+void TERRAINGENERATOR_API ErodeHeightmap(Heightmap& h, ErosionProperties pErosion);
 
 const std::vector<Cell> vNeighboursIndex{ { 1,0 },{ 0,1 },{ -1,0 },{ 0,-1 } };	//Von Neuman neigbours index.
 
 
-bool IsInRange(const int& i, const int& j, const int &w, const int &h);
+bool IsInRange(const int i, const int j, const int w, const int h);
 
-
-void TERRAINGENERATOR_API ErodeHeightmap(Heightmap& h, ErosionProperties pErosion);
 
 void ThermalErosion(Heightmap& h, int nIterations, float tAngle, float cFactor);
 
 void HydraulicErosion(Heightmap& h, int nIterations, float k1, float k2, float k3, float k4);
 
 
-#endif //THERMALERODER_H
+#endif //HERODERS_H

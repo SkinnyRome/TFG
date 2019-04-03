@@ -7,6 +7,7 @@
 #include "Algorithms\MidPointDisplacement\MidPointDisplacement.h"
 #include "Algorithms\Voronoi\VoronoiDiagram.h"
 #include "Algorithms\Eroders\Thermal\ThermalEroder.h"
+#include "Algorithms\CutAlgorithm\CutAlgorithm.h"
 #include <Tools\TerrainGenerationTools.h>
 
 using namespace std;
@@ -46,15 +47,21 @@ int main() {
 
 	mpd.GenerateHeightmap(h_mpd);
 
-	h_mpd.DumpToFile("MixedHeightmaps/MidPoint");
+	h_mpd.DumpToFile("CutAlgorithm/MidPoint");
 
 	std::cout << "Mid point genereado" << std::endl;
 	//_getch();
 
+	
+	CutAlgorithm cutAlgorithm{};
+
+	cutAlgorithm.CutHeightmap(h_mpd);
+
+	h_mpd.DumpToFile("CutAlgorithm/MidPointCutted");
 
 
 	/*------------------------------------------------------------------------------------------*/
-	
+	/*
 	Heightmap h_voronoi(exponent);
 	VoronoiDiagram::VoronoiProperties voronoi_p(10, 0.8f, 0.2f);
 	VoronoiDiagram voronoi(voronoi_p);
@@ -64,9 +71,9 @@ int main() {
 	std::cout << "Voronoi genereado" << std::endl;
 	
 
-
+	*/
 	/*-----------------------------------------------------------------------------------------*/
-
+	/*
 	Heightmap h_mixed(h_mpd);
 
 	tools::MixHeightmaps(h_mpd, h_voronoi, 0.5f, 0.0f);
@@ -79,10 +86,10 @@ int main() {
 	std::cout << "Heigthmaps mezclados" << std::endl;
 
 	//_getch();
-
+	*/
 	/*------------------------------------------------------------------------------------------*/
 
-	
+	/*
 	ErosionProperties erosion_hydraulic(ErosionType::HYDRAULIC);
 	ErosionProperties erosion_thermal(ErosionType::THERMAL);
 	
@@ -95,6 +102,6 @@ int main() {
 
 	h_thermal.DumpToFile("ErodedThermal");
 	h_hydraulic.DumpToFile("ErodedHydraylic");
-
+	*/
 	return 0;
 }

@@ -8,28 +8,41 @@
 #define TERRAINGENERATOR_API __declspec(dllimport)
 #endif
 
-#include <Tools\TerrainGenerationTools.h>
 #include <vector>
+#include <Tools\TerrainGenerationTools.h>
 
-class Heightmap;
 using namespace tools;
+class Heightmap;
 
-
-using PuntosYValor = std::pair<std::pair<Point, Point>, float>;
+using Corte = std::pair<std::pair<Point, Point>, std::pair<float,float>>;
 
 class TERRAINGENERATOR_API CutAlgorithm
 {
 public:
-	CutAlgorithm();
-	~CutAlgorithm();
 
-	void GenerateHeightmap(Heightmap& h);
+	struct TERRAINGENERATOR_API Properties {
+	
+		Properties(int nSlopes = 3, float fRoughness = 0.5f);
+
+		int num_of_slopes;
+		float roughness;
+
+	};
+
+	CutAlgorithm(Properties p = Properties());
+
+	void CutHeightmap(Heightmap& h) const;
+
+	void SetProperties(Properties p);
+
+	Properties GetProperties() const;
 
 private:
+	Properties prop;
 
-	Point ClosestPointOnSegment(const Point& a, const Point& b, const Point& p);
-	void DoCuts(const std::vector<PuntosYValor> &v, Heightmap &h);
-	PuntosYValor RandomCut(int axis, int width, int height);
+	Point ClosestPointOnSegment(const Point& a, const Point& b, const Point& p) const;
+	void DoCuts(const std::vector<Corte> &v, Heightmap &h) const;
+	Corte CreateRandomCut (const int width, const int height) const;
 
 };
 

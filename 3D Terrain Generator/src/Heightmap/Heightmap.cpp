@@ -1,7 +1,6 @@
 #include "Heightmap.h"
+#include <Tools\TerrainGenerationTools.h>
 #include <fstream>
-
-#define FloatToShortInt(f) ((f) >= 1.0 ? 65535 : (unsigned short int)((f)*65536.0)) //TODO MOVE THIS
 
 
 Heightmap::Heightmap():_exponent(0), _width(0), _height(0), _heightmap()
@@ -127,7 +126,7 @@ void Heightmap::DumpToFile(string filename, RawMode mode)
 
 	for (int j = 0; j < _height; j++) {
 		for (int i = 0; i < _width; i++) {
-			unsigned short int value(FloatToShortInt(_heightmap[i][j]));
+			unsigned short int value(tools::FloatToShortInt(_heightmap[i][j]));
 			rawFile.write(reinterpret_cast<const char*>(&value), sizeof(unsigned short int));
 		}
 	}
@@ -142,7 +141,7 @@ inline TERRAINGENERATOR_API Heightmap operator+(const Heightmap & lhh, const Hei
 {
 
 	if (lhh.GetWidth() != rhh.GetWidth() || lhh.GetHeight() != rhh.GetHeight()) {
-		throw length_error{ "The heightmaps size are diferent" };
+		throw std::length_error{ "The heightmaps size are diferent" };
 	}
 
 
@@ -160,7 +159,7 @@ inline TERRAINGENERATOR_API Heightmap operator+(const Heightmap & lhh, const Hei
 inline TERRAINGENERATOR_API Heightmap operator-(const Heightmap & lhh, const Heightmap & rhh)
 {
 	if (lhh.GetWidth() != rhh.GetWidth() || lhh.GetHeight() != rhh.GetHeight()) {
-		throw length_error{ "The heightmaps size are diferent" };
+		throw std::length_error{ "The heightmaps size are diferent" };
 	}
 
 	Heightmap heightmap_add(lhh.GetWidth(), lhh.GetHeight());

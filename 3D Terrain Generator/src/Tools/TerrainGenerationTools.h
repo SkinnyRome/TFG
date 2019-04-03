@@ -53,6 +53,13 @@ namespace  tools {
 
 	//Definition
 	void ApplyFilter(Heightmap &h1, int magnitude = 5);
+
+	//Definition
+	inline unsigned short int FloatToShortInt(float f) { 
+
+		return ((f) >= 1.0 ? 65535 : static_cast<unsigned short int>(f * 65536.0f) );
+	}
+
 }
 
 

@@ -1,30 +1,19 @@
 #include "CutAlgorithm.h"
 #include <Heightmap\Heightmap.h>
 
+using namespace tools;
+
+CutAlgorithm::CutAlgorithm(Properties p):prop(p){}
 
 
-CutAlgorithm::CutAlgorithm()
-{
-}
-
-
-CutAlgorithm::~CutAlgorithm()
-{
-}
-
-
-void CutAlgorithm::GenerateHeightmap(Heightmap & h)
+void CutAlgorithm::CutHeightmap(Heightmap & h) const
 {
 
-	const int nIterations = 10000;
+	std::vector<Corte> puntosDeCorte;
 
-	std::vector<PuntosYValor> puntosDeCorte;
-	puntosDeCorte.reserve(nIterations);
+	for (int i = 0; i < prop.num_of_slopes; i++) {
 
-
-	for (int i = 0; i < nIterations; i++) {
-
-		puntosDeCorte.push_back(RandomCut(0, h.GetWidth(), h.GetHeight()));
+		puntosDeCorte.push_back(CreateRandomCut(h.GetWidth(), h.GetHeight()));
 
 	}
 
@@ -34,7 +23,17 @@ void CutAlgorithm::GenerateHeightmap(Heightmap & h)
 
 }
 
-Point CutAlgorithm::ClosestPointOnSegment(const Point & a, const Point & b, const Point & p)
+void CutAlgorithm::SetProperties(const Properties p)
+{ 
+	prop = p;
+}
+
+CutAlgorithm::Properties CutAlgorithm::GetProperties() const
+{
+	return prop;
+}
+
+Point CutAlgorithm::ClosestPointOnSegment(const Point & a, const Point & b, const Point & p) const
 {
 	Point diff = p - a;
 	Point dir = b - a;
@@ -44,7 +43,7 @@ Point CutAlgorithm::ClosestPointOnSegment(const Point & a, const Point & b, cons
 	return (dir * t) + a ;
 }
 
-void CutAlgorithm::DoCuts(const std::vector<PuntosYValor>& v, Heightmap &h)
+void CutAlgorithm::DoCuts(const std::vector<Corte>& v, Heightmap &h) const
 {
 
 	float totalIterations = static_cast<float>(v.size()) * h.GetWidth() * h.GetHeight();
@@ -52,24 +51,28 @@ void CutAlgorithm::DoCuts(const std::vector<PuntosYValor>& v, Heightmap &h)
 
 	for (int i = 0; i < h.GetWidth(); i++) {
 		for (int j = 0; j < h.GetHeight(); j++) {
-			Point p(static_cast<float>(i), (float)j);
+			Point p(static_cast<float>(i), static_cast<float>(j));
 
-			for (size_t pv = 0; pv < v.size(); pv++) {
+			//float point_offset = (p.second >) ? GetRandomValueBetween() : ;
 
-				(ClosestPointOnSegment(v[pv].first.first, v[pv].first.second, p).modulo() > p.modulo()) ? h[i][j] += v[pv].second : h[i][j] += (-v[pv].second);
-				it += 1;
+			for (const auto& pv : v) {
+				if (h[i][j] > pv.second.second) {
+					(ClosestPointOnSegment(pv.first.first, pv.first.second, p).modulo() > p.modulo()) ? h[i][j] += pv.second.first : h[i][j] += (-pv.second.first);
+					it += 1;
+				}
 			}
 		}
 	}
 }
 
-PuntosYValor CutAlgorithm::RandomCut(int axis, int width, int height)
+Corte CutAlgorithm::CreateRandomCut(int width, int height) const
 {
 	int x1, x2, y1, y2;
 
+	static int axis = 0;
 
 	//X Axis
-	if (axis == 0) {
+	if ((axis % 2)== 0) {
 
 		x1 = 0;
 		y1 = rand() % (height - 1);
@@ -91,8 +94,24 @@ PuntosYValor CutAlgorithm::RandomCut(int axis, int width, int height)
 
 	}
 
-	float valor = GetRandomValueBetween(-0.5f, 0.5f);
+	float value = GetRandomValueBetween(0.0f, prop.roughness);
+	float cut_height = GetRandomValueBetween(0.0f, 0.9f);
 
-	return PuntosYValor(std::pair<Point, Point>(Point((float)x1, (float)y1), Point((float)x2, (float)y2)), valor);
+	axis++;
+
+	return Corte
+	(
+		{Point((float)x1, (float)y1) , Point((float)x2, (float)y2)},
+		{value, cut_height}
+	);
+
+}
+
+CutAlgorithm::Properties::Properties(int nSlopes, float fRoughness)
+{
+
+	num_of_slopes = (nSlopes > 10 || nSlopes < 0) ? 3 : nSlopes;
+
+	roughness = 0.01f + (0.02f * ((fRoughness > 1.0f || fRoughness < 0.0f) ? 0.5f : fRoughness));
 
 }

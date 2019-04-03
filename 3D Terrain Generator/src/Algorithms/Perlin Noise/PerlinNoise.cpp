@@ -1,7 +1,7 @@
 #include "PerlinNoise.h"
 #include <time.h>
 
-
+using namespace std;
 
 PerlinNoise::PerlinNoise(PNProperties p):_properties(p)
 {
