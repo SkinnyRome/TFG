@@ -3,16 +3,38 @@
 #include <fstream>
 
 
-Heightmap::Heightmap():_exponent(0), _width(0), _height(0), _heightmap()
+void Heightmap::CalculateExponent()
 {
-
-
+	//Find if it's power of 2 and its exponent.
+	if (_width == _height) {
+		int size = _width;
+		int exp = 0;
+		if (size > 0)
+		{
+			while (size % 2 == 0)
+			{
+				size /= 2;
+				++exp;
+			}
+			if (size == 1)
+			{
+				_exponent = exp;
+			}
+		}
+		if (size == 0 || size != 1)
+		{
+			_exponent = -1;
+		}
+	}
+	else
+		_exponent = -1;
 }
+
+
 
 Heightmap::Heightmap(int width, int height):_exponent(0), _width(width), _height(height), _heightmap(_width, vector<float>(_height))
 {
-
-
+	CalculateExponent();
 }
 
 Heightmap::Heightmap(int exponent):_exponent(exponent), _width(static_cast<int>(pow(2,_exponent)) + 1), _height(_width), _heightmap(_width, vector<float>(_height))
@@ -47,7 +69,12 @@ inline Heightmap Heightmap::operator*(const float a)
 
 bool Heightmap::IsSquare() const
 {
-	return _exponent > 0;
+	return _width == _height;
+}
+
+bool Heightmap::IsPowerOfTwo() const
+{
+	return _exponent >= 0;
 }
 
 void Heightmap::Resize(int width, int height)
@@ -61,7 +88,7 @@ void Heightmap::Resize(int width, int height)
 		h.resize(height);
 	}
 
-
+	CalculateExponent();
 }
 
 void Heightmap::Resize(int exponent)

@@ -27,9 +27,10 @@ private:
 	int _height;
 	vector<vector<float>> _heightmap;
 
+	void CalculateExponent();
+
 public:
 
-	Heightmap();
 	Heightmap(int exponent);
 	Heightmap(int width, int height);
 	//Heightmap(const Heightmap& h);
@@ -43,6 +44,7 @@ public:
 	
 
 	bool IsSquare() const;
+	bool IsPowerOfTwo() const;
 
 	void Resize(int width, int height);
 	void Resize(int exponent);

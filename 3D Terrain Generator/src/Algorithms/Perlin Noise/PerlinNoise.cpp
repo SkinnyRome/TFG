@@ -103,9 +103,6 @@ float PerlinNoise::Noise(float x, float y) {
 	return (r + 1.0f) / 2.0f;
 }
 
-PerlinNoise::PNProperties::PNProperties():_seed(0)
-{
-}
 
 PerlinNoise::PNProperties::PNProperties(int seed):_seed(seed)
 {

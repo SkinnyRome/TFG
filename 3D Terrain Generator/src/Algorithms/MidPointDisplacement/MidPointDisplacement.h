@@ -10,7 +10,6 @@
 
 #include <algorithm>
 
-
 class Heightmap;
 
 class TERRAINGENERATOR_API MidPointDisplacement
@@ -18,10 +17,10 @@ class TERRAINGENERATOR_API MidPointDisplacement
 
 public:
 
-	class TERRAINGENERATOR_API MidPointProperties {
-	public:
-		MidPointProperties();
-		MidPointProperties(float s, float r);
+	struct TERRAINGENERATOR_API Properties {
+	
+		
+		Properties(float vSpread = 0.3f, float vRoughness = 0.5f);
 
 		float spread;
 		float roughness;
@@ -29,19 +28,18 @@ public:
 	};
 
 	MidPointDisplacement();
-	MidPointDisplacement(const MidPointProperties p);
+	MidPointDisplacement(const Properties p);
 	~MidPointDisplacement();
 
-	void GenerateHeightmap(Heightmap& h);
+	void GenerateHeightmap(Heightmap& h) const;
 
 private:
 	
-	MidPointProperties _properties;
+	Properties prop;
 
-	float Jitter(float value, float spread) ;
-	int MidPoint(int a, int b) ;
-	void MidPointDisplace(Heightmap &h, int lx, int rx, int ty, int by, float spread);
-	void SetRandomValues(Heightmap& h);
+	float Jitter(float value, float spread) const ;
+	int MidPoint(int a, int b) const;
+	void MidPointDisplace(Heightmap &h, int lx, int rx, int ty, int by, float spread) const;
 
 };
 

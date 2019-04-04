@@ -14,7 +14,7 @@
 using namespace tools;
 class Heightmap;
 
-using Corte = std::pair<std::pair<Point, Point>, std::pair<float,float>>;
+using Cut = std::pair<std::pair<Point, Point>, std::pair<float,float>>;
 
 class TERRAINGENERATOR_API CutAlgorithm
 {
@@ -41,8 +41,8 @@ private:
 	Properties prop;
 
 	Point ClosestPointOnSegment(const Point& a, const Point& b, const Point& p) const;
-	void DoCuts(const std::vector<Corte> &v, Heightmap &h) const;
-	Corte CreateRandomCut (const int width, const int height) const;
+	void DoCuts(const std::vector<Cut> &v, Heightmap &h) const;
+	Cut CreateRandomCut (const int width, const int height) const;
 
 };
 

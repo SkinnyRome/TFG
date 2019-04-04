@@ -21,9 +21,7 @@ public:
 
 	class TERRAINGENERATOR_API PNProperties {
 		public:
-
-			PNProperties();
-			PNProperties(int seed);
+			PNProperties(int seed = 0);
 
 			int _seed;
 			

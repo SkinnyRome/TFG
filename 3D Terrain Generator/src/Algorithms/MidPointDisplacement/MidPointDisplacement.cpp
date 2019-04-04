@@ -3,11 +3,11 @@
 #include <Tools\TerrainGenerationTools.h>
 
 
-MidPointDisplacement::MidPointDisplacement():_properties(MidPointProperties())
+MidPointDisplacement::MidPointDisplacement():prop(Properties())
 {
 }
 
-MidPointDisplacement::MidPointDisplacement(const MidPointProperties p):_properties(p)
+MidPointDisplacement::MidPointDisplacement(const Properties p):prop(p)
 {
 }
 
@@ -17,7 +17,7 @@ MidPointDisplacement::~MidPointDisplacement()
 }
 
 
-void MidPointDisplacement::GenerateHeightmap(Heightmap & h)
+void MidPointDisplacement::GenerateHeightmap(Heightmap & h) const
 {
 	//1. Initialize the corners of the heightmap with random values (between 0.0 and 1.0)
 	h[0][0] = tools::GetRandomValueBetween(0.0f, 1.0f);					//Top-left corner
@@ -32,7 +32,7 @@ void MidPointDisplacement::GenerateHeightmap(Heightmap & h)
 		return;
 
 	//Values used to randomize the variation added to a point
-	float auxSpread = _properties.spread;
+	float auxSpread = prop.spread;
 	
 
 	for (int i = 0; i < iterations; i++) {
@@ -58,31 +58,29 @@ void MidPointDisplacement::GenerateHeightmap(Heightmap & h)
 		}
 
 		//Reduce the spread value
-		auxSpread *= _properties.roughness;
+		auxSpread *= prop.roughness;
 
 	}
 
 	//Normalize values of the heightmap so they are between [0.0, 1.0]
 	h.Normalize();
 
-
-
 }
 
 
 
-float MidPointDisplacement::Jitter(float value, float spread)
+float MidPointDisplacement::Jitter(float value, float spread) const
 {
 	return value += tools::GetRandomValueBetween(-spread, spread);
 }
 
-int MidPointDisplacement::MidPoint(int a, int b)
+int MidPointDisplacement::MidPoint(int a, int b) const
 {
 	return (a + b) / 2;
 }
 
 
-void MidPointDisplacement::MidPointDisplace(Heightmap & h, int lx, int rx, int ty, int by, float spread) 
+void MidPointDisplacement::MidPointDisplace(Heightmap & h, int lx, int rx, int ty, int by, float spread) const
 {
 	//Obtain the axis center points of the block
 	int cx = MidPoint(lx, rx);
@@ -108,21 +106,14 @@ void MidPointDisplacement::MidPointDisplace(Heightmap & h, int lx, int rx, int t
 	h[cx][cy] = Jitter(center, spread);
 }
 
-void MidPointDisplacement::SetRandomValues(Heightmap &h) 
-{
-	for (int i = 0; i < h.GetWidth(); i++) {
-		for (int j = 0; j < h.GetHeight(); j++) {
-			h[i][j] = tools::GetRandomValueBetween(0.0f, 1.0f);
-		}
-	}
-}
 
-MidPointDisplacement::MidPointProperties::MidPointProperties():spread(0.3f), roughness(0.5f)
-{
-}
 
-MidPointDisplacement::MidPointProperties::MidPointProperties(float s, float r): spread(s), roughness(r)
+MidPointDisplacement::Properties::Properties(float s, float r)
 {
+	spread = (s > 1.0f || s < 0) ? 0.3f : s;
+
+	roughness = ((r > 1.0f || r < 0.0f) ? 0.5f : r);
+
 }
 
 

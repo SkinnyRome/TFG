@@ -35,21 +35,25 @@ void PrintHeightMap(const Heightmap& h) {
 
 int main() {
 
-	constexpr int exponent = 7;
+	constexpr int exponent = 8;
 
 	srand(time(NULL)); //TODO: meter inicialización a la libreria para esto
 
 	Heightmap h_mpd(exponent);
 
-	MidPointDisplacement::MidPointProperties mdp_p(0.3f, 0.5f);
-	
-	MidPointDisplacement mpd(mdp_p);
+	MidPointDisplacement mid_point;
+
+	mid_point.GenerateHeightmap(h_mpd);
+
+	h_mpd.DumpToFile("MidPoint");
+	/*
+	MidPointDisplacement mpd({ 0.3f, 0.5f });
 
 	mpd.GenerateHeightmap(h_mpd);
 
 	h_mpd.DumpToFile("CutAlgorithm/MidPoint");
 
-	std::cout << "Mid point genereado" << std::endl;
+	std::cout << "Mid point generado" << std::endl;
 	//_getch();
 
 	
@@ -58,35 +62,34 @@ int main() {
 	cutAlgorithm.CutHeightmap(h_mpd);
 
 	h_mpd.DumpToFile("CutAlgorithm/MidPointCutted");
-
+	*/
 
 	/*------------------------------------------------------------------------------------------*/
-	/*
+	
 	Heightmap h_voronoi(exponent);
 	VoronoiDiagram::VoronoiProperties voronoi_p(10, 0.8f, 0.2f);
 	VoronoiDiagram voronoi(voronoi_p);
 
 	voronoi.GenerateHeightmap(h_voronoi);
-	h_voronoi.DumpToFile("MixedHeightmaps/Voronoi");
+	h_voronoi.DumpToFile("Voronoi");
 	std::cout << "Voronoi genereado" << std::endl;
 	
 
-	*/
+	
 	/*-----------------------------------------------------------------------------------------*/
-	/*
-	Heightmap h_mixed(h_mpd);
+	
+	
 
-	tools::MixHeightmaps(h_mpd, h_voronoi, 0.5f, 0.0f);
-	tools::MixHeightmaps(h_mixed, h_voronoi, 0.5f, 1.0f);
+	
+	Heightmap h_mixed = tools::MixHeightmaps(h_mpd, h_voronoi, 0.5f, 0.1f);
 
 	//PrintHeightMap(h_mpd);
-	h_mpd.DumpToFile("MixedHeightmaps/MixedHeightmapNoPerturbation");
-	h_mixed.DumpToFile("MixedHeightmaps/MixedHeightmapPerturbated");
+	h_mixed.DumpToFile("MixedHeightmapPerturbated");
 
 	std::cout << "Heigthmaps mezclados" << std::endl;
 
 	//_getch();
-	*/
+	
 	/*------------------------------------------------------------------------------------------*/
 
 	/*

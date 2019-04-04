@@ -1,7 +1,8 @@
 #include <Heightmap\Heightmap.h>
+#include <random>
 #include "TerrainGenerationTools.h"
 #include <algorithm>
-#include <Algorithms\MidPointDisplacement\MidPointDisplacement.h>
+#include <Algorithms\Perlin Noise\PerlinNoise.h>
 using namespace tools;
 
 
@@ -60,70 +61,65 @@ float tools::Average4(float a, float b, float c, float d) {
 
 }
 
-void tools::MixHeightmaps(Heightmap & h1, const Heightmap & h2, float influence, float perturbation)
+Heightmap tools::MixHeightmaps(const Heightmap & h1, const Heightmap & h2, float influence, float perturbation)
 {
 
-	
 
 	//TODO: forzar a que el valor de influence esté entre [0.0f, 1.0f]
-
-	int hWidth = h2.GetWidth();
-	int hHeight = h2.GetHeight();
-
-	bool isSquare = h2.IsSquare();
-
-	//First, resize the heightmaps.
-	if (h1.GetWidth() != hWidth || h1.GetHeight() != hHeight) {
-		if (isSquare)
-			h1.Resize(h2.GetExponent());
-		else
-			h1.Resize(hWidth, hHeight);
-	}
+	if (influence < 0.0f || influence > 1.0f)
+		return h1;
+	//Forzar que los heightmap sean iguale
+	if ((h1.GetWidth() != h2.GetWidth() || (h1.GetHeight() != h2.GetHeight())))
+		return h1;
 
 	float h2Influence = influence;
 	float h1Influence = 1.0f - influence;
 
+	float width = h1.GetWidth();
+	float height = h1.GetHeight();
 
-	for (int i = 0; i < hWidth; i++) {
-		for (int j = 0; j < hHeight; j++) {
-			h1[i][j] = (h1[i][j] * h1Influence) + (h2[i][j] *  h2Influence);
+
+	Heightmap result{ static_cast<int>(width), static_cast<int>(height) };
+
+
+	for (int i = 0; i < width; i++) {
+		for (int j = 0; j < height; j++) {
+			result[i][j] = (h1[i][j] * h1Influence) + (h2[i][j] *  h2Influence);
 			
 		}
 
 	}
 
-	int magnitude = static_cast<int>((0.5f * h1.GetWidth()) * perturbation);
+	int magnitude = static_cast<int>((0.5f * width) * perturbation);
 	
-	ApplyFilter(h1, magnitude);
+	ApplyFilter(result, magnitude);
 	
 
 	//TODO return un Heightmap para optimizar las cosas
-
+	return result;
 
 }
 
 void tools::ApplyFilter(Heightmap & h, int magnitude)
 {
-
 	Heightmap copy(h);
 
-	Heightmap hMpd1(h.GetExponent());
-	Heightmap hMpd2(h.GetExponent());
+	Heightmap x_perturbation(h.GetWidth(), h.GetHeight());
+	Heightmap y_perturbation(h.GetWidth(), h.GetHeight());
 
-	MidPointDisplacement::MidPointProperties mdp_p(0.3f, 0.5f);
+	PerlinNoise perlin;
 
-	MidPointDisplacement mpd(mdp_p);
+	perlin.GenerateHeightmap(x_perturbation);
+	perlin.GenerateHeightmap(y_perturbation);
 
-	mpd.GenerateHeightmap(hMpd1);
-	mpd.GenerateHeightmap(hMpd2);
 
 	int xIndex, yIndex, xRandDisplacement, yRandDisplacement;
 
 	for (int i = 0; i < h.GetWidth(); i++) {
 		for (int j = 0; j < h.GetHeight(); j++) {
 
-			xRandDisplacement = (round((magnitude * (hMpd1[i][j] - 0.5f))));
-			yRandDisplacement = (round((magnitude * (hMpd2[i][j] - 0.5f))));
+			xRandDisplacement = (round((magnitude * (x_perturbation[i][j] - 0.5f))));
+			yRandDisplacement = (round((magnitude * (y_perturbation[i][j] - 0.5f))));
 
 			xIndex = static_cast<int>(abs(i + xRandDisplacement));
 			xIndex = (xIndex >= h.GetWidth()) ? xIndex - (xIndex - h.GetWidth()) -1 : xIndex;
@@ -135,15 +131,25 @@ void tools::ApplyFilter(Heightmap & h, int magnitude)
 			//TODO: hacer que cuando un índice se salga de la matriz, ponerlo al máximo para que no de la vuelta, que queda mal.
 			h[i][j] = copy[xIndex][yIndex];			
 
-
 		}
-
 
 	}
 
 	h.Normalize();
 }
 
+void tools::GenerateNoise(Heightmap &h)
+{
+	std::default_random_engine generator;
+	std::normal_distribution<float> distribution(0.5f, 0.25f);
 
+	for (int i = 0; i < h.GetWidth(); i++) {
+		for (int j = 0; j < h.GetHeight(); j++) {
+			//h[i][j] = tools::GetRandomValueBetween(0.0f, 1.0f);
+			h[i][j] = distribution(generator);
+		}
+	}
 
+	h.Normalize();
+}
 #pragma endregion

@@ -49,7 +49,7 @@ namespace  tools {
 	TERRAINGENERATOR_API float Average4(float a, float b, float c, float d);
 
 	//Definition
-	TERRAINGENERATOR_API void MixHeightmaps(Heightmap &h1, const Heightmap &h2, float influence, float perturbation);
+	TERRAINGENERATOR_API Heightmap MixHeightmaps(const Heightmap &h1, const Heightmap &h2, float influence, float perturbation);
 
 	//Definition
 	void ApplyFilter(Heightmap &h1, int magnitude = 5);
@@ -59,6 +59,10 @@ namespace  tools {
 
 		return ((f) >= 1.0 ? 65535 : static_cast<unsigned short int>(f * 65536.0f) );
 	}
+
+	//Definition
+	TERRAINGENERATOR_API void GenerateNoise(Heightmap& h);
+
 
 }
 

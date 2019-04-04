@@ -9,7 +9,7 @@ CutAlgorithm::CutAlgorithm(Properties p):prop(p){}
 void CutAlgorithm::CutHeightmap(Heightmap & h) const
 {
 
-	std::vector<Corte> puntosDeCorte;
+	std::vector<Cut> puntosDeCorte;
 
 	for (int i = 0; i < prop.num_of_slopes; i++) {
 
@@ -43,7 +43,7 @@ Point CutAlgorithm::ClosestPointOnSegment(const Point & a, const Point & b, cons
 	return (dir * t) + a ;
 }
 
-void CutAlgorithm::DoCuts(const std::vector<Corte>& v, Heightmap &h) const
+void CutAlgorithm::DoCuts(const std::vector<Cut>& v, Heightmap &h) const
 {
 
 	float totalIterations = static_cast<float>(v.size()) * h.GetWidth() * h.GetHeight();
@@ -65,7 +65,7 @@ void CutAlgorithm::DoCuts(const std::vector<Corte>& v, Heightmap &h) const
 	}
 }
 
-Corte CutAlgorithm::CreateRandomCut(int width, int height) const
+Cut CutAlgorithm::CreateRandomCut(int width, int height) const
 {
 	int x1, x2, y1, y2;
 
@@ -99,7 +99,7 @@ Corte CutAlgorithm::CreateRandomCut(int width, int height) const
 
 	axis++;
 
-	return Corte
+	return Cut
 	(
 		{Point((float)x1, (float)y1) , Point((float)x2, (float)y2)},
 		{value, cut_height}
