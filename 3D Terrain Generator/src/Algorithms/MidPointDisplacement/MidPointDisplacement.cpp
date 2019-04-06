@@ -3,19 +3,12 @@
 #include <Tools\TerrainGenerationTools.h>
 
 
-MidPointDisplacement::MidPointDisplacement():prop(Properties())
+MidPointDisplacement::Properties MidPointDisplacement::default_properties = { 0.3f, 0.5f };
+
+
+MidPointDisplacement::MidPointDisplacement(Properties p):prop(p)
 {
 }
-
-MidPointDisplacement::MidPointDisplacement(const Properties p):prop(p)
-{
-}
-
-
-MidPointDisplacement::~MidPointDisplacement()
-{
-}
-
 
 void MidPointDisplacement::GenerateHeightmap(Heightmap & h) const
 {
@@ -110,9 +103,9 @@ void MidPointDisplacement::MidPointDisplace(Heightmap & h, int lx, int rx, int t
 
 MidPointDisplacement::Properties::Properties(float s, float r)
 {
-	spread = (s > 1.0f || s < 0) ? 0.3f : s;
+	spread = (s > 1.0f || s < 0) ? default_properties.spread : s;
 
-	roughness = ((r > 1.0f || r < 0.0f) ? 0.5f : r);
+	roughness = ((r > 1.0f || r < 0.0f) ? default_properties.roughness : r);
 
 }
 

@@ -3,6 +3,8 @@
 
 using namespace tools;
 
+CutAlgorithm::Properties CutAlgorithm::default_properties = { 3 , 0.5f };
+
 CutAlgorithm::CutAlgorithm(Properties p):prop(p){}
 
 
@@ -110,8 +112,8 @@ Cut CutAlgorithm::CreateRandomCut(int width, int height) const
 CutAlgorithm::Properties::Properties(int nSlopes, float fRoughness)
 {
 
-	num_of_slopes = (nSlopes > 10 || nSlopes < 0) ? 3 : nSlopes;
+	num_of_slopes = (nSlopes > 10 || nSlopes < 0) ? default_properties.num_of_slopes : nSlopes;
 
-	roughness = 0.01f + (0.02f * ((fRoughness > 1.0f || fRoughness < 0.0f) ? 0.5f : fRoughness));
+	roughness = 0.01f + (0.02f * ((fRoughness > 1.0f || fRoughness < 0.0f) ? default_properties.roughness : fRoughness));
 
 }

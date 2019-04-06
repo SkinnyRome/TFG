@@ -138,7 +138,7 @@ void tools::ApplyFilter(Heightmap & h, int magnitude)
 	h.Normalize();
 }
 
-void tools::GenerateNoise(Heightmap &h)
+void tools::GenerateRandomNoise(Heightmap &h)
 {
 	std::default_random_engine generator;
 	std::normal_distribution<float> distribution(0.5f, 0.25f);

@@ -1,15 +1,10 @@
-#include "ThermalEroder.h"
+#include "Eroders.h"
 #include <Heightmap\Heightmap.h>
 #include <Tools\TerrainGenerationTools.h>
 
+using namespace Erosion;
 
-
-bool IsInRange(const int i, const int j, const int w, const int h)
-{
-	return ((i >= 0 && i < w) && (j >= 0 && j < h));
-}
-
-void ErodeHeightmap(Heightmap& h, ErosionProperties p) {
+void Erosion::ErodeHeightmap(Heightmap& h, Properties p) {
 
 	switch (p.type)
 	{
@@ -34,7 +29,7 @@ void ErodeHeightmap(Heightmap& h, ErosionProperties p) {
 
 
 
-void ThermalErosion(Heightmap & h, int nIterations, float tAngle, float cFactor)
+void Erosion::ThermalErosion(Heightmap & h, int nIterations, float tAngle, float cFactor)
 {
 	const int hWidth = h.GetWidth();
 	const int hHeight = h.GetHeight();
@@ -93,7 +88,7 @@ void ThermalErosion(Heightmap & h, int nIterations, float tAngle, float cFactor)
 	h.Normalize();
 }
 
-void HydraulicErosion(Heightmap & h, int nIterations, float c_c, float e_c, float r_c, float s_c )
+void Erosion::HydraulicErosion(Heightmap & h, int nIterations, float c_c, float e_c, float r_c, float s_c )
 {
 	//Water heightmap
 	Heightmap water(h.GetWidth(), h.GetHeight());
@@ -197,7 +192,7 @@ void HydraulicErosion(Heightmap & h, int nIterations, float c_c, float e_c, floa
 
 }
 
-ErosionProperties::ErosionProperties(ErosionType t):type(t)
+Properties::Properties(ErosionType t):type(t)
 {
 		
 	number_of_iterations = 5;
@@ -218,3 +213,10 @@ ErosionProperties::ErosionProperties(ErosionType t):type(t)
 		break;
 	}
 }
+
+
+bool Erosion::IsInRange(const int i, const int j, const int w, const int h)
+{
+	return ((i >= 0 && i < w) && (j >= 0 && j < h));
+}
+

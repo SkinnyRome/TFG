@@ -43,10 +43,6 @@ Heightmap::Heightmap(int exponent):_exponent(exponent), _width(static_cast<int>(
 }
 
 
-Heightmap::~Heightmap()
-{
-}
-
 Heightmap Heightmap::operator+(const float a)
 {
 	for (int i = 0; i < _width; i++) {
@@ -101,9 +97,11 @@ void Heightmap::Resize(int exponent)
 
 void Heightmap::Normalize()
 {
+	//TODO: problema, si normalizamos siempre, casi siempre va a haber un punto que valga 1.0f
 	float min = _heightmap[0][0];
 	float max = _heightmap[0][0];
 
+	//bool need_normalize = false;
 
 	//Get the max and the min values of the heightmap
 	for (int i = 0; i < _width; i++) {

@@ -61,7 +61,7 @@ namespace  tools {
 	}
 
 	//Definition
-	TERRAINGENERATOR_API void GenerateNoise(Heightmap& h);
+	TERRAINGENERATOR_API void GenerateRandomNoise(Heightmap& h);
 
 
 }

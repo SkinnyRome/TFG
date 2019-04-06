@@ -6,7 +6,7 @@
 #include "Algorithms\Perlin Noise\PerlinNoise.h"
 #include "Algorithms\MidPointDisplacement\MidPointDisplacement.h"
 #include "Algorithms\Voronoi\VoronoiDiagram.h"
-#include "Algorithms\Eroders\Thermal\ThermalEroder.h"
+#include "Algorithms\Eroders\Eroders.h"
 #include "Algorithms\CutAlgorithm\CutAlgorithm.h"
 #include <Tools\TerrainGenerationTools.h>
 
@@ -39,13 +39,13 @@ int main() {
 
 	srand(time(NULL)); //TODO: meter inicialización a la libreria para esto
 
-	Heightmap h_mpd(exponent);
+	//Heightmap h(exponent);
 
-	MidPointDisplacement mid_point;
+	//MidPointDisplacement mid_point;
 
-	mid_point.GenerateHeightmap(h_mpd);
+	//mid_point.GenerateHeightmap(h_mpd);
 
-	h_mpd.DumpToFile("MidPoint");
+	//h_mpd.DumpToFile("MidPoint");
 	/*
 	MidPointDisplacement mpd({ 0.3f, 0.5f });
 
@@ -66,13 +66,28 @@ int main() {
 
 	/*------------------------------------------------------------------------------------------*/
 	
-	Heightmap h_voronoi(exponent);
-	VoronoiDiagram::VoronoiProperties voronoi_p(10, 0.8f, 0.2f);
-	VoronoiDiagram voronoi(voronoi_p);
+	VoronoiDiagram::Properties voronoi_p1(10, 1.0f, 0.8f);
+	VoronoiDiagram::Properties voronoi_p2(10, 0.5f, 0.5f);
+	VoronoiDiagram::Properties voronoi_p3(10, 0.2f, 0.0f, 0.1f);
 
-	voronoi.GenerateHeightmap(h_voronoi);
-	h_voronoi.DumpToFile("Voronoi");
-	std::cout << "Voronoi genereado" << std::endl;
+	Heightmap heightmap_1(exponent);
+	Heightmap heightmap_2(exponent);
+	Heightmap heightmap_3(exponent);
+
+	VoronoiDiagram voronoi(voronoi_p1);
+	voronoi.GenerateHeightmap(heightmap_1);
+	heightmap_1.DumpToFile("Voronoi/Voronoi1");
+
+	voronoi = { voronoi_p2 };
+	voronoi.GenerateHeightmap(heightmap_2);
+	heightmap_2.DumpToFile("Voronoi/Voronoi2");
+
+	voronoi = { voronoi_p3 };
+	voronoi.GenerateHeightmap(heightmap_3);
+	heightmap_3.DumpToFile("Voronoi/Voronoi3");
+
+
+	std::cout << "Voronoi generado" << std::endl;
 	
 
 	
@@ -80,7 +95,7 @@ int main() {
 	
 	
 
-	
+	/*
 	Heightmap h_mixed = tools::MixHeightmaps(h_mpd, h_voronoi, 0.5f, 0.1f);
 
 	//PrintHeightMap(h_mpd);
@@ -90,6 +105,8 @@ int main() {
 
 	//_getch();
 	
+	*/
+
 	/*------------------------------------------------------------------------------------------*/
 
 	/*

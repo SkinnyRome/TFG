@@ -19,9 +19,9 @@ class TERRAINGENERATOR_API PerlinNoise
 {
 public:
 
-	class TERRAINGENERATOR_API PNProperties {
+	struct TERRAINGENERATOR_API Properties {
 		public:
-			PNProperties(int seed = 0);
+			Properties(int seed = 0);
 
 			int _seed;
 			
@@ -34,7 +34,7 @@ private:
 
 
 	std::vector<int> p; //permutation vector
-	PNProperties _properties;
+	Properties prop;
 
 	float Gradient(int hash, float x, float y);
 	float Fade(float t);
@@ -43,8 +43,7 @@ private:
 
 public:
 
-	//PerlinNoise();
-	explicit PerlinNoise(PNProperties properties = PNProperties());
+	PerlinNoise(Properties properties = Properties{});
 	~PerlinNoise();
 
 	void GenerateHeightmap(Heightmap &h);

@@ -22,14 +22,13 @@ public:
 
 	struct TERRAINGENERATOR_API Properties {
 	
-		Properties(int nSlopes = 3, float fRoughness = 0.5f);
+		Properties(int nSlopes = default_properties.num_of_slopes, float fRoughness = default_properties.roughness);
 
 		int num_of_slopes;
 		float roughness;
-
 	};
 
-	CutAlgorithm(Properties p = Properties());
+	CutAlgorithm(Properties p = Properties{});
 
 	void CutHeightmap(Heightmap& h) const;
 
@@ -38,6 +37,9 @@ public:
 	Properties GetProperties() const;
 
 private:
+
+	static Properties default_properties;
+
 	Properties prop;
 
 	Point ClosestPointOnSegment(const Point& a, const Point& b, const Point& p) const;

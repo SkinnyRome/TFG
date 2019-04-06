@@ -1,4 +1,4 @@
-
+﻿
 
 
 /*---------------------------------------------------- USER API ------------------------------------------------*/
@@ -32,14 +32,6 @@ FUNCIONES
 	
 	- CreateHeighmapFile(Terrain &t, FileFormat ...)
 		
-
-
-
-
-
-
-
-
 
 
 //Ejemplo de uso de la libreria utilizando la API de alto nivel.

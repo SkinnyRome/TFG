@@ -54,7 +54,7 @@
     <ClCompile Include="..\src\Algorithms\Perlin Noise\PerlinNoise.cpp">
       <Filter>Archivos de origen\Algorithm\Generators</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\Algorithms\Eroders\Thermal\ThermalEroder.cpp">
+    <ClCompile Include="..\src\Algorithms\Eroders\Eroders.cpp">
       <Filter>Archivos de origen\Algorithm\Eroders</Filter>
     </ClCompile>
   </ItemGroup>
@@ -80,7 +80,7 @@
     <ClInclude Include="..\src\Algorithms\CutAlgorithm\CutAlgorithm.h">
       <Filter>Archivos de encabezado\Algorithms\Generators</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\Algorithms\Eroders\Thermal\ThermalEroder.h">
+    <ClInclude Include="..\src\Algorithms\Eroders\Eroders.h">
       <Filter>Archivos de encabezado\Algorithms\Eroders</Filter>
     </ClInclude>
   </ItemGroup>

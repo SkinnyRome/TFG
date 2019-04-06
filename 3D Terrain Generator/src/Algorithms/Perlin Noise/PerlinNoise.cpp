@@ -3,7 +3,7 @@
 
 using namespace std;
 
-PerlinNoise::PerlinNoise(PNProperties p):_properties(p)
+PerlinNoise::PerlinNoise(Properties p):prop(p)
 {
 	srand(time(NULL));
 
@@ -19,7 +19,7 @@ void PerlinNoise::GenerateHeightmap(Heightmap & h)
 	//Create and initialize random vector values
 	p.resize(256);
 	iota(p.begin(), p.end(), 0);
-	mt19937 g(_properties._seed);
+	mt19937 g(prop._seed);
 	shuffle(p.begin(), p.end(), g);
 
 	// Duplicate the permutation vector
@@ -40,7 +40,6 @@ void PerlinNoise::GenerateHeightmap(Heightmap & h)
 
 			h[i][j] = n;
 
-
 		}
 	}
 
@@ -50,7 +49,6 @@ void PerlinNoise::GenerateHeightmap(Heightmap & h)
 float PerlinNoise::Fade(float t) {
 
 	return t * t * t * (t *(t * 6 - 15) + 10);
-
 
 }
 
@@ -104,6 +102,6 @@ float PerlinNoise::Noise(float x, float y) {
 }
 
 
-PerlinNoise::PNProperties::PNProperties(int seed):_seed(seed)
+PerlinNoise::Properties::Properties(int seed):_seed(seed)
 {
 }

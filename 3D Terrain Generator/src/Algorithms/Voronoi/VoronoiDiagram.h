@@ -15,28 +15,33 @@ class Heightmap;
 
 class TERRAINGENERATOR_API VoronoiDiagram
 {
-
 public:
 
-	class  TERRAINGENERATOR_API VoronoiProperties {
-	public:
-		VoronoiProperties();
-		VoronoiProperties(int nSites, float fallOff, float dropOff);
+	/*Number of sites: default 1
+	  Slope softness: default 1.0f
+	  Distance between: default 0.0f
+	  Average height: default 1.0f
+	*/
+	struct  TERRAINGENERATOR_API Properties {
+		Properties(int nSites, float sSlope = default_properties.slope_softness,
+			float dist = default_properties.distance_between,
+			float aHeight = default_properties.average_height);
 
 		int numOfSites;
-		float fallOff;
-		float dropOff;
+		float slope_softness;
+		float distance_between;
+		float average_height;
 	};
 
-	VoronoiDiagram(const VoronoiProperties p);
-	~VoronoiDiagram();
+	VoronoiDiagram(Properties p);
 
 	void GenerateHeightmap(Heightmap &h);
 
 private:
 
+	static Properties default_properties;
 
-	VoronoiProperties _properties;
+	Properties prop;
 	std::vector<float> _sitesCoefficients;
 	tools::Point CreateRandomSite(const Heightmap &h);
 

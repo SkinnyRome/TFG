@@ -165,7 +165,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\src\Algorithms\CutAlgorithm\CutAlgorithm.cpp" />
-    <ClCompile Include="..\src\Algorithms\Eroders\Thermal\ThermalEroder.cpp" />
+    <ClCompile Include="..\src\Algorithms\Eroders\Eroders.cpp" />
     <ClCompile Include="..\src\Algorithms\MidPointDisplacement\MidPointDisplacement.cpp" />
     <ClCompile Include="..\src\Algorithms\Perlin Noise\PerlinNoise.cpp" />
     <ClCompile Include="..\src\Algorithms\Voronoi\VoronoiDiagram.cpp" />
@@ -175,7 +175,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\Algorithms\CutAlgorithm\CutAlgorithm.h" />
-    <ClInclude Include="..\src\Algorithms\Eroders\Thermal\ThermalEroder.h" />
+    <ClInclude Include="..\src\Algorithms\Eroders\Eroders.h" />
     <ClInclude Include="..\src\Algorithms\MidPointDisplacement\MidPointDisplacement.h" />
     <ClInclude Include="..\src\Algorithms\Perlin Noise\PerlinNoise.h" />
     <ClInclude Include="..\src\Algorithms\Voronoi\VoronoiDiagram.h" />

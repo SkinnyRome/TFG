@@ -19,22 +19,21 @@ public:
 
 	struct TERRAINGENERATOR_API Properties {
 	
-		
-		Properties(float vSpread = 0.3f, float vRoughness = 0.5f);
+		Properties(float vSpread = default_properties.spread, float vRoughness = default_properties.roughness);
 
 		float spread;
 		float roughness;
 
 	};
 
-	MidPointDisplacement();
-	MidPointDisplacement(const Properties p);
-	~MidPointDisplacement();
+	MidPointDisplacement(Properties p = {});
 
 	void GenerateHeightmap(Heightmap& h) const;
 
 private:
 	
+	static Properties default_properties;
+
 	Properties prop;
 
 	float Jitter(float value, float spread) const ;

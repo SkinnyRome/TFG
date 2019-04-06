@@ -1,35 +1,46 @@
 
 #include <string>
+#include <Heightmap\Heightmap.h>
+
 using namespace std;
 
 namespace user_api {
 
-
-
+	static const int MAX_SIZE = 1024;
+	static const int MAX_EXPONENT = 10;
 
 	struct TerrainProperties {
 		enum class Preset { None, Hilly, Soft };
 
-		float mountain_factor = 0.5f;
-		float smooth_factor = 0.5f;
-		float river_factor = 0.2f;
-		bool is_island = false;
+		TerrainProperties();
+
+		//Numero de montañas totales que habrá en el terreno.
+		int number_of_mountains;
+		//Factor de accientado: determina cómo de accidentado será el terreno
+		float hilly_factor;
+		//Factor de suavidad: a pesar de ser accidentado, el terreno puede estar más o menos suavizado
+		float smooth_factor;
+		//Factor de rios: controla la creación de "caudales" para los rios
+		float river_factor;
+		//Si el terreno es una isla, los puntos de su alrededor valdrán cero
+		bool is_island;
 	};
 
-	struct Terrain {
-		int width = 0;
-		int height = 0;
-		int exponent = 0;
+
+
+	class Terrain {
+	private:
+		Heightmap heightmap;
 		TerrainProperties properties;
 
-		Terrain(int witdh = 0, int height = 0, TerrainProperties = TerrainProperties());
-		Terrain(int exponent, TerrainProperties = TerrainProperties());
+	public:
+		Terrain(int width, int height, TerrainProperties = {});
+		Terrain(int exponent, TerrainProperties = {});
 		
-
 	};
 
 
-	int CreateTerrain(const Terrain &t, const string fileName /*flags*/);
+	int GenerateTerrain(const Terrain &t, const TerrainProperties terrain_properties);
 
 
 }

@@ -31,11 +31,9 @@ private:
 
 public:
 
-	Heightmap(int exponent);
+	Heightmap(int exponent = 3);
 	Heightmap(int width, int height);
 	//Heightmap(const Heightmap& h);
-
-	~Heightmap();
 
 	const vector<float>& operator[](int i) const { return _heightmap[i]; }
 	vector<float>& operator[](int i)  { return _heightmap[i]; }
