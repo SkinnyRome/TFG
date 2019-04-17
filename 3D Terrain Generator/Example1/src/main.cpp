@@ -64,7 +64,7 @@ int main() {
 	h_mpd.DumpToFile("CutAlgorithm/MidPointCutted");
 	*/
 
-	/*------------------------------------------------------------------------------------------*/
+	/*---------------------------- VORONOI ---------------------------------------
 	
 	VoronoiDiagram::Properties voronoi_p1(10, 1.0f, 0.8f);
 	VoronoiDiagram::Properties voronoi_p2(10, 0.5f, 0.5f);
@@ -91,9 +91,37 @@ int main() {
 	
 
 	
-	/*-----------------------------------------------------------------------------------------*/
+	/*------------------------------------ VORONOI -----------------------------------------*/
 	
+	/*------------------------------------ DIAMOND-SQUARE ----------------------------------*/
 	
+	MidPointDisplacement::Properties ds_p1(0.5f, 0.5f);
+	MidPointDisplacement::Properties ds_p2(0.1f, 0.5f);
+	MidPointDisplacement::Properties ds_p3(0.8f, 0.3f);
+	
+
+	Heightmap heightmap_1(exponent);
+	Heightmap heightmap_2(exponent);
+	Heightmap heightmap_3(exponent);
+
+	MidPointDisplacement diamond_square(ds_p1);
+	diamond_square.GenerateHeightmap(heightmap_1);
+	//heightmap_1.DumpToFile("DiamondSquare/DiamondSquare1");
+
+	diamond_square = { ds_p2 };
+	diamond_square.GenerateHeightmap(heightmap_2);
+	//heightmap_2.DumpToFile("DiamondSquare/DiamondSquare2");
+
+	diamond_square = { ds_p3 };
+	diamond_square.GenerateHeightmap(heightmap_3);
+	heightmap_3.DumpToFile("DiamondSquare/DiamondSquare4");
+
+
+
+
+	std::cout << "Diamond-Square generados" << std::endl;
+	/*------------------------------------ DIAMOND-SQUARE ----------------------------------*/
+
 
 	/*
 	Heightmap h_mixed = tools::MixHeightmaps(h_mpd, h_voronoi, 0.5f, 0.1f);
