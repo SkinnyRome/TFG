@@ -174,8 +174,10 @@
     <ClCompile Include="..\src\UserAPI\UserAPI.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\src\Algorithms\Algorithms.h" />
     <ClInclude Include="..\src\Algorithms\CutAlgorithm\CutAlgorithm.h" />
     <ClInclude Include="..\src\Algorithms\Eroders\Eroders.h" />
+    <ClInclude Include="..\src\Algorithms\IAlgorithm.h" />
     <ClInclude Include="..\src\Algorithms\MidPointDisplacement\MidPointDisplacement.h" />
     <ClInclude Include="..\src\Algorithms\Perlin Noise\PerlinNoise.h" />
     <ClInclude Include="..\src\Algorithms\Voronoi\VoronoiDiagram.h" />

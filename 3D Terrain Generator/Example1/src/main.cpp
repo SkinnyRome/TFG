@@ -3,25 +3,22 @@
 #include <conio.h>
 #include <time.h>
 #include "Heightmap\Heightmap.h"
-#include "Algorithms\Perlin Noise\PerlinNoise.h"
-#include "Algorithms\MidPointDisplacement\MidPointDisplacement.h"
-#include "Algorithms\Voronoi\VoronoiDiagram.h"
+#include "Algorithms\Algorithms.h"
 #include "Algorithms\Eroders\Eroders.h"
-#include "Algorithms\CutAlgorithm\CutAlgorithm.h"
 #include <Tools\TerrainGenerationTools.h>
 
 using namespace std;
 
 void PrintHeightMap(const Heightmap& h) {
 
-	if (h.GetWidth() > 16 || h.GetHeight() > 16)
+	if (h.GetSize() > 16)
 		std::cout << "El Heightmap es demasiado grande" << std::endl;
 	else {
 
 		std::cout << "Imprimiendo heightmap" << std::endl;
 
-		for (int i = 0; i < h.GetWidth(); i++) {
-			for (int j = 0; j < h.GetHeight(); j++) {
+		for (int i = 0; i < h.GetSize(); i++) {
+			for (int j = 0; j < h.GetSize(); j++) {
 				//std::cout << FloatToShortInt(_heightMap[i][j]) << " - ";
 				std::cout << h[i][j] << " - ";
 

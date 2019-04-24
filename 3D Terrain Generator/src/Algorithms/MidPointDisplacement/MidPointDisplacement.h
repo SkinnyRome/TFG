@@ -9,10 +9,11 @@
 #endif
 
 #include <algorithm>
+#include "..\IAlgorithm.h"
 
 class Heightmap;
 
-class TERRAINGENERATOR_API MidPointDisplacement
+class TERRAINGENERATOR_API MidPointDisplacement : public IAlgorithm
 {
 
 public:

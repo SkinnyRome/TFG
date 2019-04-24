@@ -1,3 +1,12 @@
+#ifndef USERAPI_H
+#define USERAPI_H
+
+#ifdef TERRAINGENERATOR_EXPORTS
+#define TERRAINGENERATOR_API __declspec(dllexport)
+#else
+#define TERRAINGENERATOR_API __declspec(dllimport)
+#endif
+
 
 #include <string>
 #include <Heightmap\Heightmap.h>
@@ -9,11 +18,18 @@ namespace user_api {
 	static const int MAX_SIZE = 1024;
 	static const int MAX_EXPONENT = 10;
 
-	struct TerrainProperties {
-		enum class Preset { None, Hilly, Soft };
+	TERRAINGENERATOR_API enum class TerrainPreset {Hilly, Soft };
+	TERRAINGENERATOR_API enum class BaseAlgorithm {PerlinNoise, DiamondSquare};
 
-		TerrainProperties();
+	TERRAINGENERATOR_API struct TerrainProperties {
 
+		TerrainProperties() = default;
+		explicit TerrainProperties(TerrainPreset preset);
+		TerrainProperties(BaseAlgorithm, int, float, float, float, bool);
+		//TerrainPrperties(Initia)
+
+		//Algoritmo utilizado para la base
+		BaseAlgorithm base_algorithm;
 		//Numero de montañas totales que habrá en el terreno.
 		int number_of_mountains;
 		//Factor de accientado: determina cómo de accidentado será el terreno
@@ -24,23 +40,28 @@ namespace user_api {
 		float river_factor;
 		//Si el terreno es una isla, los puntos de su alrededor valdrán cero
 		bool is_island;
+	private:
+		void SetDefaultProperties(const TerrainProperties);
 	};
+	
+	static const TerrainProperties hilly_preset;
+	static const TerrainProperties soft_preset;
 
 
-
-	class Terrain {
+	TERRAINGENERATOR_API class Terrain {
 	private:
 		Heightmap heightmap;
-		TerrainProperties properties;
 
 	public:
-		Terrain(int width, int height, TerrainProperties = {});
-		Terrain(int exponent, TerrainProperties = {});
+	
+		Terrain(int size);
 		
 	};
 
 
-	int GenerateTerrain(const Terrain &t, const TerrainProperties terrain_properties);
+	TERRAINGENERATOR_API Terrain GenerateTerrain(int size, const TerrainProperties& terrain_properties);
 
-
+	Heightmap CreateBase(int size, const TerrainProperties& p);
+	Heightmap CreateMountains(int size, const TerrainProperties& p);
 }
+#endif

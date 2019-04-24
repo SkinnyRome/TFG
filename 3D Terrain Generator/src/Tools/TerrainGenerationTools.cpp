@@ -69,17 +69,17 @@ Heightmap tools::MixHeightmaps(const Heightmap & h1, const Heightmap & h2, float
 	if (influence < 0.0f || influence > 1.0f)
 		return h1;
 	//Forzar que los heightmap sean iguale
-	if ((h1.GetWidth() != h2.GetWidth() || (h1.GetHeight() != h2.GetHeight())))
+	if (h1.GetSize() != h2.GetSize())
 		return h1;
 
 	float h2Influence = influence;
 	float h1Influence = 1.0f - influence;
 
-	float width = h1.GetWidth();
-	float height = h1.GetHeight();
+	float width = h1.GetSize();
+	float height = h1.GetSize();
 
 
-	Heightmap result{ static_cast<int>(width), static_cast<int>(height) };
+	Heightmap result{static_cast<int>(height) };
 
 
 	for (int i = 0; i < width; i++) {
@@ -104,8 +104,8 @@ void tools::ApplyFilter(Heightmap & h, int magnitude)
 {
 	Heightmap copy(h);
 
-	Heightmap x_perturbation(h.GetWidth(), h.GetHeight());
-	Heightmap y_perturbation(h.GetWidth(), h.GetHeight());
+	Heightmap x_perturbation( h.GetSize());
+	Heightmap y_perturbation( h.GetSize());
 
 	PerlinNoise perlin;
 
@@ -115,18 +115,18 @@ void tools::ApplyFilter(Heightmap & h, int magnitude)
 
 	int xIndex, yIndex, xRandDisplacement, yRandDisplacement;
 
-	for (int i = 0; i < h.GetWidth(); i++) {
-		for (int j = 0; j < h.GetHeight(); j++) {
+	for (int i = 0; i < h.GetSize(); i++) {
+		for (int j = 0; j < h.GetSize(); j++) {
 
 			xRandDisplacement = (round((magnitude * (x_perturbation[i][j] - 0.5f))));
 			yRandDisplacement = (round((magnitude * (y_perturbation[i][j] - 0.5f))));
 
 			xIndex = static_cast<int>(abs(i + xRandDisplacement));
-			xIndex = (xIndex >= h.GetWidth()) ? xIndex - (xIndex - h.GetWidth()) -1 : xIndex;
+			xIndex = (xIndex >= h.GetSize()) ? xIndex - (xIndex - h.GetSize()) -1 : xIndex;
 		
 
 			yIndex = static_cast<int>(abs(j + yRandDisplacement));
-			yIndex = (yIndex >= h.GetHeight()) ? yIndex - (yIndex - h.GetHeight()) - 1 : yIndex;
+			yIndex = (yIndex >= h.GetSize()) ? yIndex - (yIndex - h.GetSize()) - 1 : yIndex;
 
 			//TODO: hacer que cuando un índice se salga de la matriz, ponerlo al máximo para que no de la vuelta, que queda mal.
 			h[i][j] = copy[xIndex][yIndex];			
@@ -143,8 +143,8 @@ void tools::GenerateRandomNoise(Heightmap &h)
 	std::default_random_engine generator;
 	std::normal_distribution<float> distribution(0.5f, 0.25f);
 
-	for (int i = 0; i < h.GetWidth(); i++) {
-		for (int j = 0; j < h.GetHeight(); j++) {
+	for (int i = 0; i < h.GetSize(); i++) {
+		for (int j = 0; j < h.GetSize(); j++) {
 			//h[i][j] = tools::GetRandomValueBetween(0.0f, 1.0f);
 			h[i][j] = distribution(generator);
 		}

@@ -14,9 +14,9 @@ void MidPointDisplacement::GenerateHeightmap(Heightmap & h) const
 {
 	//1. Initialize the corners of the heightmap with random values (between 0.0 and 1.0)
 	h[0][0] = tools::GetRandomValueBetween(0.0f, 1.0f);					//Top-left corner
-	h[h.GetWidth() - 1][0] = tools::GetRandomValueBetween(0.0f, 1.0f); ;			//Top-right corner
-	h[0][h.GetHeight() - 1] = tools::GetRandomValueBetween(0.0f, 1.0f); ;	//Bot-left corner
-	h[h.GetWidth() -1][h.GetHeight() - 1] =tools::GetRandomValueBetween(0.0f, 1.0f); ;	//Bot-right corner
+	h[h.GetSize() - 1][0] = tools::GetRandomValueBetween(0.0f, 1.0f); ;			//Top-right corner
+	h[0][h.GetSize() - 1] = tools::GetRandomValueBetween(0.0f, 1.0f); ;	//Bot-left corner
+	h[h.GetSize() -1][h.GetSize() - 1] =tools::GetRandomValueBetween(0.0f, 1.0f); ;	//Bot-right corner
 
 																	//Calculate the iterations needed to compute all the points (equal to exponent value)
 	int iterations = h.GetExponent(); //TODO comprobar que el heightmap es cuadrado
@@ -34,7 +34,7 @@ void MidPointDisplacement::GenerateHeightmap(Heightmap & h) const
 		int blocks = static_cast<int>(pow(2, i));
 
 		//Calculate the width of each block
-		int blockSize = (h.GetWidth() - 1) / blocks;
+		int blockSize = (h.GetSize() - 1) / blocks;
 
 		//Get the corners of every block and call MidPointDisplace 
 		for (int x = 0; x < blocks; x++) {

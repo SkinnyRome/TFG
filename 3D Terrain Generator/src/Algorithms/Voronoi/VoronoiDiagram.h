@@ -10,10 +10,12 @@
 
 #include <vector>
 #include <Tools\TerrainGenerationTools.h>
+#include "..\IAlgorithm.h"
+
 
 class Heightmap;
 
-class TERRAINGENERATOR_API VoronoiDiagram
+class TERRAINGENERATOR_API VoronoiDiagram : public IAlgorithm
 {
 public:
 
@@ -35,7 +37,7 @@ public:
 
 	VoronoiDiagram(Properties p);
 
-	void GenerateHeightmap(Heightmap &h);
+	void GenerateHeightmap(Heightmap &h) const;
 
 private:
 

@@ -83,5 +83,11 @@
     <ClInclude Include="..\src\Algorithms\Eroders\Eroders.h">
       <Filter>Archivos de encabezado\Algorithms\Eroders</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\Algorithms\Algorithms.h">
+      <Filter>Archivos de encabezado\Algorithms</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Algorithms\IAlgorithm.h">
+      <Filter>Archivos de encabezado\Algorithms\Generators</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

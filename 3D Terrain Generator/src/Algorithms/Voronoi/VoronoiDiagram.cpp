@@ -3,15 +3,15 @@
 #include <algorithm>
 #include <set>
 
-VoronoiDiagram::Properties VoronoiDiagram::default_properties = { 1, 1.0f, 0.0f, 1.0f };
+VoronoiDiagram::Properties VoronoiDiagram::default_properties = { 1, 1.0f, 0.0f, 1.0f};
 
 using Site = std::pair<tools::Point, float>;
 
 
 tools::Point VoronoiDiagram::CreateRandomSite(const Heightmap &h)
 {
-	float x = tools::GetRandomValueBetween(0.0f, static_cast<float>(h.GetWidth()) - 1);
-	float y = tools::GetRandomValueBetween(0.0f, static_cast<float>(h.GetHeight()) - 1);
+	float x = tools::GetRandomValueBetween(0.0f, static_cast<float>(h.GetSize()) - 1);
+	float y = tools::GetRandomValueBetween(0.0f, static_cast<float>(h.GetSize()) - 1);
 
 	return tools::Point(x, y);
 }
@@ -25,7 +25,7 @@ VoronoiDiagram::VoronoiDiagram(Properties p):prop(p), _sitesCoefficients(2,0.0f)
 }
 
 
-void VoronoiDiagram::GenerateHeightmap(Heightmap & h)
+void VoronoiDiagram::GenerateHeightmap(Heightmap & h) const
 {
 	//Second implementation
 	struct comp {
@@ -50,18 +50,18 @@ void VoronoiDiagram::GenerateHeightmap(Heightmap & h)
 
 	
 	float minDistance;
-	float maxDistance = static_cast<float>(sqrt(pow((h.GetWidth()), 2) + pow((h.GetHeight()), 2)));
+	float maxDistance = static_cast<float>(sqrt(pow((h.GetSize()), 2) + pow((h.GetSize()), 2)));
 	bool isSite;
 
 	float distance, height;
-	for (int i = 0; i < h.GetWidth(); i++) {
-		for (int j = 0; j < h.GetHeight(); j++) {
+	for (int i = 0; i < h.GetSize(); i++) {
+		for (int j = 0; j < h.GetSize(); j++) {
 		distance = height = 0.0f;
 
 
 			//First implementation
 			/*
-			minDistance = static_cast<float>(h.GetWidth() * h.GetHeight());
+			minDistance = static_cast<float>(h.GetSize() * h.GetSize());
 			isSite = false;
 			Site nearestSite;
 			float distance, height;

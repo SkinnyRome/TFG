@@ -14,7 +14,7 @@ PerlinNoise::~PerlinNoise()
 {
 }
 
-void PerlinNoise::GenerateHeightmap(Heightmap & h)
+void PerlinNoise::GenerateHeightmap(Heightmap & h) const
 {
 	//Create and initialize random vector values
 	p.resize(256);
@@ -26,10 +26,10 @@ void PerlinNoise::GenerateHeightmap(Heightmap & h)
 	p.insert(p.end(), p.begin(), p.end());
 
 
-	for (int i = 0; i < h.GetWidth(); i++) {
-		for (int j = 0; j < h.GetHeight(); j++) {
-			float x = (float)i / ((float)h.GetWidth());
-			float y = (float)j / ((float)h.GetHeight());
+	for (int i = 0; i < h.GetSize(); i++) {
+		for (int j = 0; j < h.GetSize(); j++) {
+			float x = (float)i / ((float)h.GetSize());
+			float y = (float)j / ((float)h.GetSize());
 
 			//Typical
 			float n = Noise(10 * x, 10 * y);

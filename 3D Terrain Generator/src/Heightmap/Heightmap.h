@@ -23,16 +23,14 @@ class TERRAINGENERATOR_API Heightmap
 private:
 
 	int _exponent;
-	int _width;
-	int _height;
+	int _size;
 	vector<vector<float>> _heightmap;
 
-	void CalculateExponent();
+	void SetSizeAndExp();
 
 public:
 
-	Heightmap(int exponent = 3);
-	Heightmap(int width, int height);
+	Heightmap(int size = 3);
 	//Heightmap(const Heightmap& h);
 
 	const vector<float>& operator[](int i) const { return _heightmap[i]; }
@@ -47,8 +45,7 @@ public:
 	void Resize(int width, int height);
 	void Resize(int exponent);
 
-	int GetWidth() const { return _width; }
-	int GetHeight() const { return _height; }
+	int GetSize() const { return _size; }
 	int GetExponent() const { return _exponent; }
 
 	void SetExponent(int exponent) { _exponent = exponent; }

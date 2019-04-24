@@ -31,10 +31,10 @@ void Erosion::ErodeHeightmap(Heightmap& h, Properties p) {
 
 void Erosion::ThermalErosion(Heightmap & h, int nIterations, float tAngle, float cFactor)
 {
-	const int hWidth = h.GetWidth();
-	const int hHeight = h.GetHeight();
+	const int hWidth = h.GetSize();
+	const int hHeight = h.GetSize();
 
-	const float talusAngle = tAngle / (float)h.GetWidth();
+	const float talusAngle = tAngle / (float)h.GetSize();
 	const float c = cFactor;
 
 	const int iterations = nIterations;
@@ -91,15 +91,15 @@ void Erosion::ThermalErosion(Heightmap & h, int nIterations, float tAngle, float
 void Erosion::HydraulicErosion(Heightmap & h, int nIterations, float c_c, float e_c, float r_c, float s_c )
 {
 	//Water heightmap
-	Heightmap water(h.GetWidth(), h.GetHeight());
+	Heightmap water(h.GetSize());
 
 	//Sediment heightmap
-	Heightmap sediment(h.GetWidth(), h.GetHeight());
+	Heightmap sediment(h.GetSize());
 
 	float rain_value{};
 
-	const int hWidth = h.GetWidth();
-	const int hHeight = h.GetHeight();
+	const int hWidth = h.GetSize();
+	const int hHeight = h.GetSize();
 
 	const int iterations = nIterations;
 

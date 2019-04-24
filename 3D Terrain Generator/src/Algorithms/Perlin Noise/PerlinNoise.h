@@ -9,13 +9,14 @@
 #endif
 
 #include <Heightmap\Heightmap.h>
+#include "..\IAlgorithm.h"
 #include <random>
 #include <numeric>
 
 //using NoiseFunction = float(*)(float x, float y);
 
 
-class TERRAINGENERATOR_API PerlinNoise
+class TERRAINGENERATOR_API PerlinNoise :  public IAlgorithm
 {
 public:
 
@@ -46,7 +47,7 @@ public:
 	PerlinNoise(Properties properties = Properties{});
 	~PerlinNoise();
 
-	void GenerateHeightmap(Heightmap &h);
+	void GenerateHeightmap(Heightmap &h) const;
 };
 
 #endif

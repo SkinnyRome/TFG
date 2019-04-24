@@ -3,50 +3,44 @@
 #include <fstream>
 
 
-void Heightmap::CalculateExponent()
+void Heightmap::SetSizeAndExp()
 {
-	//Find if it's power of 2 and its exponent.
-	if (_width == _height) {
-		int size = _width;
-		int exp = 0;
-		if (size > 0)
+	int mSize = _size;
+	int exp = 0;
+
+		if (mSize > 10 && mSize <= 1024)
 		{
-			while (size % 2 == 0)
+			while (mSize % 2 == 0)
 			{
-				size /= 2;
+				mSize /= 2;
 				++exp;
 			}
-			if (size == 1)
+			if (mSize == 1)
 			{
 				_exponent = exp;
 			}
 		}
-		if (size == 0 || size != 1)
-		{
-			_exponent = -1;
+		else if (mSize > 0 && mSize <= 10) {
+			_size = static_cast<int>(pow(2, mSize));
+			_exponent = mSize;
+
 		}
-	}
-	else
-		_exponent = -1;
-}
-
-
-
-Heightmap::Heightmap(int width, int height):_exponent(0), _width(width), _height(height), _heightmap(_width, vector<float>(_height))
-{
-	CalculateExponent();
-}
-
-Heightmap::Heightmap(int exponent):_exponent(exponent), _width(static_cast<int>(pow(2,_exponent)) + 1), _height(_width), _heightmap(_width, vector<float>(_height))
-{
+		//TODO: else error
 	
+}
+
+
+Heightmap::Heightmap(int exponent)
+{
+	SetSizeAndExp();
+	_heightmap = vector<vector<float>>(_size, vector<float>(_size));
 }
 
 
 Heightmap Heightmap::operator+(const float a)
 {
-	for (int i = 0; i < _width; i++) {
-		for (int j = 0; j < _height; j++) {
+	for (int i = 0; i < _size; i++) {
+		for (int j = 0; j < _size; j++) {
 			_heightmap[i][j] += a;
 		}
 	}
@@ -55,8 +49,8 @@ Heightmap Heightmap::operator+(const float a)
 
 inline Heightmap Heightmap::operator*(const float a)
 {
-	for (int i = 0; i < _width; i++) {
-		for (int j = 0; j < _height; j++) {
+	for (int i = 0; i < _size; i++) {
+		for (int j = 0; j < _size; j++) {
 			_heightmap[i][j] *= a;
 		}
 	}
@@ -65,7 +59,7 @@ inline Heightmap Heightmap::operator*(const float a)
 
 bool Heightmap::IsSquare() const
 {
-	return _width == _height;
+	return _size == _size;
 }
 
 bool Heightmap::IsPowerOfTwo() const
@@ -76,23 +70,23 @@ bool Heightmap::IsPowerOfTwo() const
 void Heightmap::Resize(int width, int height)
 {
 
-	_width = width;
-	_height = height;
+	_size = width;
+	_size = height;
 
 	_heightmap.resize(width);
 	for (std::vector<float> & h : _heightmap) {
 		h.resize(height);
 	}
 
-	CalculateExponent();
+	SetSizeAndExp();
 }
 
 void Heightmap::Resize(int exponent)
 {
 	_exponent = exponent;
-	_width = static_cast<int>(pow(2, exponent));
-	_height = _width;
-	Resize(_height, _width);
+	_size = static_cast<int>(pow(2, exponent));
+	_size = _size;
+	Resize(_size, _size);
 }
 
 void Heightmap::Normalize()
@@ -104,8 +98,8 @@ void Heightmap::Normalize()
 	//bool need_normalize = false;
 
 	//Get the max and the min values of the heightmap
-	for (int i = 0; i < _width; i++) {
-		for (int j = 0; j < _height; j++) {
+	for (int i = 0; i < _size; i++) {
+		for (int j = 0; j < _size; j++) {
 
 			float value = _heightmap[i][j];
 
@@ -124,8 +118,8 @@ void Heightmap::Normalize()
 #endif
 
 	//Normalize
-	for (int i = 0; i < _width; i++) {
-		for (int j = 0; j < _height; j++) {
+	for (int i = 0; i < _size; i++) {
+		for (int j = 0; j < _size; j++) {
 
 			float value = _heightmap[i][j];
 
@@ -149,8 +143,8 @@ void Heightmap::DumpToFile(string filename, RawMode mode)
 
 
 
-	for (int j = 0; j < _height; j++) {
-		for (int i = 0; i < _width; i++) {
+	for (int j = 0; j < _size; j++) {
+		for (int i = 0; i < _size; i++) {
 			unsigned short int value(tools::FloatToShortInt(_heightmap[i][j]));
 			rawFile.write(reinterpret_cast<const char*>(&value), sizeof(unsigned short int));
 		}
@@ -165,15 +159,15 @@ void Heightmap::DumpToFile(string filename, RawMode mode)
 inline TERRAINGENERATOR_API Heightmap operator+(const Heightmap & lhh, const Heightmap & rhh)
 {
 
-	if (lhh.GetWidth() != rhh.GetWidth() || lhh.GetHeight() != rhh.GetHeight()) {
+	if (lhh.GetSize() != rhh.GetSize()) {
 		throw std::length_error{ "The heightmaps size are diferent" };
 	}
 
 
 
-	Heightmap heightmap_add(lhh.GetWidth(), lhh.GetHeight());
-	for (int i = 0; i < lhh.GetWidth(); i++) {
-		for (int j = 0; j < lhh.GetHeight(); j++) {
+	Heightmap heightmap_add(lhh.GetSize());
+	for (int i = 0; i < lhh.GetSize(); i++) {
+		for (int j = 0; j < lhh.GetSize(); j++) {
 			heightmap_add[i][j] = lhh[i][j] + rhh[i][j];
 		}
 	}
@@ -183,13 +177,13 @@ inline TERRAINGENERATOR_API Heightmap operator+(const Heightmap & lhh, const Hei
 
 inline TERRAINGENERATOR_API Heightmap operator-(const Heightmap & lhh, const Heightmap & rhh)
 {
-	if (lhh.GetWidth() != rhh.GetWidth() || lhh.GetHeight() != rhh.GetHeight()) {
+	if (lhh.GetSize() != rhh.GetSize()) {
 		throw std::length_error{ "The heightmaps size are diferent" };
 	}
 
-	Heightmap heightmap_add(lhh.GetWidth(), lhh.GetHeight());
-	for (int i = 0; i < lhh.GetWidth(); i++) {
-		for (int j = 0; j < lhh.GetHeight(); j++) {
+	Heightmap heightmap_add(lhh.GetSize());
+	for (int i = 0; i < lhh.GetSize(); i++) {
+		for (int j = 0; j < lhh.GetSize(); j++) {
 			heightmap_add[i][j] = lhh[i][j] - rhh[i][j];
 		}
 	}

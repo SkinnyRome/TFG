@@ -15,7 +15,7 @@ void CutAlgorithm::CutHeightmap(Heightmap & h) const
 
 	for (int i = 0; i < prop.num_of_slopes; i++) {
 
-		puntosDeCorte.push_back(CreateRandomCut(h.GetWidth(), h.GetHeight()));
+		puntosDeCorte.push_back(CreateRandomCut(h.GetSize(), h.GetSize()));
 
 	}
 
@@ -48,11 +48,11 @@ Point CutAlgorithm::ClosestPointOnSegment(const Point & a, const Point & b, cons
 void CutAlgorithm::DoCuts(const std::vector<Cut>& v, Heightmap &h) const
 {
 
-	float totalIterations = static_cast<float>(v.size()) * h.GetWidth() * h.GetHeight();
+	float totalIterations = static_cast<float>(v.size()) * h.GetSize() * h.GetSize();
 	long int it = 0;
 
-	for (int i = 0; i < h.GetWidth(); i++) {
-		for (int j = 0; j < h.GetHeight(); j++) {
+	for (int i = 0; i < h.GetSize(); i++) {
+		for (int j = 0; j < h.GetSize(); j++) {
 			Point p(static_cast<float>(i), static_cast<float>(j));
 
 			//float point_offset = (p.second >) ? GetRandomValueBetween() : ;
