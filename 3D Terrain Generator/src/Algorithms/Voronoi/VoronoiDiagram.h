@@ -45,7 +45,7 @@ private:
 
 	Properties prop;
 	std::vector<float> _sitesCoefficients;
-	tools::Point CreateRandomSite(const Heightmap &h);
+	tools::Point CreateRandomSite(const Heightmap &h) const;
 
 };
 

@@ -99,7 +99,7 @@ Cut CutAlgorithm::CreateRandomCut(int width, int height) const
 	float value = GetRandomValueBetween(0.0f, prop.roughness);
 	float cut_height = GetRandomValueBetween(0.0f, 0.9f);
 
-	axis++;
+	++axis;
 
 	return Cut
 	(

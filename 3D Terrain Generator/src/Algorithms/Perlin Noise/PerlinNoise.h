@@ -37,10 +37,10 @@ private:
 	std::vector<int> p; //permutation vector
 	Properties prop;
 
-	float Gradient(int hash, float x, float y);
-	float Fade(float t);
-	float LinearInterpolation(float a, float b, float t);
-	float Noise(float x, float y);
+	float Gradient(int hash, float x, float y)const;
+	float Fade(float t)const;
+	float LinearInterpolation(float a, float b, float t)const;
+	float Noise(float x, float y) const;
 
 public:
 

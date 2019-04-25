@@ -21,7 +21,7 @@ void Heightmap::SetSizeAndExp()
 			}
 		}
 		else if (mSize > 0 && mSize <= 10) {
-			_size = static_cast<int>(pow(2, mSize));
+			_size = static_cast<int>(pow(2, mSize)) + 1;
 			_exponent = mSize;
 
 		}
@@ -30,7 +30,7 @@ void Heightmap::SetSizeAndExp()
 }
 
 
-Heightmap::Heightmap(int exponent)
+Heightmap::Heightmap(int size):_size(size)
 {
 	SetSizeAndExp();
 	_heightmap = vector<vector<float>>(_size, vector<float>(_size));

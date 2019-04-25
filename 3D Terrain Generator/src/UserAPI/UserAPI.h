@@ -10,8 +10,12 @@
 
 #include <string>
 #include <Heightmap\Heightmap.h>
+#include "Algorithms\Algorithms.h"
+
 
 using namespace std;
+
+
 
 namespace user_api {
 
@@ -25,13 +29,15 @@ namespace user_api {
 
 		TerrainProperties() = default;
 		explicit TerrainProperties(TerrainPreset preset);
-		TerrainProperties(BaseAlgorithm, int, float, float, float, bool);
+		TerrainProperties(BaseAlgorithm, int,float, float, float, float, bool);
 		//TerrainPrperties(Initia)
 
 		//Algoritmo utilizado para la base
 		BaseAlgorithm base_algorithm;
 		//Numero de montañas totales que habrá en el terreno.
 		int number_of_mountains;
+		//Factor de aleatoreidad que indica cómo de randomizado será el terreno.
+		float random_factor;
 		//Factor de accientado: determina cómo de accidentado será el terreno
 		float hilly_factor;
 		//Factor de suavidad: a pesar de ser accidentado, el terreno puede estar más o menos suavizado
@@ -63,5 +69,10 @@ namespace user_api {
 
 	Heightmap CreateBase(int size, const TerrainProperties& p);
 	Heightmap CreateMountains(int size, const TerrainProperties& p);
+	void CutHeightmap(Heightmap& h, const TerrainProperties p);
+
+	MidPointDisplacement::Properties GetDiamondSquareProp(const TerrainProperties& p);
+	VoronoiDiagram::Properties GetVoronoiProp(const TerrainProperties& p);
+
 }
 #endif

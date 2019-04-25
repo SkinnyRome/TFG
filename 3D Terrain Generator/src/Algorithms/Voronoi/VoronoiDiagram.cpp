@@ -8,7 +8,7 @@ VoronoiDiagram::Properties VoronoiDiagram::default_properties = { 1, 1.0f, 0.0f,
 using Site = std::pair<tools::Point, float>;
 
 
-tools::Point VoronoiDiagram::CreateRandomSite(const Heightmap &h)
+tools::Point VoronoiDiagram::CreateRandomSite(const Heightmap &h) const
 {
 	float x = tools::GetRandomValueBetween(0.0f, static_cast<float>(h.GetSize()) - 1);
 	float y = tools::GetRandomValueBetween(0.0f, static_cast<float>(h.GetSize()) - 1);

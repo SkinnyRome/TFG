@@ -3,9 +3,20 @@
 
 using namespace std;
 
-PerlinNoise::PerlinNoise(Properties p):prop(p)
+PerlinNoise::PerlinNoise(Properties pr):prop(pr)
 {
 	srand(time(NULL));
+
+
+	//Create and initialize random vector values
+	p.resize(256);
+	iota(p.begin(), p.end(), 0);
+	mt19937 g(prop._seed);
+	shuffle(p.begin(), p.end(), g);
+
+	// Duplicate the permutation vector
+	p.insert(p.end(), p.begin(), p.end());
+
 
 }
 
@@ -16,15 +27,6 @@ PerlinNoise::~PerlinNoise()
 
 void PerlinNoise::GenerateHeightmap(Heightmap & h) const
 {
-	//Create and initialize random vector values
-	p.resize(256);
-	iota(p.begin(), p.end(), 0);
-	mt19937 g(prop._seed);
-	shuffle(p.begin(), p.end(), g);
-
-	// Duplicate the permutation vector
-	p.insert(p.end(), p.begin(), p.end());
-
 
 	for (int i = 0; i < h.GetSize(); i++) {
 		for (int j = 0; j < h.GetSize(); j++) {
@@ -46,25 +48,25 @@ void PerlinNoise::GenerateHeightmap(Heightmap & h) const
 
 }
 
-float PerlinNoise::Fade(float t) {
+float PerlinNoise::Fade(float t) const{
 
 	return t * t * t * (t *(t * 6 - 15) + 10);
 
 }
 
-float PerlinNoise::LinearInterpolation(float a, float b, float t) {
+float PerlinNoise::LinearInterpolation(float a, float b, float t) const{
 	return a + t * (b - a);
 }
 
 
 //Calculates a dot product between the vector x, y and a pseudo random gradient vector.
-float PerlinNoise::Gradient(int hash, float x, float y) {
+float PerlinNoise::Gradient(int hash, float x, float y) const{
 
 	return ((hash & 1) ? x : -x) + ((hash & 2) ? y : -y);
 
 }
 
-float PerlinNoise::Noise(float x, float y) {
+float PerlinNoise::Noise(float x, float y) const{
 
 	//Find the pixel cell
 	int cellX = (int)floor(x) & /*(GRID_SIZE - 1)*/ 255;
