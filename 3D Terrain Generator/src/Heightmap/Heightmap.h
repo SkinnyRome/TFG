@@ -39,9 +39,6 @@ public:
 	inline Heightmap operator*(const float a);
 	
 
-	bool IsSquare() const;
-	bool IsPowerOfTwo() const;
-
 	void Resize(int width, int height);
 	void Resize(int exponent);
 

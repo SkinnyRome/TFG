@@ -6,6 +6,7 @@
 #include "Algorithms\Algorithms.h"
 #include "Algorithms\Eroders\Eroders.h"
 #include <Tools\TerrainGenerationTools.h>
+#include "UserAPI\UserAPI.h"
 
 using namespace std;
 
@@ -32,7 +33,7 @@ void PrintHeightMap(const Heightmap& h) {
 
 int main() {
 
-	constexpr int exponent = 8;
+	constexpr int exponent = 10;
 
 	srand(time(NULL)); //TODO: meter inicialización a la libreria para esto
 
@@ -60,7 +61,20 @@ int main() {
 
 	h_mpd.DumpToFile("CutAlgorithm/MidPointCutted");
 	*/
+	/*------------------------------------------------------- PERLIN NOISE --------------------------------------------*/
 
+	/*Heightmap perlin_heightmap(exponent);
+	PerlinNoise::Properties p_p;
+	PerlinNoise perlin_algorithm(p_p);
+
+	perlin_algorithm.GenerateHeightmap(perlin_heightmap);
+
+	perlin_heightmap.DumpToFile("PerlinNoise/Heightmap");
+
+
+
+
+	/*------------------------------------------------------- PERLIN NOISE --------------------------------------------*/
 	/*---------------------------- VORONOI ---------------------------------------
 	
 	VoronoiDiagram::Properties voronoi_p1(10, 1.0f, 0.8f);
@@ -177,5 +191,14 @@ int main() {
 	h_thermal.DumpToFile("ErodedThermal");
 	h_hydraulic.DumpToFile("ErodedHydraylic");
 	*/
+
+/*---------------------------------------------------------------- USER API -----------------------------------------------*/
+
+
+	user_api::Terrain terrain = user_api::GenerateTerrain(8, user_api::TerrainPreset::Hilly );
+
+	terrain.CreateRaw("Terrain");
+
+/*---------------------------------------------------------------- USER API -----------------------------------------------*/
 	return 0;
 }

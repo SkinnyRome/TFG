@@ -57,15 +57,6 @@ inline Heightmap Heightmap::operator*(const float a)
 	return *this;
 }
 
-bool Heightmap::IsSquare() const
-{
-	return _size == _size;
-}
-
-bool Heightmap::IsPowerOfTwo() const
-{
-	return _exponent >= 0;
-}
 
 void Heightmap::Resize(int width, int height)
 {

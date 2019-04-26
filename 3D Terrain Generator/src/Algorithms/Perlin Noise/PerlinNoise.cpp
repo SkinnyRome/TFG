@@ -33,8 +33,10 @@ void PerlinNoise::GenerateHeightmap(Heightmap & h) const
 			float x = (float)i / ((float)h.GetSize());
 			float y = (float)j / ((float)h.GetSize());
 
+			float nI = 0;
+
 			//Typical
-			float n = Noise(10 * x, 10 * y);
+			float n = Noise(10 * x, 10 * y, nI);
 
 			//Wood
 			//float n = 20 * noise(x,y);
@@ -45,7 +47,7 @@ void PerlinNoise::GenerateHeightmap(Heightmap & h) const
 		}
 	}
 
-
+	h.Normalize();
 }
 
 float PerlinNoise::Fade(float t) const{
@@ -66,7 +68,14 @@ float PerlinNoise::Gradient(int hash, float x, float y) const{
 
 }
 
-float PerlinNoise::Noise(float x, float y) const{
+float PerlinNoise::Noise(float xValue, float yValue, float& n) const{
+
+	
+
+	int a = 2;
+
+	float x = xValue * pow(2, n);
+	float y = yValue * pow(2, n);
 
 	//Find the pixel cell
 	int cellX = (int)floor(x) & /*(GRID_SIZE - 1)*/ 255;
@@ -100,7 +109,14 @@ float PerlinNoise::Noise(float x, float y) const{
 	float x2 = LinearInterpolation(left_bot_grad, right_bot_grad, u);
 	float r = LinearInterpolation(x1, x2, v);
 
-	return (r + 1.0f) / 2.0f;
+	float result = ((r + 1.0f) / 2.0f) / pow(a, n);
+
+	++n;
+
+	if (n >= 5)
+		return result;
+	else
+		return result += Noise(xValue, yValue, n);
 }
 
 

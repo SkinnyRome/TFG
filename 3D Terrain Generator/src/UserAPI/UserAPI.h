@@ -24,12 +24,13 @@ namespace user_api {
 
 	TERRAINGENERATOR_API enum class TerrainPreset {Hilly, Soft };
 	TERRAINGENERATOR_API enum class BaseAlgorithm {PerlinNoise, DiamondSquare};
+	TERRAINGENERATOR_API enum class ErosionLevel {None, Low, Mid, High};
 
 	TERRAINGENERATOR_API struct TerrainProperties {
 
 		TerrainProperties() = default;
-		explicit TerrainProperties(TerrainPreset preset);
-		TerrainProperties(BaseAlgorithm, int,float, float, float, float, bool);
+		TERRAINGENERATOR_API TerrainProperties(TerrainPreset preset);
+		TerrainProperties(BaseAlgorithm, int,float, float, float, float,ErosionLevel, bool);
 		//TerrainPrperties(Initia)
 
 		//Algoritmo utilizado para la base
@@ -44,14 +45,13 @@ namespace user_api {
 		float smooth_factor;
 		//Factor de rios: controla la creación de "caudales" para los rios
 		float river_factor;
+		//Nivel de erosion
+		ErosionLevel erosion_level;
 		//Si el terreno es una isla, los puntos de su alrededor valdrán cero
 		bool is_island;
 	private:
 		void SetDefaultProperties(const TerrainProperties);
 	};
-	
-	static const TerrainProperties hilly_preset;
-	static const TerrainProperties soft_preset;
 
 
 	TERRAINGENERATOR_API class Terrain {
@@ -60,7 +60,9 @@ namespace user_api {
 
 	public:
 	
-		Terrain(int size);
+		explicit Terrain(Heightmap&& h);
+
+		TERRAINGENERATOR_API void CreateRaw(string path);
 		
 	};
 
@@ -73,6 +75,7 @@ namespace user_api {
 
 	MidPointDisplacement::Properties GetDiamondSquareProp(const TerrainProperties& p);
 	VoronoiDiagram::Properties GetVoronoiProp(const TerrainProperties& p);
+	pair<int,int> GetMixValues(const TerrainProperties& t);
 
 }
 #endif
