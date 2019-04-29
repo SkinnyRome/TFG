@@ -175,7 +175,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 170076733}
   m_LocalRotation: {x: 0.40821788, y: -0.23456968, z: 0.10938163, w: 0.8754261}
-  m_LocalPosition: {x: 0, y: 3, z: 0}
+  m_LocalPosition: {x: -205, y: 364, z: 378}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -257,13 +257,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 534669902}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: -10}
+  m_LocalRotation: {x: 0.38509166, y: -0, z: -0, w: 0.9228784}
+  m_LocalPosition: {x: 178, y: 377.9, z: -149.3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 45.299004, y: 0, z: 0}
 --- !u!114 &534669906
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -276,7 +276,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b3ba449cce7b9a4a928d5288e4c5a9f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &1233027069
+--- !u!1 &943157347
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -284,35 +284,35 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 1233027072}
-  - component: {fileID: 1233027071}
-  - component: {fileID: 1233027070}
-  - component: {fileID: 1233027073}
+  - component: {fileID: 943157350}
+  - component: {fileID: 943157349}
+  - component: {fileID: 943157348}
+  - component: {fileID: 943157351}
   m_Layer: 0
   m_Name: Terrain
-  m_TagString: Untagged
+  m_TagString: Terrain
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
   m_IsActive: 1
---- !u!154 &1233027070
+--- !u!154 &943157348
 TerrainCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1233027069}
+  m_GameObject: {fileID: 943157347}
   m_Material: {fileID: 0}
   m_Enabled: 1
   m_TerrainData: {fileID: 15600000, guid: f26ddf1164485434a8bb2f3fca2ce1d7, type: 2}
   m_EnableTreeColliders: 1
---- !u!218 &1233027071
+--- !u!218 &943157349
 Terrain:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1233027069}
+  m_GameObject: {fileID: 943157347}
   m_Enabled: 1
   serializedVersion: 3
   m_TerrainData: {fileID: 15600000, guid: f26ddf1164485434a8bb2f3fca2ce1d7, type: 2}
@@ -342,13 +342,13 @@ Terrain:
   m_LightmapParameters: {fileID: 15203, guid: 0000000000000000f000000000000000, type: 0}
   m_GroupingID: 0
   m_AllowAutoConnect: 1
---- !u!4 &1233027072
+--- !u!4 &943157350
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1233027069}
+  m_GameObject: {fileID: 943157347}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -356,15 +356,32 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1233027073
+--- !u!114 &943157351
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1233027069}
+  m_GameObject: {fileID: 943157347}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9b9e85e2b08eeee40b4dd7237c0697fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  terrain: {fileID: 943157349}
+  terrainData: {fileID: 15600000, guid: f26ddf1164485434a8bb2f3fca2ce1d7, type: 2}
+  splatHeightsList:
+  - texture: {fileID: 2800000, guid: 4b888dc5781fd8b43aba0b25d35137a3, type: 3}
+    minHeight: 0
+    maxHeight: 0.2
+    minSlope: 0
+    maxSlope: 1.5
+    randomizer: 0
+    remove: 0
+  - texture: {fileID: 2800000, guid: 2e5a43d52cfa24047a026c04492a3a78, type: 3}
+    minHeight: 0.1
+    maxHeight: 1
+    minSlope: 1.5
+    maxSlope: 100
+    randomizer: 0
+    remove: 0

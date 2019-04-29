@@ -8,16 +8,22 @@ using EditorGUITable;
 public class CustomTerrainEditor : Editor
 {
     GUITableState splatMapTable;
-    SerializedProperty splatHeights;
+    SerializedProperty SplatHeights;
+    
+    
 
-
-    bool showSplatMaps = false;
-
+    bool showDrawTerrain = false;
+    bool showCustomDrawingData = false;
+    bool showSnowy = false;
+    bool showTropical = false;
+    bool showArid = false;
 
     void OnEnable() {
 
         splatMapTable = new GUITableState("splatMapTable");
-        splatHeights = serializedObject.FindProperty("splatHeights");
+        SplatHeights = serializedObject.FindProperty("SplatHeights");
+
+       
 
 
     }
@@ -39,32 +45,67 @@ public class CustomTerrainEditor : Editor
 
 
 
-        showSplatMaps = EditorGUILayout.Foldout(showSplatMaps, "Splat Maps");
-        if (showSplatMaps)
+        showDrawTerrain = EditorGUILayout.Foldout(showDrawTerrain, "Draw Terrain");
+        if (showDrawTerrain)
         {
-            EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
-            GUILayout.Label("Splat Maps", EditorStyles.boldLabel);
-            /*EditorGUILayout.Slider(splatOffset, 0, 0.1f, new GUIContent("Offset"));
-            EditorGUILayout.Slider(splatNoiseXScale, 0.001f, 1, new GUIContent("Noise X Scale"));
-            EditorGUILayout.Slider(splatNoiseYScale, 0.001f, 1, new GUIContent("Noise Y Scale"));
-            EditorGUILayout.Slider(splatNoiseScaler, 0, 1, new GUIContent("Noise Scaler"));*/
-            splatMapTable = GUITableLayout.DrawTable(splatMapTable,
-                                            serializedObject.FindProperty("splatHeights"));
-            GUILayout.Space(20);
-            EditorGUILayout.BeginHorizontal();
-            if (GUILayout.Button("+"))
-            {
-                terrain.AddNewSplatHeight();
+
+            showArid = EditorGUILayout.Foldout(showArid, "Arid Landscape");
+            if (showArid) {
+
+                if (GUILayout.Button("Apply Arid LandScape"))
+                {
+                    terrain.AridLandscape();
+                }
+
             }
-            if (GUILayout.Button("-"))
+            showSnowy = EditorGUILayout.Foldout(showSnowy, "Snowy Landscape");
+            if (showSnowy)
             {
-                terrain.RemoveSplatHeight();
+                if (GUILayout.Button("Apply Snowy LandScape"))
+                {
+                    terrain.SnowyLandscape();
+                }
             }
-            EditorGUILayout.EndHorizontal();
-            if (GUILayout.Button("Apply SplatMaps"))
+            showTropical = EditorGUILayout.Foldout(showTropical, "Tropical Landscape");
+            if (showTropical)
             {
-                terrain.SplatMaps();
+                if (GUILayout.Button("Apply Tropical LandScape"))
+                {
+                    terrain.TropicalLandscape();
+                }
+
+            }           
+
+            showCustomDrawingData = EditorGUILayout.Foldout(showCustomDrawingData, "Custom Textures");
+            if (showCustomDrawingData)
+            {
+
+                EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
+                GUILayout.Label("Custom Textures", EditorStyles.boldLabel);
+                /*EditorGUILayout.Slider(splatOffset, 0, 0.1f, new GUIContent("Offset"));
+                EditorGUILayout.Slider(splatNoiseXScale, 0.001f, 1, new GUIContent("Noise X Scale"));
+                EditorGUILayout.Slider(splatNoiseYScale, 0.001f, 1, new GUIContent("Noise Y Scale"));
+                EditorGUILayout.Slider(splatNoiseScaler, 0, 1, new GUIContent("Noise Scaler"));*/
+                splatMapTable = GUITableLayout.DrawTable(splatMapTable, serializedObject.FindProperty("splatHeightsList"));
+                GUILayout.Space(200);
+                
+                EditorGUILayout.BeginHorizontal();
+                if (GUILayout.Button("+"))
+                {
+                    terrain.AddNewSplatHeight();
+                }
+                if (GUILayout.Button("-"))
+                {
+                    terrain.RemoveSplatHeight();
+                }
+              
+                EditorGUILayout.EndHorizontal();
+                if (GUILayout.Button("Apply Custom Textures"))
+                {
+                    terrain.CustomTextures();
+                }
             }
+            
         }
 
         //Scrollbar ending code

@@ -9,54 +9,213 @@ using System.Linq;
 public class CustomTerrain : MonoBehaviour
 {
 
+    public Terrain terrain;
+    public TerrainData terrainData;
 
     //SPLATMAPS ---------------------------------------------
     [System.Serializable]
-    public class SplatHeights
-    {
+    public class SplatHeights {
+
         public Texture2D texture = null;
         public float minHeight = 0.1f;
         public float maxHeight = 0.2f;
         public float minSlope = 0;
         public float maxSlope = 1.5f;
+        public float randomizer = 0;        
+        public bool remove = false;
+       
+    }
+
+    public class privateSplatHeights
+    {
+        public privateSplatHeights(float r) {
+            if (r < 0) {
+                r = 0;
+            }
+            //Debug.Log(r);
+            splatOffset += (r / 10);
+
+            if(r >= 1)
+                tileSize = new Vector2(50 + (r * 2), 50 + (r * 2));
+            //splatNoiseXScale *= (r / 2);
+           // splatNoiseYScale *= (r / 2);
+           // splatNoiseScaler = r;
+        }
+        public SplatHeights splatHeights = new SplatHeights();
         public Vector2 tileOffset = new Vector2(0, 0);
-        public Vector2 tileSize = new Vector2(50, 50);
+        public Vector2 tileSize = new Vector2(100, 100);
         public float splatOffset = 0.1f;
         public float splatNoiseXScale = 0.01f;
         public float splatNoiseYScale = 0.01f;
         public float splatNoiseScaler = 0.1f;
-        public bool remove = false;
+        
+
     }
 
-    public List<SplatHeights> splatHeights = new List<SplatHeights>()
+    
+    public List<SplatHeights> splatHeightsList = new List<SplatHeights>()
     {
         new SplatHeights()
     };
 
 
-    public Terrain terrain;
-    public TerrainData terrainData;
+    public List<privateSplatHeights> privateSplatHeightsList = new List<privateSplatHeights>()
+    {
+        new privateSplatHeights(1)
+    };
+
+    /*
+        public Texture2D texture = null;
+        public float minHeight = 0.1f;
+        public float maxHeight = 0.2f;
+        public float minSlope = 0;
+        public float maxSlope = 1.5f;
+        public float randomizer = 0;        
+        public bool remove = false;
+       */
+
+    public void CustomTextures() {
+        UpdatePrivateList();
+        SplatMaps();
+    }
+
+    public void TropicalLandscape()
+    {
+
+        privateSplatHeightsList.Clear();
+
+        privateSplatHeights pH1 = new privateSplatHeights(1);
+        pH1.splatHeights.texture = (Texture2D)Resources.Load("TexturePack/Atex_Rock2");
+        pH1.splatHeights.minHeight = 0.1f;
+        pH1.splatHeights.maxHeight = 1.0f;
+        pH1.splatHeights.minSlope = 1.0f;
+        pH1.splatHeights.maxSlope = 100.0f;
+        privateSplatHeightsList.Add(pH1);
+
+        privateSplatHeights pH2 = new privateSplatHeights(1);
+        pH2.splatHeights.texture = (Texture2D)Resources.Load("TexturePack/Atex_Snow4");
+        pH2.splatHeights.minHeight = 0.0f;
+        pH2.splatHeights.maxHeight = 1.0f;
+        pH2.splatHeights.minSlope = 0.0f;
+        pH2.splatHeights.maxSlope = 1.0f;
+        privateSplatHeightsList.Add(pH2);
+
+        SplatMaps();
+
+    }
+    public void AridLandscape()
+    {
+
+        privateSplatHeightsList.Clear();
+
+        privateSplatHeights pH1 = new privateSplatHeights(1);
+        pH1.splatHeights.texture = (Texture2D)Resources.Load("TexturePack/Atex_Dirt3");
+        pH1.splatHeights.minHeight = 0.0f;
+        pH1.splatHeights.maxHeight = 0.1f;
+        pH1.splatHeights.minSlope = 0.0f;
+        pH1.splatHeights.maxSlope = 1.0f;
+        privateSplatHeightsList.Add(pH1);
+
+        privateSplatHeights pH2 = new privateSplatHeights(1);
+        pH2.splatHeights.texture = (Texture2D)Resources.Load("TexturePack/Atex_Sand1");
+        pH2.splatHeights.minHeight = 0.1f;
+        pH2.splatHeights.maxHeight = 1.0f;
+        pH2.splatHeights.minSlope = 1.0f;
+        pH2.splatHeights.maxSlope = 50.0f;
+        privateSplatHeightsList.Add(pH2);
+
+
+        privateSplatHeights pH3 = new privateSplatHeights(1);
+        pH3.splatHeights.texture = (Texture2D)Resources.Load("TexturePack/Atex_Rock16");
+        pH3.splatHeights.minHeight = 0.1f;
+        pH3.splatHeights.maxHeight = 1.0f;
+        pH3.splatHeights.minSlope = 5.0f;
+        pH3.splatHeights.maxSlope = 100.0f;
+        privateSplatHeightsList.Add(pH3);
+
+
+        privateSplatHeights pH4 = new privateSplatHeights(1);
+        pH4.splatHeights.texture = (Texture2D)Resources.Load("TexturePack/Atex_Dirt1");
+        pH4.splatHeights.minHeight = 0.0f;
+        pH4.splatHeights.maxHeight = 0.2f;
+        pH4.splatHeights.minSlope = 1.0f;
+        pH4.splatHeights.maxSlope = 20.0f;
+        privateSplatHeightsList.Add(pH4);
+
+        privateSplatHeights pH5 = new privateSplatHeights(1);
+        pH5.splatHeights.texture = (Texture2D)Resources.Load("TexturePack/Atex_Sand1");
+        pH5.splatHeights.minHeight = 0.0f;
+        pH5.splatHeights.maxHeight = 0.1f;
+        pH5.splatHeights.minSlope = 0.0f;
+        pH5.splatHeights.maxSlope = 1.5f;
+        privateSplatHeightsList.Add(pH5);
+
+        SplatMaps();
+
+    }
+
+    public void SnowyLandscape()
+    {
+
+        privateSplatHeightsList.Clear();
+
+        privateSplatHeights pH1 = new privateSplatHeights(1);
+        pH1.splatHeights.texture = (Texture2D)Resources.Load("TexturePack/Atex_Rock2"); 
+        pH1.splatHeights.minHeight = 0.1f;
+        pH1.splatHeights.maxHeight = 1.0f;
+        pH1.splatHeights.minSlope = 1.0f;
+        pH1.splatHeights.maxSlope = 100.0f;
+        privateSplatHeightsList.Add(pH1);
+
+        privateSplatHeights pH2 = new privateSplatHeights(1);
+        pH2.splatHeights.texture = (Texture2D)Resources.Load("TexturePack/Atex_Snow4");
+        pH2.splatHeights.minHeight = 0.0f;
+        pH2.splatHeights.maxHeight = 1.0f;
+        pH2.splatHeights.minSlope = 0.0f;
+        pH2.splatHeights.maxSlope = 1.0f;
+        privateSplatHeightsList.Add(pH2);
+
+        SplatMaps();
+
+    }
 
     public void AddNewSplatHeight()
     {
-        splatHeights.Add(new SplatHeights());
+        splatHeightsList.Add(new SplatHeights());        
     }
 
     public void RemoveSplatHeight()
     {
         List<SplatHeights> keptSplatHeights = new List<SplatHeights>();
-        for (int i = 0; i < splatHeights.Count; i++)
+        for (int i = 0; i < splatHeightsList.Count; i++)
         {
-            if (!splatHeights[i].remove)
+            if (!splatHeightsList[i].remove)
             {
-                keptSplatHeights.Add(splatHeights[i]);
+                keptSplatHeights.Add(splatHeightsList[i]);
             }
         }
         if (keptSplatHeights.Count == 0) //don't want to keep any
         {
-            keptSplatHeights.Add(splatHeights[0]); //add at least 1
+            keptSplatHeights.Add(splatHeightsList[0]); //add at least 1
         }
-        splatHeights = keptSplatHeights;
+        splatHeightsList = keptSplatHeights;
+    }
+
+    void UpdatePrivateList() {
+
+        privateSplatHeightsList.Clear();
+      
+        foreach (SplatHeights sH in splatHeightsList)
+        {
+            privateSplatHeights pH = new privateSplatHeights(sH.randomizer);
+            pH.splatHeights = sH;
+            Debug.Log(sH.texture);
+            privateSplatHeightsList.Add(pH);
+            
+        }
+
+
+
     }
 
     float GetSteepness(float[,] heightmap, int x, int y, int width, int height)
@@ -81,16 +240,17 @@ public class CustomTerrain : MonoBehaviour
     public void SplatMaps()
     {
         SplatPrototype[] newSplatPrototypes;
-        newSplatPrototypes = new SplatPrototype[splatHeights.Count];
-        int spindex = 0;
-        foreach (SplatHeights sh in splatHeights)
+        newSplatPrototypes = new SplatPrototype[privateSplatHeightsList.Count];
+        int index = 0;
+        Debug.Log(privateSplatHeightsList[0].splatHeights.texture);
+        foreach (privateSplatHeights sh in privateSplatHeightsList)
         {
-            newSplatPrototypes[spindex] = new SplatPrototype();
-            newSplatPrototypes[spindex].texture = sh.texture;
-            newSplatPrototypes[spindex].tileOffset = sh.tileOffset;
-            newSplatPrototypes[spindex].tileSize = sh.tileSize;
-            newSplatPrototypes[spindex].texture.Apply(true);
-            spindex++;
+            newSplatPrototypes[index] = new SplatPrototype();
+            newSplatPrototypes[index].texture = sh.splatHeights.texture;
+            newSplatPrototypes[index].tileOffset = sh.tileOffset;
+            newSplatPrototypes[index].tileSize = sh.tileSize;            
+            newSplatPrototypes[index].texture.Apply(true);
+            index++;
         }
         terrainData.splatPrototypes = newSplatPrototypes;
 
@@ -105,14 +265,14 @@ public class CustomTerrain : MonoBehaviour
             for (int x = 0; x < terrainData.alphamapWidth; x++)
             {
                 float[] splat = new float[terrainData.alphamapLayers];
-                for (int i = 0; i < splatHeights.Count; i++)
+                for (int i = 0; i < privateSplatHeightsList.Count; i++)
                 {
-                    float noise = Mathf.PerlinNoise(x * splatHeights[i].splatNoiseXScale,
-                                                    y * splatHeights[i].splatNoiseYScale)
-                                       * splatHeights[i].splatNoiseScaler;
-                    float offset = splatHeights[i].splatOffset + noise;
-                    float thisHeightStart = splatHeights[i].minHeight - offset;
-                    float thisHeightStop = splatHeights[i].maxHeight + offset;
+                    float noise = Mathf.PerlinNoise(x * privateSplatHeightsList[i].splatNoiseXScale,
+                                                    y * privateSplatHeightsList[i].splatNoiseYScale)
+                                       * privateSplatHeightsList[i].splatNoiseScaler;
+                    float offset = privateSplatHeightsList[i].splatOffset + noise;
+                    float thisHeightStart = privateSplatHeightsList[i].splatHeights.minHeight - offset;
+                    float thisHeightStop = privateSplatHeightsList[i].splatHeights.maxHeight + offset;
                     //float steepness = GetSteepness(heightMap, x, y, 
                     //                               terrainData.heightmapWidth, 
                     //                               terrainData.heightmapHeight);
@@ -121,13 +281,13 @@ public class CustomTerrain : MonoBehaviour
                                            x / (float)terrainData.alphamapWidth);
 
                     if ((heightMap[x, y] >= thisHeightStart && heightMap[x, y] <= thisHeightStop) &&
-                        (steepness >= splatHeights[i].minSlope && steepness <= splatHeights[i].maxSlope))
+                        (steepness >= privateSplatHeightsList[i].splatHeights.minSlope && steepness <= privateSplatHeightsList[i].splatHeights.maxSlope))
                     {
                         splat[i] = 1;
                     }
                 }
                 NormalizeVector(splat);
-                for (int j = 0; j < splatHeights.Count; j++)
+                for (int j = 0; j < privateSplatHeightsList.Count; j++)
                 {
                     splatmapData[x, y, j] = splat[j];
                 }
@@ -150,7 +310,49 @@ public class CustomTerrain : MonoBehaviour
         }
     }
 
+    void OnEnable()
+    {
+        Debug.Log("Initialising Terrain Data");
+        terrain = this.GetComponent<Terrain>();
+        terrainData = Terrain.activeTerrain.terrainData;
 
+    }
+
+
+    void Awake()
+    {
+        SerializedObject tagManager = new SerializedObject(
+                              AssetDatabase.LoadAllAssetsAtPath("ProjectSettings/TagManager.asset")[0]);
+        SerializedProperty tagsProp = tagManager.FindProperty("tags");
+
+        AddTag(tagsProp, "Terrain");
+        AddTag(tagsProp, "Cloud");
+        AddTag(tagsProp, "Shore");
+
+        //apply tag changes to tag database
+        tagManager.ApplyModifiedProperties();
+
+        //take this object
+        this.gameObject.tag = "Terrain";
+    }
+
+    void AddTag(SerializedProperty tagsProp, string newTag)
+    {
+        bool found = false;
+        //ensure the tag doesn't already exist
+        for (int i = 0; i < tagsProp.arraySize; i++)
+        {
+            SerializedProperty t = tagsProp.GetArrayElementAtIndex(i);
+            if (t.stringValue.Equals(newTag)) { found = true; break; }
+        }
+        //add your new tag
+        if (!found)
+        {
+            tagsProp.InsertArrayElementAtIndex(0);
+            SerializedProperty newTagProp = tagsProp.GetArrayElementAtIndex(0);
+            newTagProp.stringValue = newTag;
+        }
+    }
 
 
     // Start is called before the first frame update
