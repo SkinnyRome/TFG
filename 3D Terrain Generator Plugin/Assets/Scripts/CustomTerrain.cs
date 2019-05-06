@@ -33,12 +33,12 @@ public class CustomTerrain : MonoBehaviour
                 r = 0;
             }
             //Debug.Log(r);
-            splatOffset += (r / 10);
+            splatOffset += (r * 0.001f);
 
             if(r >= 1)
                 tileSize = new Vector2(50 + (r * 2), 50 + (r * 2));
-            //splatNoiseXScale *= (r / 2);
-           // splatNoiseYScale *= (r / 2);
+            splatNoiseXScale -= r;
+            splatNoiseYScale += (r / 2);
            // splatNoiseScaler = r;
         }
         public SplatHeights splatHeights = new SplatHeights();
@@ -85,20 +85,48 @@ public class CustomTerrain : MonoBehaviour
         privateSplatHeightsList.Clear();
 
         privateSplatHeights pH1 = new privateSplatHeights(1);
-        pH1.splatHeights.texture = (Texture2D)Resources.Load("TexturePack/Atex_Rock2");
-        pH1.splatHeights.minHeight = 0.1f;
-        pH1.splatHeights.maxHeight = 1.0f;
-        pH1.splatHeights.minSlope = 1.0f;
-        pH1.splatHeights.maxSlope = 100.0f;
+        pH1.splatHeights.texture = (Texture2D)Resources.Load("TexturePack/Atex_Sand1");
+        pH1.splatHeights.minHeight = 0.0f;
+        pH1.splatHeights.maxHeight = 0.2f;
+        pH1.splatHeights.minSlope = 0.0f;
+        pH1.splatHeights.maxSlope = 5.0f;
+        pH1.splatHeights.randomizer = 5.0f;
         privateSplatHeightsList.Add(pH1);
 
         privateSplatHeights pH2 = new privateSplatHeights(1);
-        pH2.splatHeights.texture = (Texture2D)Resources.Load("TexturePack/Atex_Snow4");
-        pH2.splatHeights.minHeight = 0.0f;
-        pH2.splatHeights.maxHeight = 1.0f;
+        pH2.splatHeights.texture = (Texture2D)Resources.Load("TexturePack/Atex_Vegetation1");
+        pH2.splatHeights.minHeight = 0.05f;
+        pH2.splatHeights.maxHeight = 0.4f;
         pH2.splatHeights.minSlope = 0.0f;
-        pH2.splatHeights.maxSlope = 1.0f;
+        pH2.splatHeights.maxSlope = 100.0f;
         privateSplatHeightsList.Add(pH2);
+
+
+        privateSplatHeights pH3 = new privateSplatHeights(1);
+        pH3.splatHeights.texture = (Texture2D)Resources.Load("TexturePack/Atex_Grass1");
+        pH3.splatHeights.minHeight = 0.3f;
+        pH3.splatHeights.maxHeight = 1.0f;
+        pH3.splatHeights.minSlope = 5.0f;
+        pH3.splatHeights.maxSlope = 100.0f;
+        privateSplatHeightsList.Add(pH3);
+
+
+        privateSplatHeights pH4 = new privateSplatHeights(1);
+        pH4.splatHeights.texture = (Texture2D)Resources.Load("TexturePack/Atex_Wetland1");
+        pH4.splatHeights.minHeight = 0.6f;
+        pH4.splatHeights.maxHeight = 1.0f;
+        pH4.splatHeights.minSlope = 0.0f;
+        pH4.splatHeights.maxSlope = 100.0f;
+        pH4.splatHeights.randomizer = 2.0f;
+        privateSplatHeightsList.Add(pH4);
+
+        privateSplatHeights pH5 = new privateSplatHeights(1);
+        pH5.splatHeights.texture = (Texture2D)Resources.Load("TexturePack/Atex_Vegetation2");
+        pH5.splatHeights.minHeight = 0.3f;
+        pH5.splatHeights.maxHeight = 1.0f;
+        pH5.splatHeights.minSlope = 2.0f;
+        pH5.splatHeights.maxSlope = 60.0f;
+        privateSplatHeightsList.Add(pH5);
 
         SplatMaps();
 
@@ -120,7 +148,7 @@ public class CustomTerrain : MonoBehaviour
         pH2.splatHeights.texture = (Texture2D)Resources.Load("TexturePack/Atex_Sand1");
         pH2.splatHeights.minHeight = 0.1f;
         pH2.splatHeights.maxHeight = 1.0f;
-        pH2.splatHeights.minSlope = 1.0f;
+        pH2.splatHeights.minSlope = 0.0f;
         pH2.splatHeights.maxSlope = 50.0f;
         privateSplatHeightsList.Add(pH2);
 
@@ -172,7 +200,7 @@ public class CustomTerrain : MonoBehaviour
         pH2.splatHeights.minHeight = 0.0f;
         pH2.splatHeights.maxHeight = 1.0f;
         pH2.splatHeights.minSlope = 0.0f;
-        pH2.splatHeights.maxSlope = 1.0f;
+        pH2.splatHeights.maxSlope = 40.0f;
         privateSplatHeightsList.Add(pH2);
 
         SplatMaps();
