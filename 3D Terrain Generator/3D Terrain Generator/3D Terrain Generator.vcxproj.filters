@@ -57,6 +57,9 @@
     <ClCompile Include="..\src\Algorithms\Eroders\Eroders.cpp">
       <Filter>Archivos de origen\Algorithm\Eroders</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\UserAPI\UserApiCaller.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\Heightmap\Heightmap.h">
@@ -88,6 +91,9 @@
     </ClInclude>
     <ClInclude Include="..\src\Algorithms\IAlgorithm.h">
       <Filter>Archivos de encabezado\Algorithms\Generators</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\UserAPI\UserApiCaller.h">
+      <Filter>Archivos de encabezado</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

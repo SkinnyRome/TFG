@@ -9,8 +9,15 @@ public class CustomTerrainEditor : Editor
 {
     GUITableState splatMapTable;
     SerializedProperty SplatHeights;
+
     
-    
+
+
+    bool showCreateTerrain = false;
+    bool showHilly = false;
+    bool showSoft = false;
+    bool showCustomCreateTerrain = false;
+
 
     bool showDrawTerrain = false;
     bool showCustomDrawingData = false;
@@ -18,19 +25,21 @@ public class CustomTerrainEditor : Editor
     bool showTropical = false;
     bool showArid = false;
 
-    void OnEnable() {
+    void OnEnable()
+    {
 
         splatMapTable = new GUITableState("splatMapTable");
         SplatHeights = serializedObject.FindProperty("SplatHeights");
 
-       
+
 
 
     }
 
     Vector2 scrollPos;
     //Graphical User Interface on the editor
-    public override void OnInspectorGUI() {
+    public override void OnInspectorGUI()
+    {
 
         serializedObject.Update();
 
@@ -43,14 +52,80 @@ public class CustomTerrainEditor : Editor
             EditorGUILayout.BeginScrollView(scrollPos, GUILayout.Width(r.width), GUILayout.Height(r.height));
         EditorGUI.indentLevel++;
 
+        GUILayout.Label("Terrain Generation", EditorStyles.boldLabel);
+        EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
+
+        showCreateTerrain = EditorGUILayout.Foldout(showCreateTerrain, "Create Terrain");
+        if (showCreateTerrain)
+        {
+            GUILayout.Label("Terrain Presets", EditorStyles.boldLabel);
+
+            showHilly = EditorGUILayout.Foldout(showHilly, "Hilly Landscape");
+            if (showHilly)
+            {
+
+                if (GUILayout.Button("Create Hilly LandScape"))
+                {
+                    Debug.Log("Hilly LandsScape");
+                }
+
+            }
+            showSoft = EditorGUILayout.Foldout(showSoft, "Soft Landscape");
+            if (showSoft)
+            {
+                if (GUILayout.Button("Create Soft LandScape"))
+                {
+                    Debug.Log("Soft LandScape");
+                }
+            }
+
+            GUILayout.Label("Custom Terrain Generation", EditorStyles.boldLabel);
+
+            showCustomCreateTerrain = EditorGUILayout.Foldout(showCustomCreateTerrain, "Custom Terrain");
+            if (showCustomCreateTerrain)
+            {
+
+                //EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
+                GUILayout.Label("Custom Textures", EditorStyles.boldLabel);
+                /*EditorGUILayout.Slider(splatOffset, 0, 0.1f, new GUIContent("Offset"));
+                EditorGUILayout.Slider(splatNoiseXScale, 0.001f, 1, new GUIContent("Noise X Scale"));
+                EditorGUILayout.Slider(splatNoiseYScale, 0.001f, 1, new GUIContent("Noise Y Scale"));
+                EditorGUILayout.Slider(splatNoiseScaler, 0, 1, new GUIContent("Noise Scaler"));*/
+                // splatMapTable = GUITableLayout.DrawTable(splatMapTable, serializedObject.FindProperty("splatHeightsList"));
+                // GUILayout.Space(200);
+
+                EditorGUILayout.BeginHorizontal();
+                if (GUILayout.Button("+"))
+                {
+                    terrain.AddNewSplatHeight();
+                }
+                if (GUILayout.Button("-"))
+                {
+                    terrain.RemoveSplatHeight();
+                }
+
+                EditorGUILayout.EndHorizontal();
+                if (GUILayout.Button("Create Custom Terrain"))
+                {
+                    Debug.Log("Creating custom terrain");
+                }
+            }
+        }
+
+
+        GUILayout.Label("Drawing Terrain", EditorStyles.boldLabel);
+        EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
 
 
         showDrawTerrain = EditorGUILayout.Foldout(showDrawTerrain, "Draw Terrain");
         if (showDrawTerrain)
         {
 
+            GUILayout.Label("Drawing Terrain Presets", EditorStyles.boldLabel);
+
             showArid = EditorGUILayout.Foldout(showArid, "Arid Landscape");
-            if (showArid) {
+            if (showArid)
+            {
 
                 if (GUILayout.Button("Apply Arid LandScape"))
                 {
@@ -74,7 +149,10 @@ public class CustomTerrainEditor : Editor
                     terrain.TropicalLandscape();
                 }
 
-            }           
+            }
+
+            GUILayout.Label("Custom Textures", EditorStyles.boldLabel);
+
 
             showCustomDrawingData = EditorGUILayout.Foldout(showCustomDrawingData, "Custom Textures");
             if (showCustomDrawingData)
@@ -88,7 +166,7 @@ public class CustomTerrainEditor : Editor
                 EditorGUILayout.Slider(splatNoiseScaler, 0, 1, new GUIContent("Noise Scaler"));*/
                 splatMapTable = GUITableLayout.DrawTable(splatMapTable, serializedObject.FindProperty("splatHeightsList"));
                 GUILayout.Space(200);
-                
+
                 EditorGUILayout.BeginHorizontal();
                 if (GUILayout.Button("+"))
                 {
@@ -98,14 +176,14 @@ public class CustomTerrainEditor : Editor
                 {
                     terrain.RemoveSplatHeight();
                 }
-              
+
                 EditorGUILayout.EndHorizontal();
                 if (GUILayout.Button("Apply Custom Textures"))
                 {
                     terrain.CustomTextures();
                 }
             }
-            
+
         }
 
         //Scrollbar ending code
@@ -119,12 +197,12 @@ public class CustomTerrainEditor : Editor
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 }

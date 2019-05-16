@@ -19,14 +19,20 @@ using namespace std;
 
 namespace user_api {
 
+	
+
 	static const int MAX_SIZE = 1024;
 	static const int MAX_EXPONENT = 10;
+	extern "C"{
 
-	TERRAINGENERATOR_API enum class TerrainPreset {Hilly, Soft };
-	TERRAINGENERATOR_API enum class BaseAlgorithm {PerlinNoise, DiamondSquare};
-	TERRAINGENERATOR_API enum class ErosionLevel {None, Low, Mid, High};
+		TERRAINGENERATOR_API enum class TerrainPreset { Hilly, Soft };
+		TERRAINGENERATOR_API enum class BaseAlgorithm { PerlinNoise, DiamondSquare };
+		TERRAINGENERATOR_API enum class ErosionLevel { None, Low, Mid, High };
+	
+	}
+	
 
-	TERRAINGENERATOR_API struct TerrainProperties {
+	extern "C" TERRAINGENERATOR_API struct TerrainProperties {
 
 		TerrainProperties() = default;
 		TERRAINGENERATOR_API TerrainProperties(TerrainPreset preset);
@@ -54,7 +60,7 @@ namespace user_api {
 	};
 
 
-	TERRAINGENERATOR_API class Terrain {
+	extern "C" TERRAINGENERATOR_API class Terrain {
 	private:
 		Heightmap heightmap;
 
@@ -67,7 +73,7 @@ namespace user_api {
 	};
 
 
-	TERRAINGENERATOR_API Terrain GenerateTerrain(int size, const TerrainProperties& terrain_properties);
+	extern "C" TERRAINGENERATOR_API Terrain GenerateTerrain(int size, const TerrainProperties& terrain_properties);
 
 	Heightmap CreateBase(int size, const TerrainProperties& p);
 	Heightmap CreateMountains(int size, const TerrainProperties& p);

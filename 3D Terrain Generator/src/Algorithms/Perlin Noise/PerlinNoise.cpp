@@ -1,4 +1,5 @@
 #include "PerlinNoise.h"
+#include <algorithm>
 #include <time.h>
 
 using namespace std;

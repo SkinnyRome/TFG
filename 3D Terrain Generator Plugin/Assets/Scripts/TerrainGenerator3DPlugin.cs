@@ -3,38 +3,60 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Runtime.InteropServices;
 
-public class TerrainGenerator3DPlugin : MonoBehaviour{
+public class TerrainGenerator3DPlugin : MonoBehaviour
+{
 
 
-    //private IntPtr _nativeHeightmap = IntPtr.Zero;
+    private System.IntPtr _nativeTerrain;
+    private System.IntPtr _nativePreset;
+
 
     //Metodos publicos para el usuario de Unity
-    public void createBasicTerrain() {
-        //Podriamos llamar a la api 
-        float f = GetRandomValueBetween(1, 12);
-        Debug.Log("heeey" + f);
+    public void createBasicTerrain()
+    {
 
-        float j = Average2(1, 2);
-        Debug.Log("MEDIA" + j);
+        Debug.Log("Ejecutando");
+        _nativePreset = CreatePreset(1);
+
+        //_nativeTerrain = GenerateTerrain(512, _nativePreset);
+
+        _nativeTerrain = CreateClassTerrain(512, _nativePreset);
+
+        
+        Debug.Log("heeey" + _nativePreset);
+
+        Debug.Log("->>>>>>>>>>>>" + _nativeTerrain);
+
 
 
     }
 
 
-    void Start() {
+    void Start()
+    {
         createBasicTerrain();
-        
+
     }
 
 
 
     //-------------------------------------------------------------------
     //Metodos privados para llamar al plugin
-    [DllImport ("3D Terrain Generator_d")]
-    private static extern float GetRandomValueBetween(float a, float b);
+    [DllImport("3D Terrain Generator_d")]
+    private static extern System.IntPtr CreateClassTerrain(int size, System.IntPtr terrain_properties);
 
     [DllImport("3D Terrain Generator_d")]
-    private static extern float Average2(float a, float b);
+    private static extern void CreateRaw(System.IntPtr pTerrainObject, string path);
+
+
+    [DllImport("3D Terrain Generator_d")]
+    private static extern System.IntPtr CreatePreset(int type);
+
+
+    [DllImport("3D Terrain Generator_d")]
+    private static extern System.IntPtr GenerateTerrain(int size, System.IntPtr terrain_properties);
+
+
 
     /*Necesitamos crear un wrapper para poder usar los objetos.
      * En la lib c++ en las funciones que queramos usar en unity hay que poner
