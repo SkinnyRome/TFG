@@ -6,7 +6,7 @@ using System.Linq;
 
 
 [ExecuteInEditMode]
-public class CustomTerrain : MonoBehaviour
+public class Terrain3D : MonoBehaviour
 {
 
     public Terrain terrain;
@@ -226,9 +226,9 @@ public class CustomTerrain : MonoBehaviour
                 keptSplatHeights.Add(splatHeightsList[i]);
             }
         }
-        if (keptSplatHeights.Count == 0) //don't want to keep any
+        if (keptSplatHeights.Count == 0) 
         {
-            keptSplatHeights.Add(splatHeightsList[0]); //add at least 1
+            keptSplatHeights.Add(splatHeightsList[0]); 
         }
         splatHeightsList = keptSplatHeights;
     }
@@ -254,7 +254,6 @@ public class CustomTerrain : MonoBehaviour
         int nx = x + 1;
         int ny = y + 1;
 
-        //if on the upper edge of the map find gradient by going backward.
         if (nx > width - 1) nx = x - 1;
         if (ny > height - 1) ny = y - 1;
 
@@ -273,7 +272,7 @@ public class CustomTerrain : MonoBehaviour
 
         SplatPrototype[] newSMPrototypes;
         newSMPrototypes = new SplatPrototype[privateSplatHeightsList.Count];
-        int index = 0;
+       
         for (int i = 0; i < privateSplatHeightsList.Count; i++)
         {
 
@@ -357,41 +356,6 @@ public class CustomTerrain : MonoBehaviour
 
     }
 
-
-    void Awake()
-    {
-        SerializedObject tagManager = new SerializedObject(
-                              AssetDatabase.LoadAllAssetsAtPath("ProjectSettings/TagManager.asset")[0]);
-        SerializedProperty tagsProp = tagManager.FindProperty("tags");
-
-        AddTag(tagsProp, "Terrain");
-        AddTag(tagsProp, "Cloud");
-        AddTag(tagsProp, "Shore");
-
-        //apply tag changes to tag database
-        tagManager.ApplyModifiedProperties();
-
-        //take this object
-        this.gameObject.tag = "Terrain";
-    }
-
-    void AddTag(SerializedProperty tagsProp, string newTag)
-    {
-        bool found = false;
-        //ensure the tag doesn't already exist
-        for (int i = 0; i < tagsProp.arraySize; i++)
-        {
-            SerializedProperty t = tagsProp.GetArrayElementAtIndex(i);
-            if (t.stringValue.Equals(newTag)) { found = true; break; }
-        }
-        //add your new tag
-        if (!found)
-        {
-            tagsProp.InsertArrayElementAtIndex(0);
-            SerializedProperty newTagProp = tagsProp.GetArrayElementAtIndex(0);
-            newTagProp.stringValue = newTag;
-        }
-    }
 
 
     // Start is called before the first frame update

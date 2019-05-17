@@ -2,10 +2,10 @@
 using UnityEngine;
 using EditorGUITable;
 
-[CustomEditor(typeof(CustomTerrain))]
+[CustomEditor(typeof(Terrain3D))]
 [CanEditMultipleObjects]
 
-public class CustomTerrainEditor : Editor
+public class Terrain3DEditor : Editor
 {
     GUITableState splatMapTable;
     SerializedProperty SplatHeights;
@@ -43,7 +43,7 @@ public class CustomTerrainEditor : Editor
 
         serializedObject.Update();
 
-        CustomTerrain terrain = (CustomTerrain)target;
+        Terrain3D terrain = (Terrain3D)target;
 
 
         //Scrollbar Starting Code
