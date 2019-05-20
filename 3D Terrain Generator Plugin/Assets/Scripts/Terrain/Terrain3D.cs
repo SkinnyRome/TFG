@@ -12,6 +12,10 @@ public class Terrain3D : MonoBehaviour
     public Terrain terrain;
     public TerrainData terrainData;
 
+    public bool applyWater = true;
+    public Texture2D waterTexture = null;
+    public float seaLevel = 0.0f;
+
     //SPLATMAPS ---------------------------------------------
     [System.Serializable]
     public class SplatHeights
@@ -211,6 +215,14 @@ public class Terrain3D : MonoBehaviour
 
     }
 
+    public void ApplyWater() {
+
+        if (applyWater) {
+
+
+        }
+    }
+
     public void AddNewSplatHeight()
     {
         splatHeightsList.Add(new SplatHeights());
@@ -246,6 +258,19 @@ public class Terrain3D : MonoBehaviour
             privateSplatHeightsList.Add(pH);
 
         }
+
+        if (applyWater) {
+
+            privateSplatHeights water = new privateSplatHeights(0);
+            water.splatHeights.texture = waterTexture;
+            water.splatHeights.minHeight = 0.0f;
+            water.splatHeights.maxHeight = 0.0f;
+            water.splatHeights.minSlope = 0.0f;
+            water.splatHeights.maxSlope = 0.0f;
+            privateSplatHeightsList.Add(water);
+
+        }
+
     }
 
     float GetSteepness(float[,] heightmap, int x, int y, int width, int height)
@@ -300,10 +325,17 @@ public class Terrain3D : MonoBehaviour
                                     y * privateSplatHeightsList[i].splatNoiseYScale) * privateSplatHeightsList[i].splatNoiseScaler;
 
                     float offset = privateSplatHeightsList[i].splatOffset + noise;
+                    //offset = 0;
                     float heightLimitBot = privateSplatHeightsList[i].splatHeights.minHeight - offset;
-                    float heightLimitTop = privateSplatHeightsList[i].splatHeights.maxSlope + offset;
+                    float heightLimitTop = privateSplatHeightsList[i].splatHeights.maxHeight + offset;
+
+                    //Debug.Log(heightLimitBot + "/" + heightLimitTop);
 
                     float hilly = terrainData.GetSteepness(y / (float)terrainData.alphamapHeight, x / (float)terrainData.alphamapWidth);
+                    //float hilly = GetSteepness(heightMap, x, y, terrainData.heightmapWidth, terrainData.heightmapHeight);
+                    //Usamos la version de Unity por que esta mas optimizada y de cara al usuario es mas comoda de utilzar ya que el rango de inclinacion
+                    //va de 0-90 y es mas intuitivo.
+
 
                     if ((heightMap[x, y] >= heightLimitBot && heightMap[x, y] <= heightLimitTop) &&
                         (hilly >= privateSplatHeightsList[i].splatHeights.minSlope && hilly <= privateSplatHeightsList[i].splatHeights.maxSlope))

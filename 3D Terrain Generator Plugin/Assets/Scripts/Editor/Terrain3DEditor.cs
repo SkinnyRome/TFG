@@ -10,8 +10,13 @@ public class Terrain3DEditor : Editor
     GUITableState splatMapTable;
     SerializedProperty SplatHeights;
 
-    
+    SerializedProperty waterTexture;
+    SerializedProperty seaLevel;
+    SerializedProperty applyWater;
 
+
+
+    bool showWaterConfig = false;
 
     bool showCreateTerrain = false;
     bool showHilly = false;
@@ -30,7 +35,9 @@ public class Terrain3DEditor : Editor
 
         splatMapTable = new GUITableState("splatMapTable");
         SplatHeights = serializedObject.FindProperty("SplatHeights");
-
+        waterTexture = serializedObject.FindProperty("waterTexture");
+        seaLevel = serializedObject.FindProperty("seaLevel");
+        applyWater = serializedObject.FindProperty("applyWater");       
 
 
 
@@ -86,7 +93,7 @@ public class Terrain3DEditor : Editor
             {
 
                 //EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
-                GUILayout.Label("Custom Textures", EditorStyles.boldLabel);
+                GUILayout.Label("Custom Terrain", EditorStyles.boldLabel);
                 /*EditorGUILayout.Slider(splatOffset, 0, 0.1f, new GUIContent("Offset"));
                 EditorGUILayout.Slider(splatNoiseXScale, 0.001f, 1, new GUIContent("Noise X Scale"));
                 EditorGUILayout.Slider(splatNoiseYScale, 0.001f, 1, new GUIContent("Noise Y Scale"));
@@ -120,6 +127,18 @@ public class Terrain3DEditor : Editor
         showDrawTerrain = EditorGUILayout.Foldout(showDrawTerrain, "Draw Terrain");
         if (showDrawTerrain)
         {
+            GUILayout.Label("Water Configuration", EditorStyles.boldLabel);
+            showWaterConfig = EditorGUILayout.Foldout(showWaterConfig, "Water Configuration");
+            if (showWaterConfig) {
+                //EditorGUILayout.Slider(seaLevel, 0, 1, new GUIContent("Sea Height"));
+                EditorGUILayout.PropertyField(applyWater);
+                EditorGUILayout.PropertyField(waterTexture);
+
+                /*if (GUILayout.Button("Apply Water")) {
+                    terrain.ApplyWater();
+                }*/
+
+            }
 
             GUILayout.Label("Drawing Terrain Presets", EditorStyles.boldLabel);
 
@@ -165,7 +184,7 @@ public class Terrain3DEditor : Editor
                 EditorGUILayout.Slider(splatNoiseYScale, 0.001f, 1, new GUIContent("Noise Y Scale"));
                 EditorGUILayout.Slider(splatNoiseScaler, 0, 1, new GUIContent("Noise Scaler"));*/
                 splatMapTable = GUITableLayout.DrawTable(splatMapTable, serializedObject.FindProperty("splatHeightsList"));
-                GUILayout.Space(200);
+                GUILayout.Space(70);
 
                 EditorGUILayout.BeginHorizontal();
                 if (GUILayout.Button("+"))
