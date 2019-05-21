@@ -7,34 +7,65 @@ public class TerrainGenerator3DPlugin : MonoBehaviour
 {
 
 
-    private System.IntPtr _nativeTerrain;
+
     private System.IntPtr _nativePreset;
 
-
+    private float[,] realArr;
+    private System.Single[] auxArr;
+    private int size;
     //Metodos publicos para el usuario de Unity
-    public void createBasicTerrain()
+    public void createBasicTerrain(int s)
     {
 
-        Debug.Log("Ejecutando");
-        _nativePreset = CreatePreset(1);
+        Debug.Log("Creating Terrain");
+        //_nativePreset = CreatePreset(1);
 
         //_nativeTerrain = GenerateTerrain(512, _nativePreset);
 
-        _nativeTerrain = CreateClassTerrain(512, _nativePreset);
+        //_nativeTerrain = CreateClassTerrain(512, _nativePreset);
+        size = s;
 
-        
-        Debug.Log("heeey" + _nativePreset);
+        System.IntPtr arr;
 
-        Debug.Log("->>>>>>>>>>>>" + _nativeTerrain);
+
+        arr = GetData((System.IntPtr)size);
+
+        Debug.Log(s);
+        Debug.Log(arr);
+        realArr = new float[s, s];
+        auxArr = new float[s * s];
+        size = s;
+
+        Marshal.Copy(arr, auxArr, 0, s * s);
+
+        Debug.Log("Size array: " + auxArr.Length);
+        for (int i = 0; i < s; i++)
+        {
+            for (int j = 0; j < s; j++)
+            {
+                realArr[j, i] = auxArr[i + (j * s)];
+            }
+        }
+
+        Debug.Log("Terrain finished");
 
 
 
     }
 
+    public float[,] GetHeights()
+    {
+        return realArr;
+    }
+    public int GetSize()
+    {
+        return size;
+    }
+
 
     void Start()
     {
-        createBasicTerrain();
+        createBasicTerrain(8);
 
     }
 
@@ -55,6 +86,9 @@ public class TerrainGenerator3DPlugin : MonoBehaviour
 
     [DllImport("3D Terrain Generator_d")]
     private static extern System.IntPtr GenerateTerrain(int size, System.IntPtr terrain_properties);
+
+    [DllImport("3D Terrain Generator_d")]
+    private static extern System.IntPtr GetData(System.IntPtr size);
 
 
 

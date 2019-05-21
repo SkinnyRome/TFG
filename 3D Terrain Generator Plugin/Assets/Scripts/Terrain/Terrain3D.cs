@@ -12,6 +12,8 @@ public class Terrain3D : MonoBehaviour
     public Terrain terrain;
     public TerrainData terrainData;
 
+    TerrainGenerator3DPlugin plugin;
+
     public bool applyWater = true;
     public Texture2D waterTexture = null;
     public float seaLevel = 0.0f;
@@ -385,6 +387,20 @@ public class Terrain3D : MonoBehaviour
         Debug.Log("Initialising Terrain Data");
         terrain = this.GetComponent<Terrain>();
         terrainData = Terrain.activeTerrain.terrainData;
+
+        plugin = this.GetComponent<TerrainGenerator3DPlugin>();
+        plugin.createBasicTerrain(10);
+
+        float[,] n = plugin.GetHeights();
+        Debug.Log("Size matrix " + n.GetLength(0) + " " + n.GetLength(1));
+        for (int i = 0; i < n.GetLength(0); i++) {
+            for (int j = 0; j < n.GetLength(1); j++) {
+
+                Debug.Log(n[i, j]);
+            }
+        }
+
+        //terrainData.SetHeights(0, 0, plugin.GetHeights());
 
     }
 

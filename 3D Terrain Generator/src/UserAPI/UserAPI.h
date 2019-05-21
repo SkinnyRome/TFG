@@ -70,9 +70,11 @@ namespace user_api {
 
 		TERRAINGENERATOR_API void CreateRaw(string path);
 		
+		float* GetData();
+		
 	};
 
-
+	
 	extern "C" TERRAINGENERATOR_API Terrain GenerateTerrain(int size, const TerrainProperties& terrain_properties);
 
 	Heightmap CreateBase(int size, const TerrainProperties& p);

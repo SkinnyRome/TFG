@@ -43,6 +43,18 @@ public:
 	void Resize(int exponent);
 
 	int GetSize() const { return _size; }
+	float* GetData() const { 
+		
+		float* arr = new float[_size,_size];
+		for (int i = 0; i < _size; i++){
+			for (int j = 0; j < _size; j++){
+				arr[i, j] = _heightmap[i][j];
+			}
+		}
+
+
+		return arr;
+	}
 	int GetExponent() const { return _exponent; }
 
 	void SetExponent(int exponent) { _exponent = exponent; }

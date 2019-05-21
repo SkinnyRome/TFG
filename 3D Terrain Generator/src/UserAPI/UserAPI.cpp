@@ -18,6 +18,12 @@ void user_api::Terrain::CreateRaw(string path)
 {
 	heightmap.DumpToFile(path);
 }
+float* user_api::Terrain::GetData(){
+	
+	return heightmap.GetData();
+
+}
+
 
 
 Terrain user_api::GenerateTerrain(int size, const TerrainProperties& properties)

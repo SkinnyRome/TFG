@@ -19,3 +19,11 @@ user_api::TerrainPreset* CreatePreset(int type){
 
 	return (user_api::TerrainPreset*)type;
 }
+
+float* GetData(int size){
+
+	
+	user_api::Terrain terrain = user_api::GenerateTerrain(size, user_api::TerrainPreset::Hilly);
+	return terrain.GetData();
+
+}

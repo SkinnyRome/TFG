@@ -3,8 +3,6 @@ using UnityEngine;
 using EditorGUITable;
 
 [CustomEditor(typeof(Terrain3D))]
-[CanEditMultipleObjects]
-
 public class Terrain3DEditor : Editor
 {
     GUITableState splatMapTable;
