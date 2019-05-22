@@ -11,6 +11,7 @@ public class TerrainGenerator3DPlugin : MonoBehaviour
     private System.IntPtr _nativePreset;
 
     private float[,] realArr;
+    private float[,] trasposeArr;
     private System.Single[] auxArr;
     private int size;
     //Metodos publicos para el usuario de Unity
@@ -34,6 +35,7 @@ public class TerrainGenerator3DPlugin : MonoBehaviour
         Debug.Log(arr);
         realArr = new float[s, s];
         auxArr = new float[s * s];
+        trasposeArr = new float[s, s];
         size = s;
 
         Marshal.Copy(arr, auxArr, 0, s * s);
@@ -43,9 +45,19 @@ public class TerrainGenerator3DPlugin : MonoBehaviour
         {
             for (int j = 0; j < s; j++)
             {
-                realArr[j, i] = auxArr[i + (j * s)];
+                realArr[i, j] = auxArr[i + (j * s)];
             }
         }
+
+
+        for (int i = 0; i < s; i++)
+        {
+            for (int j = 0; j < s; j++)
+            {
+                trasposeArr[j,i] = realArr[i,j];
+            }
+        }
+
 
         Debug.Log("Terrain finished");
 
@@ -55,7 +67,7 @@ public class TerrainGenerator3DPlugin : MonoBehaviour
 
     public float[,] GetHeights()
     {
-        return realArr;
+        return trasposeArr;
     }
     public int GetSize()
     {
@@ -65,7 +77,7 @@ public class TerrainGenerator3DPlugin : MonoBehaviour
 
     void Start()
     {
-        createBasicTerrain(8);
+        //createBasicTerrain(8);
 
     }
 

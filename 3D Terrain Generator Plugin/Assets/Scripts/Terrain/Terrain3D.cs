@@ -381,34 +381,60 @@ public class Terrain3D : MonoBehaviour
             v[i] /= total;
         }
     }
+    TerrainData _terraindata;
 
     void OnEnable()
     {
         Debug.Log("Initialising Terrain Data");
-        terrain = this.GetComponent<Terrain>();
+
+        Debug.Log("CREANDO");
+        Vector3 pos = new Vector3(0, 0, 0);
+        int size = 33;
+
+        GameObject t = null;
+        _terraindata = new TerrainData();
+        t = Terrain.CreateTerrainGameObject(_terraindata);
+        _terraindata.size = new Vector3(size, size, size);
+        _terraindata.SetDetailResolution(size, size);
+
+        //terrain = t;
+
+       // terrain = this.GetComponent<Terrain>();
         terrainData = Terrain.activeTerrain.terrainData;
 
+        float[,] heights = _terraindata.GetHeights(0,0, _terraindata.heightmapWidth, _terraindata.heightmapHeight);
+
+        Debug.Log("SIZE HEIGHTMAP TERRAIN: " + _terraindata.heightmapWidth + " -- " + _terraindata.heightmapHeight);
+
         plugin = this.GetComponent<TerrainGenerator3DPlugin>();
-        plugin.createBasicTerrain(10);
+        plugin.createBasicTerrain(size);
+
+        //terrainData.size = 33;
 
         float[,] n = plugin.GetHeights();
         Debug.Log("Size matrix " + n.GetLength(0) + " " + n.GetLength(1));
-        for (int i = 0; i < n.GetLength(0); i++) {
+        /*for (int i = 0; i < n.GetLength(0); i++) {
             for (int j = 0; j < n.GetLength(1); j++) {
 
                 Debug.Log(n[i, j]);
             }
-        }
+        }*/
 
-        //terrainData.SetHeights(0, 0, plugin.GetHeights());
+        _terraindata.SetHeights(0, 0, n);
 
     }
-
 
 
     // Start is called before the first frame update
     void Start()
     {
+       
+        //GameObject ingameTerrainGameObject = Instantiate(terrain, pos, Quaternion.identity);
+
+
+        //Terrain Tparent = Instantiate(new Terrain(), pos, Quaternion.identity);
+
+
 
     }
 
