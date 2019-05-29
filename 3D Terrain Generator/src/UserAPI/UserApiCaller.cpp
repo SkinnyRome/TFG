@@ -19,11 +19,29 @@ user_api::TerrainPreset* CreatePreset(int type){
 
 	return (user_api::TerrainPreset*)type;
 }
+float* _data;
 
 float* GetData(int size){
 
+	_data = new float [size,size];
 	
 	user_api::Terrain terrain = user_api::GenerateTerrain(size, user_api::TerrainPreset::Hilly);
-	return terrain.GetData();
+	
 
+	for (int i = 0; i < size; i++){
+		for (int j = 0; j < size; j++){
+			
+			_data[i, j] = /*terrain.GetData()[i,j];*/ i;
+		
+		
+		}	
+	}
+	
+	return _data;
+
+
+}
+
+void DeleteData(){
+	delete _data;
 }

@@ -8,9 +8,20 @@ public class Terrain3DEditor : Editor
     GUITableState splatMapTable;
     SerializedProperty SplatHeights;
 
+    SerializedProperty baseAlgorithm;
+    SerializedProperty numberMountains;
+    SerializedProperty randomFactor;
+    SerializedProperty hillyFactor;
+    SerializedProperty smoothFactor;
+    SerializedProperty erosionLevel;
+
     SerializedProperty waterTexture;
     SerializedProperty seaLevel;
     SerializedProperty applyWater;
+
+    SerializedProperty terrainSize;
+    SerializedProperty terrainHeight;
+    SerializedProperty heightmapResolution;
 
 
 
@@ -32,12 +43,21 @@ public class Terrain3DEditor : Editor
     {
 
         splatMapTable = new GUITableState("splatMapTable");
+        
         SplatHeights = serializedObject.FindProperty("SplatHeights");
         waterTexture = serializedObject.FindProperty("waterTexture");
         seaLevel = serializedObject.FindProperty("seaLevel");
-        applyWater = serializedObject.FindProperty("applyWater");       
+        applyWater = serializedObject.FindProperty("applyWater");
+        terrainSize = serializedObject.FindProperty("terrainSize");
+        terrainHeight = serializedObject.FindProperty("terrainHeight");
+        heightmapResolution = serializedObject.FindProperty("heightmapResolution");
 
-
+        baseAlgorithm = serializedObject.FindProperty("baseAlgorithm");
+        numberMountains = serializedObject.FindProperty("numberMountains");
+        randomFactor = serializedObject.FindProperty("randomFactor");
+        hillyFactor = serializedObject.FindProperty("hillyFactor");
+        smoothFactor = serializedObject.FindProperty("smoothFactor");
+        erosionLevel = serializedObject.FindProperty("erosionLevel");
 
     }
 
@@ -63,6 +83,12 @@ public class Terrain3DEditor : Editor
         showCreateTerrain = EditorGUILayout.Foldout(showCreateTerrain, "Create Terrain");
         if (showCreateTerrain)
         {
+            GUILayout.Label("General Configuration", EditorStyles.boldLabel);
+
+            EditorGUILayout.IntSlider(terrainSize, 33, 100, new GUIContent("Terrain Size (X and Z)"));
+            EditorGUILayout.IntSlider(terrainHeight, 10, 500, new GUIContent("Terrain Height (Y)"));
+            EditorGUILayout.PropertyField(heightmapResolution, new GUIContent("Resolution"));
+
             GUILayout.Label("Terrain Presets", EditorStyles.boldLabel);
 
             showHilly = EditorGUILayout.Foldout(showHilly, "Hilly Landscape");
@@ -90,29 +116,21 @@ public class Terrain3DEditor : Editor
             if (showCustomCreateTerrain)
             {
 
-                //EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
+               
                 GUILayout.Label("Custom Terrain", EditorStyles.boldLabel);
-                /*EditorGUILayout.Slider(splatOffset, 0, 0.1f, new GUIContent("Offset"));
-                EditorGUILayout.Slider(splatNoiseXScale, 0.001f, 1, new GUIContent("Noise X Scale"));
-                EditorGUILayout.Slider(splatNoiseYScale, 0.001f, 1, new GUIContent("Noise Y Scale"));
-                EditorGUILayout.Slider(splatNoiseScaler, 0, 1, new GUIContent("Noise Scaler"));*/
-                // splatMapTable = GUITableLayout.DrawTable(splatMapTable, serializedObject.FindProperty("splatHeightsList"));
-                // GUILayout.Space(200);
 
-                EditorGUILayout.BeginHorizontal();
-                if (GUILayout.Button("+"))
-                {
-                    terrain.AddNewSplatHeight();
-                }
-                if (GUILayout.Button("-"))
-                {
-                    terrain.RemoveSplatHeight();
-                }
-
-                EditorGUILayout.EndHorizontal();
+                
+                EditorGUILayout.PropertyField(baseAlgorithm, new GUIContent("Base Algorithm"));
+                EditorGUILayout.PropertyField(numberMountains, new GUIContent("Number of Mountains"));
+                EditorGUILayout.PropertyField(randomFactor, new GUIContent("Random Factor"));
+                EditorGUILayout.PropertyField(hillyFactor, new GUIContent("Hilly Factor"));
+                EditorGUILayout.PropertyField(smoothFactor, new GUIContent("Smooth Factor"));
+                EditorGUILayout.PropertyField(erosionLevel, new GUIContent("Erosion Level"));
+         
                 if (GUILayout.Button("Create Custom Terrain"))
                 {
                     Debug.Log("Creating custom terrain");
+                    terrain.CreateCustomTerrain();
                 }
             }
         }
@@ -132,9 +150,7 @@ public class Terrain3DEditor : Editor
                 EditorGUILayout.PropertyField(applyWater);
                 EditorGUILayout.PropertyField(waterTexture);
 
-                /*if (GUILayout.Button("Apply Water")) {
-                    terrain.ApplyWater();
-                }*/
+              
 
             }
 

@@ -144,21 +144,21 @@ int main() {
 
 	MidPointDisplacement diamond_square(ds_p1);
 	diamond_square.GenerateHeightmap(heightmap_ds);
-	heightmap_ds.DumpToFile("CutAlgorithm/DiamondSquare");
+	heightmap_ds.DumpToFile("DiamondSquare");
 
 	VoronoiDiagram voronoi_algorithm(vd_p);
 	voronoi_algorithm.GenerateHeightmap(heightmap_voronoi);
-	heightmap_voronoi.DumpToFile("CutAlgorithm/Voronoi");
+	heightmap_voronoi.DumpToFile("Voronoi");
 
 	CutAlgorithm cut_algorithm(ca_p);
 
 	cut_algorithm.CutHeightmap(heightmap_ds);
-	heightmap_ds.DumpToFile("CutAlgorithm/CutDiamondSquare");
+	heightmap_ds.DumpToFile("CutDiamondSquare");
 	cut_algorithm.CutHeightmap(heightmap_voronoi);
-	heightmap_voronoi.DumpToFile("CutAlgorithm/CutVoronoi");
+	heightmap_voronoi.DumpToFile("CutVoronoi");
 
 	Heightmap h_mixed = tools::MixHeightmaps(heightmap_ds, heightmap_voronoi, 0.5f, 0.1f);
-	h_mixed.DumpToFile("CutAlgorithm/Mixed");
+	h_mixed.DumpToFile("Mixed");
 
 
 	/*------------------------------------ CUT ALGORITHM  ----------------------------------*/
@@ -195,7 +195,8 @@ int main() {
 /*---------------------------------------------------------------- USER API -----------------------------------------------*/
 
 
-	user_api::Terrain terrain = user_api::GenerateTerrain(8, user_api::TerrainPreset::Hilly );
+
+	user_api::Terrain terrain = user_api::GenerateTerrain(257, user_api::TerrainProperties() );
 
 	terrain.CreateRaw("Terrain");
 

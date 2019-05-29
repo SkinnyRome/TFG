@@ -5,9 +5,6 @@ using System.Runtime.InteropServices;
 
 public class TerrainGenerator3DPlugin : MonoBehaviour
 {
-
-
-
     private System.IntPtr _nativePreset;
 
     private float[,] realArr;
@@ -26,21 +23,37 @@ public class TerrainGenerator3DPlugin : MonoBehaviour
         //_nativeTerrain = CreateClassTerrain(512, _nativePreset);
         size = s;
 
-        System.IntPtr arr;
+        System.IntPtr arr;       
 
 
-        arr = GetData((System.IntPtr)size);
+        arr = GetData((System.IntPtr)size);        
 
         Debug.Log(s);
         Debug.Log(arr);
         realArr = new float[s, s];
         auxArr = new float[s * s];
+        byte[] by = new byte[s * s];
         trasposeArr = new float[s, s];
         size = s;
 
-        Marshal.Copy(arr, auxArr, 0, s * s);
+        Marshal.Copy(arr,by,0,s*s);
+        //Marshal.Copy(arr, auxArr, 0, s * s);
 
-        Debug.Log("Size array: " + auxArr.Length);
+      
+
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+
+                auxArr[i + j]  = System.BitConverter.ToSingle(by, i + j);
+                Debug.Log(i+ "-" + j + ": " + by[i + j]);
+
+            }
+            //Debug.Log("----");
+        }
+
+
+
+        /*Debug.Log("Size array: " + auxArr.Length);
         for (int i = 0; i < s; i++)
         {
             for (int j = 0; j < s; j++)
@@ -58,12 +71,20 @@ public class TerrainGenerator3DPlugin : MonoBehaviour
             }
         }
 
-
+        */
         Debug.Log("Terrain finished");
 
 
 
     }
+
+    /*public unsafe void getArray(float[] array, int s) {
+
+        fixed (float* p = array){
+            GetData((System.IntPtr)s, (System.IntPtr)p);
+        }
+    }*/
+
 
     public float[,] GetHeights()
     {
@@ -99,49 +120,7 @@ public class TerrainGenerator3DPlugin : MonoBehaviour
     [DllImport("3D Terrain Generator_d")]
     private static extern System.IntPtr GenerateTerrain(int size, System.IntPtr terrain_properties);
 
-    [DllImport("3D Terrain Generator_d")]
+    [DllImport("3D Terrain Generator")]
     private static extern System.IntPtr GetData(System.IntPtr size);
-
-
-
-    /*Necesitamos crear un wrapper para poder usar los objetos.
-     * En la lib c++ en las funciones que queramos usar en unity hay que poner
-     * extern "C" __declspec(dllexport) nombreFun
-     * 
-     * y aqui podemos usarla con lo de arriba.
-     * 
-     * Para objetos habra que manejarlos aqui y pasarlos como parametro
-     * 
-             C++
-         extern "C" {
-             YourNativeObject* Internal_CreateNativeObject()
-            {
-                YourNativeObject* obj = new YourNativeObject();
-                // you might want to store the object reference on the native side for tracking
-                return obj;
-            }
-            void Internal_DestroyNativeObject(YourNativeObject* obj)
-            {
-                // may need to update your tracking in native code
-                delete obj;
-            }
-            void Internal_SomeNativeMethod(YourNativeObject* obj, int SomeParameter)
-            {
-                obj->SomeNativeMethod(SomeParameter);
-            }
-        }
-
-        *
-        
-         
-        */
-
-    //void 
-
-
-
-
-
-
-
+    
 }
