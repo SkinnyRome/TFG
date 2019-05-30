@@ -26,6 +26,7 @@ private:
 	int _size;
 	vector<vector<float>> _heightmap;
 
+
 	void SetSizeAndExp();
 
 public:
@@ -45,10 +46,10 @@ public:
 	int GetSize() const { return _size; }
 	float* GetData() const { 
 		
-		float* arr = new float[_size,_size];
+		float* arr = new float[_size * _size];
 		for (int i = 0; i < _size; i++){
 			for (int j = 0; j < _size; j++){
-				arr[i, j] = _heightmap[i][j];
+				arr[i + (j * _size)] = _heightmap[i][j];
 			}
 		}
 

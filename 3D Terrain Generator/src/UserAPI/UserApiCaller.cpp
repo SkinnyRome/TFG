@@ -21,9 +21,9 @@ user_api::TerrainPreset* CreatePreset(int type){
 }
 float* _data;
 
-float* GetData(int size){
+float* GetData(int size, int* outValue){
 
-	_data = new float [size,size];
+	_data = new float [size * size];
 	
 	user_api::Terrain terrain = user_api::GenerateTerrain(size, user_api::TerrainPreset::Hilly);
 	
@@ -31,12 +31,14 @@ float* GetData(int size){
 	for (int i = 0; i < size; i++){
 		for (int j = 0; j < size; j++){
 			
-			_data[i, j] = /*terrain.GetData()[i,j];*/ i;
+			_data[i + (j * size)] = terrain.GetData()[i + j * size];;
 		
 		
 		}	
 	}
+	*outValue = sizeof(float) * size * size;
 	
+
 	return _data;
 
 

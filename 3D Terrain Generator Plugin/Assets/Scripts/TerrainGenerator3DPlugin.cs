@@ -10,6 +10,7 @@ public class TerrainGenerator3DPlugin : MonoBehaviour
     private float[,] realArr;
     private float[,] trasposeArr;
     private System.Single[] auxArr;
+    private System.IntPtr pointer;
     private int size;
     //Metodos publicos para el usuario de Unity
     public void createBasicTerrain(int s)
@@ -22,56 +23,55 @@ public class TerrainGenerator3DPlugin : MonoBehaviour
 
         //_nativeTerrain = CreateClassTerrain(512, _nativePreset);
         size = s;
+        pointer = System.IntPtr.Zero;
 
-        System.IntPtr arr;       
+       
+        int tam = 0;
 
+        pointer = GetData(size * size, out tam);        
 
-        arr = GetData((System.IntPtr)size);        
-
-        Debug.Log(s);
-        Debug.Log(arr);
+        Debug.Log("SIZE C++ bytes: " + tam);
+        
+        Debug.Log("SIZE C#: " + size * size);
+        Debug.Log(pointer);
         realArr = new float[s, s];
         auxArr = new float[s * s];
-        byte[] by = new byte[s * s];
+        byte[] by = new byte[tam];
         trasposeArr = new float[s, s];
         size = s;
 
-        Marshal.Copy(arr,by,0,s*s);
-        //Marshal.Copy(arr, auxArr, 0, s * s);
+        //Marshal.Copy(pointer,auxArr,0,tam);
+        Marshal.Copy(pointer,by,0,tam);
+        Debug.Log("Marshal completed");
 
       
 
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
 
-                auxArr[i + j]  = System.BitConverter.ToSingle(by, i + j);
-                Debug.Log(i+ "-" + j + ": " + by[i + j]);
-
+                auxArr[i + j * size]  = System.BitConverter.ToSingle(by, (i + j * size) * sizeof(float));
+                //Debug.Log(i+ "-" + j + ": " + auxArr[i + j * size]);
+                realArr[i, j] = auxArr[i + j * size];
+                trasposeArr[j, i] = realArr[i, j];
             }
             //Debug.Log("----");
         }
 
 
 
-        /*Debug.Log("Size array: " + auxArr.Length);
+        Debug.Log("Size array: " + realArr.Length);
         for (int i = 0; i < s; i++)
         {
             for (int j = 0; j < s; j++)
             {
-                realArr[i, j] = auxArr[i + (j * s)];
+                Debug.Log(realArr[i, j]);
             }
         }
 
 
-        for (int i = 0; i < s; i++)
-        {
-            for (int j = 0; j < s; j++)
-            {
-                trasposeArr[j,i] = realArr[i,j];
-            }
-        }
+        
 
-        */
+        
         Debug.Log("Terrain finished");
 
 
@@ -121,6 +121,9 @@ public class TerrainGenerator3DPlugin : MonoBehaviour
     private static extern System.IntPtr GenerateTerrain(int size, System.IntPtr terrain_properties);
 
     [DllImport("3D Terrain Generator")]
-    private static extern System.IntPtr GetData(System.IntPtr size);
-    
+    private static extern System.IntPtr GetData(int size, out int outValue);
+
+    //float* GetData(int size, int* outValue){
+
+
 }

@@ -424,7 +424,7 @@ public class Terrain3D : MonoBehaviour
 
         plugin = this.GetComponent<TerrainGenerator3DPlugin>();
         //_terraindata.heightmapResolution = 9;
-        plugin.createBasicTerrain(/*_terraindata.heightmapResolution*/3);
+        plugin.createBasicTerrain(/*_terraindata.heightmapResolution*/18);
 
         //terrainData.size = 33;
 
@@ -437,7 +437,7 @@ public class Terrain3D : MonoBehaviour
             }
         }
 
-        //_terraindata.SetHeights(0, 0, n);
+        _terraindata.SetHeights(0, 0, n);
 
 
 

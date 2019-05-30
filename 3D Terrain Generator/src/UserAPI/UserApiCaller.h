@@ -21,7 +21,7 @@ extern "C" {
 	extern TERRAINGENERATOR_API user_api::TerrainPreset* CreatePreset(int type);
 
 	
-	extern TERRAINGENERATOR_API float* GetData(int size );
+	extern TERRAINGENERATOR_API float* GetData( int size, int* outValue);
 
 	extern TERRAINGENERATOR_API void DeleteData();
 	
