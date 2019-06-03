@@ -23,22 +23,24 @@ public class TerrainGenerator3DPlugin : MonoBehaviour
 
         //_nativeTerrain = CreateClassTerrain(512, _nativePreset);
         size = s;
+        int halfSize = (int)Mathf.Pow(2.0f, size)  + 1;
+
         pointer = System.IntPtr.Zero;
 
        
         int tam = 0;
 
-        pointer = GetData(size * size, out tam);        
+        pointer = GetData(size, out tam);        
 
         Debug.Log("SIZE C++ bytes: " + tam);
         
-        Debug.Log("SIZE C#: " + size * size);
+        Debug.Log("SIZE C#: " + halfSize + "--" + halfSize);
         Debug.Log(pointer);
-        realArr = new float[s, s];
-        auxArr = new float[s * s];
+        realArr = new float[halfSize, halfSize];
+        auxArr = new float[halfSize * halfSize];
         byte[] by = new byte[tam];
-        trasposeArr = new float[s, s];
-        size = s;
+        trasposeArr = new float[halfSize, halfSize];
+        
 
         //Marshal.Copy(pointer,auxArr,0,tam);
         Marshal.Copy(pointer,by,0,tam);
@@ -46,12 +48,12 @@ public class TerrainGenerator3DPlugin : MonoBehaviour
 
       
 
-        for (int i = 0; i < size; i++) {
-            for (int j = 0; j < size; j++) {
+        for (int i = 0; i < halfSize; i++) {
+            for (int j = 0; j < halfSize; j++) {
 
-                auxArr[i + j * size]  = System.BitConverter.ToSingle(by, (i + j * size) * sizeof(float));
+                auxArr[i + j * halfSize]  = System.BitConverter.ToSingle(by, (i + j * halfSize) * sizeof(float));
                 //Debug.Log(i+ "-" + j + ": " + auxArr[i + j * size]);
-                realArr[i, j] = auxArr[i + j * size];
+                realArr[i, j] = auxArr[i + j * halfSize];
                 trasposeArr[j, i] = realArr[i, j];
             }
             //Debug.Log("----");
@@ -60,13 +62,6 @@ public class TerrainGenerator3DPlugin : MonoBehaviour
 
 
         Debug.Log("Size array: " + realArr.Length);
-        for (int i = 0; i < s; i++)
-        {
-            for (int j = 0; j < s; j++)
-            {
-                Debug.Log(realArr[i, j]);
-            }
-        }
 
 
         
@@ -78,12 +73,7 @@ public class TerrainGenerator3DPlugin : MonoBehaviour
 
     }
 
-    /*public unsafe void getArray(float[] array, int s) {
 
-        fixed (float* p = array){
-            GetData((System.IntPtr)s, (System.IntPtr)p);
-        }
-    }*/
 
 
     public float[,] GetHeights()

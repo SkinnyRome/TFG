@@ -1,5 +1,5 @@
 #include "UserApiCaller.h"
-
+#include <algorithm>
 
 user_api::Terrain* CreateClassTerrain(int size, user_api::TerrainProperties* terrain_properties){
 	
@@ -23,20 +23,24 @@ float* _data;
 
 float* GetData(int size, int* outValue){
 
-	_data = new float [size * size];
+	int halfSize = (std::pow(2, size)) + 1;
+	int sizeHeightmap =  halfSize * halfSize;
+
+	_data = new float[sizeHeightmap];
 	
 	user_api::Terrain terrain = user_api::GenerateTerrain(size, user_api::TerrainPreset::Hilly);
 	
+	//size del terrain es: terrain.size^2 + 1;
 
-	for (int i = 0; i < size; i++){
-		for (int j = 0; j < size; j++){
+	for (int i = 0; i < halfSize; i++){
+		for (int j = 0; j < halfSize; j++){
 			
-			_data[i + (j * size)] = terrain.GetData()[i + j * size];;
+			_data[i + (j * halfSize)] = terrain.GetData()[i + j * halfSize];
 		
 		
 		}	
 	}
-	*outValue = sizeof(float) * size * size;
+	*outValue = sizeof(float)* sizeHeightmap;
 	
 
 	return _data;

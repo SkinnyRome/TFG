@@ -399,8 +399,8 @@ public class Terrain3D : MonoBehaviour
         t = Terrain.CreateTerrainGameObject(_terraindata);
         t.transform.parent = this.transform;
 
-        float p = 5 + (int)heightmapResolution;
-        _terraindata.heightmapResolution = (int)(Mathf.Pow(2.0f, p) + 1.0f);
+        int realSize = 5 + (int)heightmapResolution;
+        _terraindata.heightmapResolution = (int)(Mathf.Pow(2.0f, realSize) + 1.0f);
 
 
         _terraindata.baseMapResolution = terrainSize;
@@ -423,20 +423,12 @@ public class Terrain3D : MonoBehaviour
         Debug.Log(_terraindata.size);
 
         plugin = this.GetComponent<TerrainGenerator3DPlugin>();
-        //_terraindata.heightmapResolution = 9;
-        plugin.createBasicTerrain(/*_terraindata.heightmapResolution*/18);
+        Debug.Log("REAL SIZE: " + realSize);
+        plugin.createBasicTerrain(realSize);
 
         //terrainData.size = 33;
 
         float[,] n = plugin.GetHeights();
-        Debug.Log("Size matrix " + n.GetLength(0) + " " + n.GetLength(1));
-        for (int i = 0; i < n.GetLength(0); i++) {
-            for (int j = 0; j < n.GetLength(1); j++) {
-
-                Debug.Log(n[i, j]);
-            }
-        }
-
         _terraindata.SetHeights(0, 0, n);
 
 
