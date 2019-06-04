@@ -6,8 +6,8 @@ using user_api::TerrainProperties;
 using user_api::BaseAlgorithm;
 using user_api::ErosionLevel;
 
-const TerrainProperties hilly_preset = { BaseAlgorithm::PerlinNoise, 15, 0.4f, 0.8f, 0.3f, 0.5f, ErosionLevel::None, false};
-const TerrainProperties soft_preset = { BaseAlgorithm::PerlinNoise, 3, 0.2f, 0.3f, 0.8f, 0.2f,ErosionLevel::None, false};
+const TerrainProperties hilly_preset = { BaseAlgorithm::DiamondSquare, 7, 0.4f, 0.8f, 0.3f, 0.0f, ErosionLevel::None, false};
+const TerrainProperties soft_preset = { BaseAlgorithm::DiamondSquare, 3, 0.2f, 0.3f, 0.8f, 0.0f,ErosionLevel::None, false};
 
 user_api::Terrain::Terrain(Heightmap && h)
 {
@@ -40,7 +40,7 @@ Terrain user_api::GenerateTerrain(int size, const TerrainProperties& properties)
 		CutHeightmap(base_heightmap, properties);
 	}
 	//4. Mix Heightmaps
-	pair<int, int> infl_and_pert = GetMixValues(properties);
+	pair<float, float> infl_and_pert = GetMixValues(properties);
 	Heightmap mixed_heightmap = MixHeightmaps(base_heightmap, mountains_heightmap, infl_and_pert.first, infl_and_pert.second);
 
 	return Terrain(std::move(mixed_heightmap));
@@ -56,10 +56,10 @@ Heightmap user_api::CreateBase(int size, const TerrainProperties & p)
 		base_algorithm = new PerlinNoise();
 		break;
 	case BaseAlgorithm::DiamondSquare:
-		base_algorithm = new MidPointDisplacement(GetDiamondSquareProp(p));
+		base_algorithm = new DiamondSquare(GetDiamondSquareProp(p));
 		break;
 	default:
-		base_algorithm = new PerlinNoise();
+		base_algorithm = new DiamondSquare(GetDiamondSquareProp(p));
 		break;
 	}
 
@@ -94,7 +94,7 @@ void user_api::CutHeightmap(Heightmap & h, const TerrainProperties p)
 	cut_algorithm.CutHeightmap(h);
 }
 
-MidPointDisplacement::Properties user_api::GetDiamondSquareProp(const TerrainProperties & p)
+DiamondSquare::Properties user_api::GetDiamondSquareProp(const TerrainProperties & p)
 {
 	float spread, roughness;
 
@@ -103,7 +103,7 @@ MidPointDisplacement::Properties user_api::GetDiamondSquareProp(const TerrainPro
 	//Calculate roughness.
 	roughness = 1.0f - (0.8f * p.smooth_factor);
 
-	return MidPointDisplacement::Properties(spread, roughness);
+	return DiamondSquare::Properties(spread, roughness);
 }
 
 VoronoiDiagram::Properties user_api::GetVoronoiProp(const TerrainProperties & p)
@@ -122,16 +122,16 @@ VoronoiDiagram::Properties user_api::GetVoronoiProp(const TerrainProperties & p)
 	return VoronoiDiagram::Properties(num_of_sites,slope_softness, distance_between, average_height);
 }
 
-pair<int, int> user_api::GetMixValues(const TerrainProperties & p)
+pair<float, float> user_api::GetMixValues(const TerrainProperties & p)
 {
 	float influence, perturbation;
 
-	influence = 0.3f + (p.hilly_factor * 0.7f);
-	perturbation = 0.2f + (p.random_factor * 0.5f) - (p.river_factor * 0.3f);
+	influence = (p.hilly_factor * 0.7f);
+	perturbation = 0.1f + (p.random_factor * 0.5f);
 
 
 
-	return pair<int, int>(influence,perturbation);
+	return pair<float, float>(influence,perturbation);
 }
 
 user_api::TerrainProperties::TerrainProperties(TerrainPreset preset)

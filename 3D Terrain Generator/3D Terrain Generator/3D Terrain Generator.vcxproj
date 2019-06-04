@@ -102,6 +102,7 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <PreprocessorDefinitions>TERRAINGENERATOR_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(ProjectDir)src\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -117,6 +118,7 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <PreprocessorDefinitions>TERRAINGENERATOR_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(ProjectDir)src\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -134,6 +136,7 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <PreprocessorDefinitions>TERRAINGENERATOR_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(ProjectDir)src\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -153,6 +156,7 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <PreprocessorDefinitions>TERRAINGENERATOR_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(ProjectDir)src\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -165,8 +169,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\src\Algorithms\CutAlgorithm\CutAlgorithm.cpp" />
+    <ClCompile Include="..\src\Algorithms\DiamondSquare\DiamondSquare.cpp" />
     <ClCompile Include="..\src\Algorithms\Eroders\Eroders.cpp" />
-    <ClCompile Include="..\src\Algorithms\MidPointDisplacement\MidPointDisplacement.cpp" />
     <ClCompile Include="..\src\Algorithms\Perlin Noise\PerlinNoise.cpp" />
     <ClCompile Include="..\src\Algorithms\Voronoi\VoronoiDiagram.cpp" />
     <ClCompile Include="..\src\Heightmap\Heightmap.cpp" />
@@ -177,9 +181,9 @@
   <ItemGroup>
     <ClInclude Include="..\src\Algorithms\Algorithms.h" />
     <ClInclude Include="..\src\Algorithms\CutAlgorithm\CutAlgorithm.h" />
+    <ClInclude Include="..\src\Algorithms\DiamondSquare\DiamondSquare.h" />
     <ClInclude Include="..\src\Algorithms\Eroders\Eroders.h" />
     <ClInclude Include="..\src\Algorithms\IAlgorithm.h" />
-    <ClInclude Include="..\src\Algorithms\MidPointDisplacement\MidPointDisplacement.h" />
     <ClInclude Include="..\src\Algorithms\Perlin Noise\PerlinNoise.h" />
     <ClInclude Include="..\src\Algorithms\Voronoi\VoronoiDiagram.h" />
     <ClInclude Include="..\src\Heightmap\Heightmap.h" />

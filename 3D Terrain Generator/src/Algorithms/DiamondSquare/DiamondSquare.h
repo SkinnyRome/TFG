@@ -1,5 +1,5 @@
-#ifndef MIDPOINTDIPLACEMENT_H
-#define MIDPOINTDISPLACEMENT_H
+#ifndef DIAMONDSQUARE_H
+#define DIAMONDSQUARE_H
 
 
 #ifdef TERRAINGENERATOR_EXPORTS
@@ -13,7 +13,7 @@
 
 class Heightmap;
 
-class TERRAINGENERATOR_API MidPointDisplacement : public IAlgorithm
+class TERRAINGENERATOR_API DiamondSquare : public IAlgorithm
 {
 
 public:
@@ -27,7 +27,7 @@ public:
 
 	};
 
-	MidPointDisplacement(Properties p = {});
+	DiamondSquare(Properties p = {});
 
 	void GenerateHeightmap(Heightmap& h) const;
 
@@ -43,4 +43,4 @@ private:
 
 };
 
-#endif //MIDPOINTDISPLACEMENT_H
+#endif //DiamondSquare_H

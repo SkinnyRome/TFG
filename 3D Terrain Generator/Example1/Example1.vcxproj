@@ -75,22 +75,22 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <OutDir>$(ProjectDir)Exes\$(Configuration)\$(Platform)\</OutDir>
     <IntDir>$(ProjectDir)\Inter\</IntDir>
-    <IncludePath>$(ProjectDir)src\;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)src;$(ProjectDir)src\;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>$(ProjectDir)Exes\$(Configuration)\$(Platform)\</OutDir>
     <IntDir>$(ProjectDir)\Inter\</IntDir>
-    <IncludePath>$(ProjectDir)src\;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)src;$(ProjectDir)src\;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>$(ProjectDir)Exes\$(Configuration)\$(Platform)\</OutDir>
     <IntDir>$(ProjectDir)\Inter\</IntDir>
-    <IncludePath>$(ProjectDir)src\;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)src;$(ProjectDir)src\;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(ProjectDir)Exes\$(Configuration)\$(Platform)\</OutDir>
     <IntDir>$(ProjectDir)\Inter\</IntDir>
-    <IncludePath>$(ProjectDir)src\;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)src;$(ProjectDir)src\;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -98,7 +98,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\UNI\4\TFG\TFG\3D Terrain Generator\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\src;C:\UNI\4\TFG\TFG\3D Terrain Generator\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>$(SolutionDir)Library\$(Configuration)\$(Platform)\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -111,7 +111,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\carlo\Desktop\TFG\bueno\TFG\3D Terrain Generator\src;C:\UNI\4\TFG\TFG\3D Terrain Generator\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\src;C:\Users\carlo\Desktop\TFG\bueno\TFG\3D Terrain Generator\src;C:\UNI\4\TFG\TFG\3D Terrain Generator\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>$(SolutionDir)Library\$(Configuration)\$(Platform)\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -126,7 +126,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\UNI\4\TFG\TFG\3D Terrain Generator\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\src;C:\UNI\4\TFG\TFG\3D Terrain Generator\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -143,7 +143,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\UNI\4\TFG\TFG\3D Terrain Generator\src;C:\Users\carlo\Desktop\TFG\bueno\TFG\3D Terrain Generator\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\src;C:\UNI\4\TFG\TFG\3D Terrain Generator\src;C:\Users\carlo\Desktop\TFG\bueno\TFG\3D Terrain Generator\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>

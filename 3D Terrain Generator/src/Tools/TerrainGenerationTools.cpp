@@ -79,7 +79,7 @@ Heightmap tools::MixHeightmaps(const Heightmap & h1, const Heightmap & h2, float
 	float height = h1.GetSize();
 
 
-	Heightmap result{static_cast<int>(height) };
+	Heightmap result{static_cast<int>(h1.GetExponent()) };
 
 
 	for (int i = 0; i < width; i++) {
@@ -104,8 +104,8 @@ void tools::ApplyFilter(Heightmap & h, int magnitude)
 {
 	Heightmap copy(h);
 
-	Heightmap x_perturbation( h.GetSize());
-	Heightmap y_perturbation( h.GetSize());
+	Heightmap x_perturbation( h.GetExponent());
+	Heightmap y_perturbation( h.GetExponent());
 
 	PerlinNoise perlin;
 

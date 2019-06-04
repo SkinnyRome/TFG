@@ -35,17 +35,17 @@ int main() {
 
 	constexpr int exponent = 10;
 
-	srand(time(NULL)); //TODO: meter inicialización a la libreria para esto
+	srand(12369); //TODO: meter inicialización a la libreria para esto
 
 	//Heightmap h(exponent);
 
-	//MidPointDisplacement mid_point;
+	//DiamondSquare mid_point;
 
 	//mid_point.GenerateHeightmap(h_mpd);
 
 	//h_mpd.DumpToFile("MidPoint");
 	/*
-	MidPointDisplacement mpd({ 0.3f, 0.5f });
+	DiamondSquare mpd({ 0.3f, 0.5f });
 
 	mpd.GenerateHeightmap(h_mpd);
 
@@ -106,16 +106,16 @@ int main() {
 	
 	/*------------------------------------ DIAMOND-SQUARE ----------------------------------*/
 	
-	/*MidPointDisplacement::Properties ds_p1(0.5f, 0.5f);
-	MidPointDisplacement::Properties ds_p2(0.1f, 0.5f);
-	MidPointDisplacement::Properties ds_p3(0.8f, 0.3f);
+	/*DiamondSquare::Properties ds_p1(0.5f, 0.5f);
+	DiamondSquare::Properties ds_p2(0.1f, 0.5f);
+	DiamondSquare::Properties ds_p3(0.8f, 0.3f);
 	
 
 	Heightmap heightmap_1(exponent);
 	Heightmap heightmap_2(exponent);
 	Heightmap heightmap_3(exponent);
 
-	MidPointDisplacement diamond_square(ds_p1);
+	DiamondSquare diamond_square(ds_p1);
 	diamond_square.GenerateHeightmap(heightmap_1);
 	//heightmap_1.DumpToFile("DiamondSquare/DiamondSquare1");
 
@@ -135,14 +135,14 @@ int main() {
 
 	/*------------------------------------ CUT ALGORITHM AND MIXED HEIGHTMAPS  ----------------------------------*/
 
-	/*MidPointDisplacement::Properties ds_p1(0.5f, 0.5f);
+	/*DiamondSquare::Properties ds_p1(0.5f, 0.5f);
 	VoronoiDiagram::Properties vd_p(5);
 	CutAlgorithm::Properties ca_p(5, 0.5f);
 
 	Heightmap heightmap_ds(exponent);
 	Heightmap heightmap_voronoi(exponent);
 
-	MidPointDisplacement diamond_square(ds_p1);
+	DiamondSquare diamond_square(ds_p1);
 	diamond_square.GenerateHeightmap(heightmap_ds);
 	heightmap_ds.DumpToFile("DiamondSquare");
 
@@ -196,7 +196,7 @@ int main() {
 
 
 
-	user_api::Terrain terrain = user_api::GenerateTerrain(257, user_api::TerrainProperties() );
+	user_api::Terrain terrain = user_api::GenerateTerrain(8, user_api::TerrainPreset::Hilly);
 
 	terrain.CreateRaw("Terrain");
 

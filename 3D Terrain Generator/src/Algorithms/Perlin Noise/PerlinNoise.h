@@ -40,7 +40,7 @@ private:
 	float Gradient(int hash, float x, float y)const;
 	float Fade(float t)const;
 	float LinearInterpolation(float a, float b, float t)const;
-	float Noise(float x, float y, float& n) const;
+	float Noise(float x, float y, float n) const;
 
 public:
 

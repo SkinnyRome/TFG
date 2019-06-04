@@ -34,7 +34,7 @@ namespace user_api {
 
 	extern "C" TERRAINGENERATOR_API struct TerrainProperties {
 
-		TerrainProperties() = default;
+		TerrainProperties() = delete;
 		TERRAINGENERATOR_API TerrainProperties(TerrainPreset preset);
 		TerrainProperties(BaseAlgorithm, int,float, float, float, float,ErosionLevel, bool);
 		//TerrainPrperties(Initia)
@@ -81,9 +81,9 @@ namespace user_api {
 	Heightmap CreateMountains(int size, const TerrainProperties& p);
 	void CutHeightmap(Heightmap& h, const TerrainProperties p);
 
-	MidPointDisplacement::Properties GetDiamondSquareProp(const TerrainProperties& p);
+	DiamondSquare::Properties GetDiamondSquareProp(const TerrainProperties& p);
 	VoronoiDiagram::Properties GetVoronoiProp(const TerrainProperties& p);
-	pair<int,int> GetMixValues(const TerrainProperties& t);
+	pair<float,float> GetMixValues(const TerrainProperties& t);
 
 }
 #endif

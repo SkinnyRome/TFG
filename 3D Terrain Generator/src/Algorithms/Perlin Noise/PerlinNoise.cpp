@@ -1,12 +1,13 @@
 #include "PerlinNoise.h"
 #include <algorithm>
 #include <time.h>
+#include <chrono>
 
 using namespace std;
 
 PerlinNoise::PerlinNoise(Properties pr):prop(pr)
 {
-	srand(time(NULL));
+	srand(prop._seed);
 
 
 	//Create and initialize random vector values
@@ -69,9 +70,9 @@ float PerlinNoise::Gradient(int hash, float x, float y) const{
 
 }
 
-float PerlinNoise::Noise(float xValue, float yValue, float& n) const{
+float PerlinNoise::Noise(float xValue, float yValue, float n) const{
 
-	
+
 
 	int a = 2;
 

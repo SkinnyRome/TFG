@@ -3,36 +3,16 @@
 #include <fstream>
 
 
-void Heightmap::SetSizeAndExp()
+
+
+Heightmap::Heightmap(int exp):_exponent(exp)
 {
-	int mSize = _size;
-	int exp = 0;
-
-		if (mSize > 10 && mSize <= 1024)
-		{
-			while (mSize % 2 == 0)
-			{
-				mSize /= 2;
-				++exp;
-			}
-			if (mSize == 1)
-			{
-				_exponent = exp;
-			}
-		}
-		else if (mSize > 0 && mSize <= 10) {
-			_size = static_cast<int>(pow(2, mSize)) + 1;
-			_exponent = mSize;
-
-		}
-		//TODO: else error
-	
-}
-
-
-Heightmap::Heightmap(int size):_size(size)
-{
-	SetSizeAndExp();
+	if (_exponent > 10)
+	{
+		//Default size = 2pow8
+		_exponent = 8;
+	}
+	_size = static_cast<int>(pow(2, _exponent)) + 1;
 	_heightmap = vector<vector<float>>(_size, vector<float>(_size));
 }
 
@@ -69,12 +49,11 @@ void Heightmap::Resize(int width, int height)
 		h.resize(height);
 	}
 
-	SetSizeAndExp();
 }
 
 void Heightmap::Resize(int exponent)
 {
-	_exponent = exponent;
+	_exponent = (exponent <= 0 || exponent > 10) ? 8 : exponent ;
 	_size = static_cast<int>(pow(2, exponent));
 	_size = _size;
 	Resize(_size, _size);

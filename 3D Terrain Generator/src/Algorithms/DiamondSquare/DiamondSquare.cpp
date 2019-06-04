@@ -1,16 +1,16 @@
-#include "MidPointDisplacement.h"
+#include "DiamondSquare.h"
 #include <Heightmap\Heightmap.h>
 #include <Tools\TerrainGenerationTools.h>
 
 
-MidPointDisplacement::Properties MidPointDisplacement::default_properties = { 0.3f, 0.5f };
+DiamondSquare::Properties DiamondSquare::default_properties = { 0.3f, 0.5f };
 
 
-MidPointDisplacement::MidPointDisplacement(Properties p):prop(p)
+DiamondSquare::DiamondSquare(Properties p):prop(p)
 {
 }
 
-void MidPointDisplacement::GenerateHeightmap(Heightmap & h) const
+void DiamondSquare::GenerateHeightmap(Heightmap & h) const
 {
 	//1. Initialize the corners of the heightmap with random values (between 0.0 and 1.0)
 	h[0][0] = tools::GetRandomValueBetween(0.0f, 1.0f);					//Top-left corner
@@ -62,18 +62,18 @@ void MidPointDisplacement::GenerateHeightmap(Heightmap & h) const
 
 
 
-float MidPointDisplacement::Jitter(float value, float spread) const
+float DiamondSquare::Jitter(float value, float spread) const
 {
 	return value += tools::GetRandomValueBetween(-spread, spread);
 }
 
-int MidPointDisplacement::MidPoint(int a, int b) const
+int DiamondSquare::MidPoint(int a, int b) const
 {
 	return (a + b) / 2;
 }
 
 
-void MidPointDisplacement::MidPointDisplace(Heightmap & h, int lx, int rx, int ty, int by, float spread) const
+void DiamondSquare::MidPointDisplace(Heightmap & h, int lx, int rx, int ty, int by, float spread) const
 {
 	//Obtain the axis center points of the block
 	int cx = MidPoint(lx, rx);
@@ -101,7 +101,7 @@ void MidPointDisplacement::MidPointDisplace(Heightmap & h, int lx, int rx, int t
 
 
 
-MidPointDisplacement::Properties::Properties(float s, float r)
+DiamondSquare::Properties::Properties(float s, float r)
 {
 	spread = (s > 1.0f || s < 0) ? default_properties.spread : s;
 

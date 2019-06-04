@@ -45,9 +45,6 @@
     <ClCompile Include="..\src\Algorithms\CutAlgorithm\CutAlgorithm.cpp">
       <Filter>Archivos de origen\Algorithm\Generators</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\Algorithms\MidPointDisplacement\MidPointDisplacement.cpp">
-      <Filter>Archivos de origen\Algorithm\Generators</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\Algorithms\Voronoi\VoronoiDiagram.cpp">
       <Filter>Archivos de origen\Algorithm\Generators</Filter>
     </ClCompile>
@@ -58,6 +55,9 @@
       <Filter>Archivos de origen\Algorithm\Eroders</Filter>
     </ClCompile>
     <ClCompile Include="..\src\UserAPI\UserApiCaller.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Algorithms\DiamondSquare\DiamondSquare.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
   </ItemGroup>
@@ -77,9 +77,6 @@
     <ClInclude Include="..\src\Algorithms\Perlin Noise\PerlinNoise.h">
       <Filter>Archivos de encabezado\Algorithms\Generators</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\Algorithms\MidPointDisplacement\MidPointDisplacement.h">
-      <Filter>Archivos de encabezado\Algorithms\Generators</Filter>
-    </ClInclude>
     <ClInclude Include="..\src\Algorithms\CutAlgorithm\CutAlgorithm.h">
       <Filter>Archivos de encabezado\Algorithms\Generators</Filter>
     </ClInclude>
@@ -93,6 +90,9 @@
       <Filter>Archivos de encabezado\Algorithms\Generators</Filter>
     </ClInclude>
     <ClInclude Include="..\src\UserAPI\UserApiCaller.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Algorithms\DiamondSquare\DiamondSquare.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
   </ItemGroup>

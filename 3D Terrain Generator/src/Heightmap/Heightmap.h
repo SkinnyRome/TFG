@@ -25,10 +25,7 @@ private:
 	int _exponent;
 	int _size;
 	vector<vector<float>> _heightmap;
-
-
-	void SetSizeAndExp();
-
+	void Resize(int width, int height);
 public:
 
 	Heightmap(int size = 3);
@@ -40,7 +37,6 @@ public:
 	inline Heightmap operator*(const float a);
 	
 
-	void Resize(int width, int height);
 	void Resize(int exponent);
 
 	int GetSize() const { return _size; }

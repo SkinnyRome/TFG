@@ -3,7 +3,7 @@
 
 
 #include "Algorithms\Perlin Noise\PerlinNoise.h"
-#include "Algorithms\MidPointDisplacement\MidPointDisplacement.h"
+#include "Algorithms\DiamondSquare\DiamondSquare.h"
 #include "Algorithms\Voronoi\VoronoiDiagram.h"
 #include "Algorithms\CutAlgorithm\CutAlgorithm.h"
 
