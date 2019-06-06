@@ -21,8 +21,8 @@ public class Terrain3D : MonoBehaviour
     public Texture2D waterTexture = null;
 
     //TERRAIN-------
-    public int terrainSize = 33;
-    public int terrainHeight = 33;
+    public int terrainSize = 100;
+    public int terrainHeight = 10;
 
 
     public enum BaseAlgorithm {Perlin, DiamondSquare};
@@ -32,7 +32,7 @@ public class Terrain3D : MonoBehaviour
     public int numberMountains = 2;
     public float randomFactor = 0.2f;
     public float hillyFactor = 0.4f;
-    public float smoothFactor = 1.5f;
+    public float smoothFactor = 0.5f;
     //public float riverFactor = 0;
     public ErosionLevel erosionLevel = ErosionLevel.None;
 
@@ -424,7 +424,11 @@ public class Terrain3D : MonoBehaviour
 
         plugin = this.GetComponent<TerrainGenerator3DPlugin>();
         Debug.Log("REAL SIZE: " + realSize);
-        plugin.createBasicTerrain(realSize);
+  
+
+
+
+        plugin.createBasicTerrain((int)baseAlgorithm, numberMountains,  randomFactor, hillyFactor,  smoothFactor,  (int)erosionLevel, realSize);
 
         //terrainData.size = 33;
 

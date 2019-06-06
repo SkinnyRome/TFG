@@ -85,8 +85,8 @@ public class Terrain3DEditor : Editor
         {
             GUILayout.Label("General Configuration", EditorStyles.boldLabel);
 
-            EditorGUILayout.IntSlider(terrainSize, 33, 100, new GUIContent("Terrain Size (X and Z)"));
-            EditorGUILayout.IntSlider(terrainHeight, 10, 500, new GUIContent("Terrain Height (Y)"));
+            EditorGUILayout.IntSlider(terrainSize, 33, 1000, new GUIContent("Terrain Size (X and Z)"));
+            EditorGUILayout.IntSlider(terrainHeight, 5, 500, new GUIContent("Terrain Height (Y)"));
             EditorGUILayout.PropertyField(heightmapResolution, new GUIContent("Resolution"));
 
             GUILayout.Label("Terrain Presets", EditorStyles.boldLabel);
@@ -119,12 +119,13 @@ public class Terrain3DEditor : Editor
                
                 GUILayout.Label("Custom Terrain", EditorStyles.boldLabel);
 
-                
+                //EditorGUILayout.IntSlider(terrainHeight, 10, 500, new GUIContent("Terrain Height (Y)"));
+
                 EditorGUILayout.PropertyField(baseAlgorithm, new GUIContent("Base Algorithm"));
-                EditorGUILayout.PropertyField(numberMountains, new GUIContent("Number of Mountains"));
-                EditorGUILayout.PropertyField(randomFactor, new GUIContent("Random Factor"));
-                EditorGUILayout.PropertyField(hillyFactor, new GUIContent("Hilly Factor"));
-                EditorGUILayout.PropertyField(smoothFactor, new GUIContent("Smooth Factor"));
+                EditorGUILayout.IntSlider(numberMountains, 0, 15, new GUIContent("Number of Mountains"));
+                EditorGUILayout.Slider(randomFactor, 0.0f, 1.0f,new GUIContent("Random Factor"));
+                EditorGUILayout.Slider(hillyFactor, 0.0f, 1.0f, new GUIContent("Hilly Factor"));
+                EditorGUILayout.Slider(smoothFactor, 0.0f, 1.0f, new GUIContent("Smooth Factor"));
                 EditorGUILayout.PropertyField(erosionLevel, new GUIContent("Erosion Level"));
          
                 if (GUILayout.Button("Create Custom Terrain"))

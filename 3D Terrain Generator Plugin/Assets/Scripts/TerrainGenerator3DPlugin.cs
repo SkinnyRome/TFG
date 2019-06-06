@@ -13,7 +13,7 @@ public class TerrainGenerator3DPlugin : MonoBehaviour
     private System.IntPtr pointer;
     private int size;
     //Metodos publicos para el usuario de Unity
-    public void createBasicTerrain(int s)
+    public void createBasicTerrain(int baseAlg, int mountains, float randomFactor, float hillyFactor, float smoothFactor, int erosion, int s)
     {
 
         Debug.Log("Creating Terrain");
@@ -30,7 +30,7 @@ public class TerrainGenerator3DPlugin : MonoBehaviour
        
         int tam = 0;
 
-        pointer = GetData(size, out tam);        
+        pointer = GetData( baseAlg,  mountains,  randomFactor,  hillyFactor,  smoothFactor,  erosion,  size, out tam);        
 
         Debug.Log("SIZE C++ bytes: " + tam);
         
@@ -96,22 +96,10 @@ public class TerrainGenerator3DPlugin : MonoBehaviour
 
     //-------------------------------------------------------------------
     //Metodos privados para llamar al plugin
-    [DllImport("3D Terrain Generator_d")]
-    private static extern System.IntPtr CreateClassTerrain(int size, System.IntPtr terrain_properties);
+ 
 
-    [DllImport("3D Terrain Generator_d")]
-    private static extern void CreateRaw(System.IntPtr pTerrainObject, string path);
-
-
-    [DllImport("3D Terrain Generator_d")]
-    private static extern System.IntPtr CreatePreset(int type);
-
-
-    [DllImport("3D Terrain Generator_d")]
-    private static extern System.IntPtr GenerateTerrain(int size, System.IntPtr terrain_properties);
-
-    [DllImport("3D Terrain Generator")]
-    private static extern System.IntPtr GetData(int size, out int outValue);
+       [DllImport("3D Terrain Generator")]
+    private static extern System.IntPtr GetData(int baseAlg, int mountains, float randomFactor, float hillyFactor, float smoothFactor, int erosion, int size, out int outValue);
 
     //float* GetData(int size, int* outValue){
 

@@ -21,16 +21,22 @@ user_api::TerrainPreset* CreatePreset(int type){
 }
 float* _data;
 
-float* GetData(int size, int* outValue){
+float* GetData(user_api::BaseAlgorithm base, int numberMountains, float randomFactor, float hillyFactor, float smoothFactor, user_api::ErosionLevel erosion, int size, int* outValue){
 
 	int halfSize = (std::pow(2, size)) + 1;
 	int sizeHeightmap =  halfSize * halfSize;
 
 	_data = new float[sizeHeightmap];
 	
-	user_api::Terrain terrain = user_api::GenerateTerrain(size, user_api::TerrainPreset::Hilly);
-	
 	//size del terrain es: terrain.size^2 + 1;
+	
+	user_api::Terrain terrain = user_api::GenerateTerrain(size, {base,numberMountains, randomFactor, hillyFactor, smoothFactor, 0, erosion, false});
+	
+
+
+
+
+
 
 	for (int i = 0; i < halfSize; i++){
 		for (int j = 0; j < halfSize; j++){

@@ -33,7 +33,7 @@ void PrintHeightMap(const Heightmap& h) {
 
 int main() {
 
-	constexpr int exponent = 10;
+	//const expr int exponent = 10;
 
 	srand(12369); //TODO: meter inicialización a la libreria para esto
 
@@ -196,7 +196,7 @@ int main() {
 
 
 
-	user_api::Terrain terrain = user_api::GenerateTerrain(8, user_api::TerrainPreset::Hilly);
+	user_api::Terrain terrain = user_api::GenerateTerrain(8, user_api::TerrainPreset::Soft);
 
 	terrain.CreateRaw("Terrain");
 

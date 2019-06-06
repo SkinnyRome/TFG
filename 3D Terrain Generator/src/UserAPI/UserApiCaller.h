@@ -21,8 +21,16 @@ extern "C" {
 	extern TERRAINGENERATOR_API user_api::TerrainPreset* CreatePreset(int type);
 
 	
-	extern TERRAINGENERATOR_API float* GetData( int size, int* outValue);
+	extern TERRAINGENERATOR_API float* GetData(user_api::BaseAlgorithm base, int numberMountains, float randomFactor, float hillyFactor, float smoothFactor, user_api::ErosionLevel erosion, int size, int* outValue);
 
+	/*   public BaseAlgorithm baseAlgorithm = BaseAlgorithm.Perlin;
+    public int numberMountains = 2;
+    public float randomFactor = 0.2f;
+    public float hillyFactor = 0.4f;
+    public float smoothFactor = 0.5f;
+    //public float riverFactor = 0;
+    public ErosionLevel erosionLevel = ErosionLevel.None;*/
+	
 	extern TERRAINGENERATOR_API void DeleteData();
 	
 
