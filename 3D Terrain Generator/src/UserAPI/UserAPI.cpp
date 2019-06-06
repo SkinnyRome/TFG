@@ -1,5 +1,5 @@
 #include "UserAPI.h"
-
+#include "../Algorithms/Eroders/Eroders.h"
 
 using user_api::Terrain;
 using user_api::TerrainProperties;
@@ -44,6 +44,11 @@ Terrain user_api::GenerateTerrain(int size, const TerrainProperties& properties)
 	//4. Mix Heightmaps
 	pair<float, float> infl_and_pert = GetMixValues(properties);
 	Heightmap mixed_heightmap = MixHeightmaps(base_heightmap, mountains_heightmap, infl_and_pert.first, infl_and_pert.second);
+
+	Erosion::Properties prop(Erosion::ErosionType::THERMAL);
+	prop.number_of_iterations =  2 + (int)properties.erosion_level;
+
+	Erosion::ErodeHeightmap(mixed_heightmap,prop);
 
 	return Terrain(std::move(mixed_heightmap));
 }
