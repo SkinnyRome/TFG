@@ -12,6 +12,7 @@ DiamondSquare::DiamondSquare(Properties p):prop(p)
 
 void DiamondSquare::GenerateHeightmap(Heightmap & h) const
 {
+
 	//1. Initialize the corners of the heightmap with random values (between 0.0 and 1.0)
 	h[0][0] = tools::GetRandomValueBetween(0.0f, 1.0f);					//Top-left corner
 	h[h.GetSize() - 1][0] = tools::GetRandomValueBetween(0.0f, 1.0f); ;			//Top-right corner

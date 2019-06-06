@@ -29,6 +29,8 @@ float* user_api::Terrain::GetData(){
 Terrain user_api::GenerateTerrain(int size, const TerrainProperties& properties)
 {
 
+	tools::RandomizeSeed();
+
 	//1. Create Base Terrain
 	Heightmap base_heightmap = CreateBase(size, properties);
 	base_heightmap.DumpToFile("Base");
@@ -36,7 +38,7 @@ Terrain user_api::GenerateTerrain(int size, const TerrainProperties& properties)
 	Heightmap mountains_heightmap = CreateMountains(size, properties);
 	mountains_heightmap.DumpToFile("Mountains");
 	//3. Cut base heightmap if necessary
-	if (properties.hilly_factor >= 0.4f) {
+	if (properties.hilly_factor >= 0.2f) {
 		CutHeightmap(base_heightmap, properties);
 	}
 	//4. Mix Heightmaps
@@ -99,9 +101,10 @@ DiamondSquare::Properties user_api::GetDiamondSquareProp(const TerrainProperties
 	float spread, roughness;
 
 	//Calculate spread.
-	spread = (1.0f * p.hilly_factor) - (0.3f * p.smooth_factor);
+	spread = abs((0.7f * p.hilly_factor) - (0.3f * p.smooth_factor));
+
 	//Calculate roughness.
-	roughness = 1.0f - (0.8f * p.smooth_factor);
+	roughness = 0.8f - (0.8f * p.smooth_factor);
 
 	return DiamondSquare::Properties(spread, roughness);
 }
@@ -127,7 +130,7 @@ pair<float, float> user_api::GetMixValues(const TerrainProperties & p)
 	float influence, perturbation;
 
 	influence = (p.hilly_factor * 0.7f);
-	perturbation = 0.1f + (p.random_factor * 0.5f);
+	perturbation = 0.1f + (p.random_factor * 0.25f);
 
 
 
@@ -145,7 +148,7 @@ user_api::TerrainProperties::TerrainProperties(TerrainPreset preset)
 		SetDefaultProperties(soft_preset);
 		break;
 	default:
-		SetDefaultProperties(hilly_preset);
+		SetDefaultProperties(soft_preset);
 		break;
 	}
 }
