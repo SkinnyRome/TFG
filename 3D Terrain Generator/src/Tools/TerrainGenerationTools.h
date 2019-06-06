@@ -9,6 +9,7 @@
 #endif
 
 
+
 class Heightmap;
 
 namespace  tools {
@@ -62,6 +63,8 @@ namespace  tools {
 
 	//Definition
 	TERRAINGENERATOR_API void GenerateRandomNoise(Heightmap& h);
+
+	void RandomizeSeed();
 
 
 }

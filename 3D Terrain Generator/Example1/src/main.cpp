@@ -2,6 +2,7 @@
 #include <fstream> 
 #include <conio.h>
 #include <time.h>
+#include <chrono>
 #include "Heightmap\Heightmap.h"
 #include "Algorithms\Algorithms.h"
 #include "Algorithms\Eroders\Eroders.h"
@@ -9,6 +10,7 @@
 #include "UserAPI\UserAPI.h"
 
 using namespace std;
+using namespace chrono;
 
 void PrintHeightMap(const Heightmap& h) {
 
@@ -34,8 +36,9 @@ void PrintHeightMap(const Heightmap& h) {
 int main() {
 
 	constexpr int exponent = 10;
-
-	srand(12369); //TODO: meter inicialización a la libreria para esto
+	int randSeed = static_cast<int>(duration_cast<minutes>(
+		system_clock::now().time_since_epoch()).count());
+	srand(randSeed); //TODO: meter inicialización a la libreria para esto
 
 	//Heightmap h(exponent);
 
@@ -196,7 +199,7 @@ int main() {
 
 
 
-	user_api::Terrain terrain = user_api::GenerateTerrain(8, user_api::TerrainPreset::Hilly);
+	user_api::Terrain terrain = user_api::GenerateTerrain(8, user_api::TerrainPreset::Soft);
 
 	terrain.CreateRaw("Terrain");
 

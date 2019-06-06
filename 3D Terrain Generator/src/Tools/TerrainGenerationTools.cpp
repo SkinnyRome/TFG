@@ -1,8 +1,11 @@
 #include <Heightmap\Heightmap.h>
 #include <random>
+#include <chrono>
 #include "TerrainGenerationTools.h"
 #include <algorithm>
 #include <Algorithms\Perlin Noise\PerlinNoise.h>
+
+
 using namespace tools;
 
 
@@ -84,7 +87,9 @@ Heightmap tools::MixHeightmaps(const Heightmap & h1, const Heightmap & h2, float
 
 	for (int i = 0; i < width; i++) {
 		for (int j = 0; j < height; j++) {
-			result[i][j] = (h1[i][j] * h1Influence) + (h2[i][j] *  h2Influence);
+			result[i][j] = (h1[i][j] * h1Influence) + (h2[i][j] /**  h2Influence*/);
+
+			
 			
 		}
 
@@ -151,5 +156,14 @@ void tools::GenerateRandomNoise(Heightmap &h)
 	}
 
 	h.Normalize();
+}
+
+void tools::RandomizeSeed() {
+
+
+	int randSeed = static_cast<int>(std::chrono::duration_cast<std::chrono::minutes>(
+		std::chrono::system_clock::now().time_since_epoch()).count());
+	srand(randSeed);
+
 }
 #pragma endregion
