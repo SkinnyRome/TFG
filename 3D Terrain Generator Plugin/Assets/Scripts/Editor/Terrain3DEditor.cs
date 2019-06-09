@@ -23,13 +23,16 @@ public class Terrain3DEditor : Editor
     SerializedProperty terrainHeight;
     SerializedProperty heightmapResolution;
 
+    SerializedProperty presetTerrain;
 
+
+
+    Vector2 scrollPos;
 
     bool showWaterConfig = false;
 
     bool showCreateTerrain = false;
-    bool showHilly = false;
-    bool showSoft = false;
+    bool showPresets = false;  
     bool showCustomCreateTerrain = false;
 
 
@@ -59,22 +62,20 @@ public class Terrain3DEditor : Editor
         smoothFactor = serializedObject.FindProperty("smoothFactor");
         erosionLevel = serializedObject.FindProperty("erosionLevel");
 
+        presetTerrain = serializedObject.FindProperty("presetTerrain");
+
     }
 
-    Vector2 scrollPos;
-    //Graphical User Interface on the editor
+
     public override void OnInspectorGUI()
     {
 
         serializedObject.Update();
 
         Terrain3D terrain = (Terrain3D)target;
-
-
-        //Scrollbar Starting Code
+        
         Rect r = EditorGUILayout.BeginVertical();
-        scrollPos =
-            EditorGUILayout.BeginScrollView(scrollPos, GUILayout.Width(r.width), GUILayout.Height(r.height));
+        scrollPos = EditorGUILayout.BeginScrollView(scrollPos, GUILayout.Width(r.width), GUILayout.Height(r.height));
         EditorGUI.indentLevel++;
 
         GUILayout.Label("Terrain Generation", EditorStyles.boldLabel);
@@ -91,24 +92,20 @@ public class Terrain3DEditor : Editor
 
             GUILayout.Label("Terrain Presets", EditorStyles.boldLabel);
 
-            showHilly = EditorGUILayout.Foldout(showHilly, "Hilly Landscape");
-            if (showHilly)
+            showPresets = EditorGUILayout.Foldout(showPresets, "Terrain Presets");
+            if (showPresets)
             {
 
-                if (GUILayout.Button("Create Hilly LandScape"))
+                EditorGUILayout.PropertyField(presetTerrain, new GUIContent("Select Preset"));
+                if (GUILayout.Button("Create Preset LandScape"))
                 {
-                    Debug.Log("Hilly LandsScape");
+
+                    Debug.Log("Preset Landscape");
+                    terrain.CreatePresetTerrain();
                 }
 
             }
-            showSoft = EditorGUILayout.Foldout(showSoft, "Soft Landscape");
-            if (showSoft)
-            {
-                if (GUILayout.Button("Create Soft LandScape"))
-                {
-                    Debug.Log("Soft LandScape");
-                }
-            }
+         
 
             GUILayout.Label("Custom Terrain Generation", EditorStyles.boldLabel);
 
@@ -193,11 +190,7 @@ public class Terrain3DEditor : Editor
             {
 
                 EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
-                GUILayout.Label("Custom Textures", EditorStyles.boldLabel);
-                /*EditorGUILayout.Slider(splatOffset, 0, 0.1f, new GUIContent("Offset"));
-                EditorGUILayout.Slider(splatNoiseXScale, 0.001f, 1, new GUIContent("Noise X Scale"));
-                EditorGUILayout.Slider(splatNoiseYScale, 0.001f, 1, new GUIContent("Noise Y Scale"));
-                EditorGUILayout.Slider(splatNoiseScaler, 0, 1, new GUIContent("Noise Scaler"));*/
+                GUILayout.Label("Custom Textures", EditorStyles.boldLabel);              
                 splatMapTable = GUITableLayout.DrawTable(splatMapTable, serializedObject.FindProperty("splatHeightsList"));
                 GUILayout.Space(70);
 
@@ -226,17 +219,5 @@ public class Terrain3DEditor : Editor
 
         serializedObject.ApplyModifiedProperties();
     }
-
-
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
+    
 }

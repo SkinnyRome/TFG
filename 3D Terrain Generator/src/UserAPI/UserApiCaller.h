@@ -23,6 +23,13 @@ extern "C" {
 	
 	extern TERRAINGENERATOR_API float* GetData(user_api::BaseAlgorithm base, int numberMountains, float randomFactor, float hillyFactor, float smoothFactor, user_api::ErosionLevel erosion, int size, int* outValue);
 
+	extern TERRAINGENERATOR_API float* GetDataHillyPreset(int size, int* outValue);
+
+	extern TERRAINGENERATOR_API float* GetDataSoftPreset(int size, int* outValue);
+
+
+
+
 	/*   public BaseAlgorithm baseAlgorithm = BaseAlgorithm.Perlin;
     public int numberMountains = 2;
     public float randomFactor = 0.2f;

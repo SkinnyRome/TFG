@@ -19,7 +19,67 @@ user_api::TerrainPreset* CreatePreset(int type){
 
 	return (user_api::TerrainPreset*)type;
 }
+
+
 float* _data;
+
+
+float* GetDataSoftPreset(int size, int* outValue){
+
+	int halfSize = (std::pow(2, size)) + 1;
+	int sizeHeightmap = halfSize * halfSize;
+
+	_data = new float[sizeHeightmap];
+
+	//size del terrain es: terrain.size^2 + 1;
+
+	user_api::Terrain terrain = user_api::GenerateTerrain(size, { user_api::BaseAlgorithm::DiamondSquare, 3, 0.2f, 0.3f, 0.8f, 0.0f, user_api::ErosionLevel::None, false });
+
+
+	for (int i = 0; i < halfSize; i++){
+		for (int j = 0; j < halfSize; j++){
+
+			_data[i + (j * halfSize)] = terrain.GetData()[i + j * halfSize];
+
+
+		}
+	}
+	*outValue = sizeof(float)* sizeHeightmap;
+
+	return _data;
+
+}
+
+
+float* GetDataHillyPreset(int size, int* outValue){
+
+	int halfSize = (std::pow(2, size)) + 1;
+	int sizeHeightmap = halfSize * halfSize;
+
+	_data = new float[sizeHeightmap];
+	//size del terrain es: terrain.size^2 + 1;
+
+
+	user_api::Terrain terrain = user_api::GenerateTerrain(size, { user_api::BaseAlgorithm::DiamondSquare, 7, 0.4f, 0.8f, 0.3f, 0.0f, user_api::ErosionLevel::None, false });
+
+
+	for (int i = 0; i < halfSize; i++){
+		for (int j = 0; j < halfSize; j++){
+
+			_data[i + (j * halfSize)] = terrain.GetData()[i + j * halfSize];
+
+		}
+	}
+	*outValue = sizeof(float)* sizeHeightmap;
+
+	return _data;
+
+
+
+
+}
+
+
 
 float* GetData(user_api::BaseAlgorithm base, int numberMountains, float randomFactor, float hillyFactor, float smoothFactor, user_api::ErosionLevel erosion, int size, int* outValue){
 
@@ -31,12 +91,6 @@ float* GetData(user_api::BaseAlgorithm base, int numberMountains, float randomFa
 	//size del terrain es: terrain.size^2 + 1;
 	
 	user_api::Terrain terrain = user_api::GenerateTerrain(size, {base,numberMountains, randomFactor, hillyFactor, smoothFactor, 0, erosion, false});
-	
-
-
-
-
-
 
 	for (int i = 0; i < halfSize; i++){
 		for (int j = 0; j < halfSize; j++){
@@ -46,8 +100,7 @@ float* GetData(user_api::BaseAlgorithm base, int numberMountains, float randomFa
 		
 		}	
 	}
-	*outValue = sizeof(float)* sizeHeightmap;
-	
+	*outValue = sizeof(float)* sizeHeightmap;	
 
 	return _data;
 

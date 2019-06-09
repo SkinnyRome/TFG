@@ -24,6 +24,9 @@ public class Terrain3D : MonoBehaviour
     public int terrainSize = 100;
     public int terrainHeight = 10;
 
+    public enum Preset {Hilly, Soft }
+    public Preset presetTerrain = 0;
+
 
     public enum BaseAlgorithm {Perlin, DiamondSquare};
     public enum ErosionLevel { None, Low, Mid, High };
@@ -212,10 +215,10 @@ public class Terrain3D : MonoBehaviour
 
         privateSplatHeights pH1 = new privateSplatHeights(1);
         pH1.splatHeights.texture = (Texture2D)Resources.Load("TexturePack/Atex_Rock2");
-        pH1.splatHeights.minHeight = 0.1f;
+        pH1.splatHeights.minHeight = 0.0f;
         pH1.splatHeights.maxHeight = 1.0f;
-        pH1.splatHeights.minSlope = 1.0f;
-        pH1.splatHeights.maxSlope = 100.0f;
+        pH1.splatHeights.minSlope = 40.0f;
+        pH1.splatHeights.maxSlope = 90.0f;
         privateSplatHeightsList.Add(pH1);
 
         privateSplatHeights pH2 = new privateSplatHeights(1);
@@ -223,7 +226,7 @@ public class Terrain3D : MonoBehaviour
         pH2.splatHeights.minHeight = 0.0f;
         pH2.splatHeights.maxHeight = 1.0f;
         pH2.splatHeights.minSlope = 0.0f;
-        pH2.splatHeights.maxSlope = 40.0f;
+        pH2.splatHeights.maxSlope = 55.0f;
         privateSplatHeightsList.Add(pH2);
 
         ApplySplatMaps();
@@ -386,14 +389,12 @@ public class Terrain3D : MonoBehaviour
             v[i] /= total;
         }
     }
-  
 
-    public void CreateCustomTerrain() {
-
-        Debug.Log("CREANDO");
+    public void CreatePresetTerrain() {
+        
+        
         Vector3 pos = new Vector3(0, 0, 0);
-        //int size = 33;
-
+       
         GameObject t = null;
         _terraindata = new TerrainData();
         t = Terrain.CreateTerrainGameObject(_terraindata);
@@ -410,63 +411,64 @@ public class Terrain3D : MonoBehaviour
 
         _terraindata.size = new Vector3(terrainSize, terrainHeight, terrainSize);
         _terraindata.alphamapResolution = _terraindata.heightmapResolution;
-        Debug.Log("SIZE SPLATMAP: " + _terraindata.alphamapWidth + "--" + _terraindata.alphamapHeight);
-        //_terraindata.heigm
-        //terrain = t;
+        
 
-        // terrain = this.GetComponent<Terrain>();
-        //terrainData = Terrain.activeTerrain.terrainData;
-
-        //float[,] heights = _terraindata.GetHeights(0, 0, _terraindata.heightmapWidth, _terraindata.heightmapHeight);
-
-        Debug.Log("SIZE HEIGHTMAP TERRAIN: " + _terraindata.heightmapWidth + " -- " + _terraindata.heightmapHeight);
-        Debug.Log(_terraindata.size);
+        //Debug.Log("SIZE HEIGHTMAP TERRAIN: " + _terraindata.heightmapWidth + " -- " + _terraindata.heightmapHeight);
+        //Debug.Log(_terraindata.size);
 
         plugin = this.GetComponent<TerrainGenerator3DPlugin>();
-        Debug.Log("REAL SIZE: " + realSize);
-  
+        //Debug.Log("REAL SIZE: " + realSize);
+        
+        plugin.CreatePresetTerrain((int)presetTerrain, realSize);
 
-
-
-        plugin.createBasicTerrain((int)baseAlgorithm, numberMountains,  randomFactor, hillyFactor,  smoothFactor,  (int)erosionLevel, realSize);
-
-        //terrainData.size = 33;
-
+       
         float[,] n = plugin.GetHeights();
         _terraindata.SetHeights(0, 0, n);
 
+    }
 
 
 
+    public void CreateCustomTerrain() {
 
+        Vector3 pos = new Vector3(0, 0, 0);
+     
+        GameObject t = null;
+        _terraindata = new TerrainData();
+        t = Terrain.CreateTerrainGameObject(_terraindata);
+        t.transform.parent = this.transform;
+
+        int realSize = 5 + (int)heightmapResolution;
+        _terraindata.heightmapResolution = (int)(Mathf.Pow(2.0f, realSize) + 1.0f);
+
+
+        _terraindata.baseMapResolution = terrainSize;
+
+        _terraindata.SetDetailResolution(terrainSize, 16);
+
+
+        _terraindata.size = new Vector3(terrainSize, terrainHeight, terrainSize);
+        _terraindata.alphamapResolution = _terraindata.heightmapResolution;
+
+        //Debug.Log("SIZE SPLATMAP: " + _terraindata.alphamapWidth + "--" + _terraindata.alphamapHeight);
+       
+        //Debug.Log("SIZE HEIGHTMAP TERRAIN: " + _terraindata.heightmapWidth + " -- " + _terraindata.heightmapHeight);
+        //Debug.Log(_terraindata.size);
+
+        plugin = this.GetComponent<TerrainGenerator3DPlugin>();
+        //Debug.Log("REAL SIZE: " + realSize);
+  
+        plugin.CreateBasicTerrain((int)baseAlgorithm, numberMountains,  randomFactor, hillyFactor,  smoothFactor,  (int)erosionLevel, realSize);
+
+        float[,] n = plugin.GetHeights();
+        _terraindata.SetHeights(0, 0, n);        
 
     }
 
 
     void OnEnable()
     {
-        Debug.Log("Initialising Terrain Data");
-
-        
+        Debug.Log("Initialising Terrain Data");        
     }
 
-
-    // Start is called before the first frame update
-    void Start()
-    {
-       
-        //GameObject ingameTerrainGameObject = Instantiate(terrain, pos, Quaternion.identity);
-
-
-        //Terrain Tparent = Instantiate(new Terrain(), pos, Quaternion.identity);
-
-
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
 }
